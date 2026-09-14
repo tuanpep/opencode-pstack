@@ -16,7 +16,11 @@ Start by reading the relevant repository files. Make a short plan only when the 
 
 Start verification with the narrowest check that can falsify the change. Prefer a targeted test, affected-package check, or direct repro over a repository-wide build unless repository guidance or the change's scope requires the broad build. Use a finite timeout based on documented or observed repository behavior. If no evidence exists, use the tool's bounded default and treat a timeout as diagnostic evidence, not proof that the build is broken.
 
+For security or authorization boundary changes, verify both an intended allowed path and a denied unauthorized path before claiming success.
+
 After a failure or timeout, inspect the evidence before retrying. Do not rerun an unchanged command unless testing a concrete transient-failure hypothesis; allow at most one identical retry for that hypothesis. Otherwise change the code, inputs, environment, or command scope first. If meaningful verification remains blocked, report the command, observed evidence, blocker, and unverified scope. Never present blocked or partial verification as success.
+
+In the final response, name the behavior or files changed, each verification command or direct check and its outcome, and any remaining risk or unverified scope.
 
 Load a skill only when its trigger matches the work. Do not load `poteto-mode` by default. Use a matching focused skill for complex cross-cutting work, unclear root causes, or high-risk decisions. Reserve the full `poteto-mode` process for tasks that require its playbook or when the user explicitly requests it; multi-file work alone is not sufficient reason.
 

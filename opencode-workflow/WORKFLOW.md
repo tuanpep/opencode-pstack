@@ -64,6 +64,7 @@ Rigor uses the parent model as its lead. It must select the least expensive suff
 ## Guardrails
 
 - Do not commit, push, or open a PR unless the user asked.
+- Do not deploy, run a production migration, delete persistent or external data, send customer-facing messages, or perform another irreversible external write unless the user explicitly asked for that action.
 - Do not force-push to a shared branch.
 - Keep the diff scoped. No drive-by refactors.
 - Prefer deleting and simplifying over adding layers.
