@@ -13,7 +13,7 @@ export const PLUGIN_SPECIFIERS = [
 export const DEFAULT_PLUGINS = ['pstack', 'thermos', 'opencode-workflow']
 export const ALL_PLUGINS = [...DEFAULT_PLUGINS]
 
-const STALE_AGENTS = ['coding-agent.md', 'review-agent.md', 'code.md', 'review.md', 'rigor.md', 'dev.md', 'audit.md', 'deep.md', 'pip.md', 'owl.md', 'bear.md']
+const STALE_AGENTS = ['coding-agent.md', 'review-agent.md', 'rigor.md', 'dev.md', 'audit.md', 'pip.md', 'owl.md', 'bear.md', 'fox.md', 'hawk.md', 'wolf.md']
 const STALE_SKILL_DIRS = [
   'check-compiler-errors',
   'fix-merge-conflicts',

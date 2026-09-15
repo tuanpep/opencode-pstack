@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "fox",
+  "default_agent": "code",
   "permission": {
     "*": "allow"
   },
@@ -32,17 +32,26 @@
     "thermos-quality": {
       "mode": "subagent"
     },
-    "fox": {
+    "code": {
       "mode": "primary",
       "description": "Everyday coding. Implement, debug, and refactor small changes."
     },
-    "hawk": {
+    "deep": {
+      "mode": "primary",
+      "description": "Non-trivial engineering with focused investigation, minimal changes, and direct verification."
+    },
+    "review": {
       "mode": "primary",
       "description": "Read-only watcher for bugs, security, and maintainability."
     },
+    "fox": {
+      "disable": true
+    },
+    "hawk": {
+      "disable": true
+    },
     "wolf": {
-      "mode": "primary",
-      "description": "Non-trivial engineering with focused investigation, minimal changes, and direct verification."
+      "disable": true
     },
     "pip": {
       "disable": true
@@ -51,12 +60,6 @@
       "disable": true
     },
     "bear": {
-      "disable": true
-    },
-    "code": {
-      "disable": true
-    },
-    "review": {
       "disable": true
     },
     "rigor": {
@@ -68,18 +71,15 @@
     "audit": {
       "disable": true
     },
-    "deep": {
-      "disable": true
-    },
     "poteto-mode": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack Task target. Same style as wolf."
+      "description": "Hidden pstack Task target. Same style as deep."
     },
     "playbook": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack Task target. Same style as wolf."
+      "description": "Hidden pstack Task target. Same style as deep."
     },
     "research": {
       "mode": "subagent",

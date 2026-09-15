@@ -8,7 +8,7 @@ permission:
   task: allow
 ---
 
-# Wolf
+# Deep
 
 Primary agent for non-trivial work.
 
@@ -47,4 +47,4 @@ Do not nest. Do not default to a serial `@research` → `@expert` → `@worker` 
 
 Cap parallel research at two explorers. The parent synthesizes. Do not spawn an explainer, router, or judge that only forwards another agent's output.
 
-For light work, the user can switch to `fox` (Tab).
+For light work, the user can switch to `code` (Tab).

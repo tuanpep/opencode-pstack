@@ -1,6 +1,6 @@
 # OpenCode workflow
 
-Host-level OpenCode config for this marketplace: three Tab primaries (`fox`, `hawk`, `wolf`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
+Host-level OpenCode config for this marketplace: three Tab primaries (`code`, `deep`, `review`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
 
 Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode-specific.
 
@@ -11,7 +11,7 @@ Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode
 | `WORKFLOW.md` | Global session instructions (does not replace project `AGENTS.md`) |
 | `opencode.json.template` | Merged into `opencode.json`. It configures the workflow defaults, tool-output limits, compaction, and leaf `task: deny` so research/worker/expert cannot nest. It does not select a provider, API key, or model |
 | `opencode-model-routing.example.jsonc` | Copyable per-agent routing example with placeholders. It is documentation and is not installed |
-| `opencode/agent/*.md` | Primaries `fox` / `hawk` / `wolf` plus `/compat` and `/learn` subagents |
+| `opencode/agent/*.md` | Primaries `code` / `deep` / `review` plus `/compat` and `/learn` subagents |
 | `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
 | `skills/` | `check-agent-compatibility`, `continual-learning` |
 | `models.conf.example` | A commented role-map placeholder copied to `~/.pstack/models.conf` only if that file is missing |
@@ -24,4 +24,4 @@ Configure your OpenCode provider and default model using OpenCode's normal provi
 
 ## After install
 
-Restart OpenCode. Tab cycles `fox` → `hawk` → `wolf`.
+Restart OpenCode. Tab cycles `code` → `deep` → `review`.

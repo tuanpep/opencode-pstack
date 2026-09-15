@@ -18,7 +18,7 @@ The install command does not pick a provider or model. After restart:
 
 1. Connect a provider in OpenCode if you have not already (`/connect`).
 2. Run `/setup-pstack`. It lists models available in the session, asks which to use per pstack role, and writes `~/.pstack/models.conf`.
-3. Optional: copy matching entries from [`opencode-model-routing.example.jsonc`](../../../opencode-workflow/opencode-model-routing.example.jsonc) into `opencode.json` if you want Tab agents to use specific slugs.
+3. Optional: copy matching entries from [`opencode-model-routing.example.jsonc`](../../../opencode-workflow/opencode-model-routing.example.jsonc) into `opencode.json` if you want Tab agents (`code`, `deep`, `review`) or hidden Task targets to use specific slugs.
 
 Re-run `/setup-pstack` whenever your entitled models change. Skills read the file on each run, so no new session is required after it writes.
 

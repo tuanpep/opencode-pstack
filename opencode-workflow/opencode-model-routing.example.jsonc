@@ -1,8 +1,20 @@
 // Copy the agent entries into your OpenCode config after choosing models.
 // Replace every <...> value with a provider/model slug OpenCode lists for you.
 // Do not install this file as-is. It is JSONC documentation, not valid config.
+//
+// Primaries inherit the session model unless you pin them. Typical split:
+// code = everyday coding, deep = hardest work, review = read-only judgment.
 {
   "agent": {
+    "code": {
+      "model": "<best-price-performance-coding-model>"
+    },
+    "deep": {
+      "model": "<strongest-reasoning-model>"
+    },
+    "review": {
+      "model": "<best-price-performance-coding-model>"
+    },
     "research": {
       "model": "<low-cost-research-model>"
     },

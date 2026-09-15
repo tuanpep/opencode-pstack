@@ -31,7 +31,7 @@ two steps:
 
 new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the mode skill uses them for you as needed. in the bundled OpenCode workflow, `research` handles bounded evidence gathering, `worker` handles normal implementation, and `expert` is reserved for trace-backed performance and high-risk reasoning. Those three are leaves: they do not spawn further agents. The lead session (`wolf` or `/poteto-mode`) orchestrates at most one hop. Run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) after install to map those roles to models you can use.
+that's it. the other skills are situational; the mode skill uses them for you as needed. in the bundled OpenCode workflow, `research` handles bounded evidence gathering, `worker` handles normal implementation, and `expert` is reserved for trace-backed performance and high-risk reasoning. Those three are leaves: they do not spawn further agents. The lead session (`deep` or `/poteto-mode`) orchestrates at most one hop. Run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) after install to map those roles to models you can use.
 
 ## usage
 
@@ -197,7 +197,7 @@ automate-me:       /automate-me
 
 ### OpenCode (this plugin's agents)
 
-Tab primaries `fox` / `hawk` / `wolf` ship in [`opencode-workflow`](../opencode-workflow/). This plugin installs hidden Task targets, Comment Sicko, and CI watcher:
+Tab primaries `code` / `deep` / `review` ship in [`opencode-workflow`](../opencode-workflow/). This plugin installs hidden Task targets, Comment Sicko, and CI watcher:
 
 | Agent | Use for |
 |-------|---------|
@@ -209,7 +209,7 @@ Tab primaries `fox` / `hawk` / `wolf` ship in [`opencode-workflow`](../opencode-
 | `comments` | Comment-only review. |
 | `ci-watcher` | Hidden leaf for PR-attached CI status. Does not spawn. |
 
-Set `default_agent` to `fox` via `opencode-workflow`'s `opencode.json.template`.
+Set `default_agent` to `code` via `opencode-workflow`'s `opencode.json.template`.
 
 ## principles
 

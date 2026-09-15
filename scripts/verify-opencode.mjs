@@ -9,9 +9,9 @@ const expectedAgents = {
   pstack: ['playbook', 'research', 'worker', 'expert', 'comments', 'ci-watcher'],
   thermos: ['thermos-quality', 'thermos-review'],
   'opencode-workflow': [
-    'fox',
-    'hawk',
-    'wolf',
+    'code',
+    'deep',
+    'review',
     'compat-scan',
     'compat-startup',
     'compat-verify',
@@ -44,6 +44,9 @@ const deletedAssets = [
   'pstack/agents/comment-sicko.md',
   'thermos/agents/thermo-nuclear-code-quality-review-subagent.md',
   'thermos/agents/thermo-nuclear-review-subagent.md',
+  'opencode-workflow/opencode/agent/fox.md',
+  'opencode-workflow/opencode/agent/hawk.md',
+  'opencode-workflow/opencode/agent/wolf.md',
 ]
 
 const legacyHostPatterns = [
