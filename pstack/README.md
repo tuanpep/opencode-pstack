@@ -20,9 +20,7 @@ opencode plugin github:tuanpep/opencode-pstack -g
 
 That command is the same on Windows, macOS, and Linux. See the [repository install section](../README.md#install-opencode-plugins) to install only pstack or to install into a project `.opencode/` directory.
 
-Restart OpenCode after installing.
-
-For a guided walkthrough after install, see [docs/guide/](docs/guide/README.md).
+Restart OpenCode after installing. Then run `/setup-pstack` to map pstack roles to models you can use. The [setup guide](docs/guide/01-setup.md) walks through that conversation.
 
 ## get started
 

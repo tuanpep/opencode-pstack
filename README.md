@@ -30,7 +30,18 @@ That registers the plugin in OpenCode and copies skills, agents, commands, and `
 
 Omit `-g` to add the plugin to the current project's `opencode.json` and install into `.opencode/`.
 
-Restart OpenCode after it finishes. The plugin does not configure a provider, API key, or model. Configure a provider in OpenCode, copy the applicable entries from `opencode-workflow/opencode-model-routing.example.jsonc` into `opencode.json`, then run `/setup-pstack` to assign available models to pstack roles.
+Restart OpenCode after it finishes.
+
+## After install
+
+The plugin does not configure a provider, API key, or model.
+
+1. Restart OpenCode.
+2. Connect a provider if needed (`/connect`).
+3. Run `/setup-pstack`. It detects models in the session and writes `~/.pstack/models.conf` for pstack roles (`research`, `worker`, `expert`, and the skill panels). Re-run it when your model list changes.
+4. Optional: copy applicable entries from `opencode-workflow/opencode-model-routing.example.jsonc` into `opencode.json` if you want Tab agents pinned to specific slugs.
+
+Then use Tab for `fox` / `hawk` / `wolf`, or `/poteto-mode` for playbook-driven work.
 
 To limit which bundles are copied, set plugin options in `opencode.json`:
 
@@ -56,7 +67,7 @@ Use Tab to select the `fox`, `hawk`, or `wolf` primary agent. `fox` is the defau
 
 Pstack supplies hidden Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `wolf` works directly by default and delegates at most one hop. Run `/setup-pstack` after installation to configure their models.
 
-Available workflow commands include `/review`, `/deep`, `/compat`, `/learn`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
+Available workflow commands include `/setup-pstack`, `/review`, `/deep`, `/compat`, `/learn`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
 
 ## Verify repository changes
 

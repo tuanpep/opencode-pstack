@@ -25,6 +25,7 @@ Three primaries. Cycle them with Tab.
 
 ## Commands
 
+- `/setup-pstack` — detect available models and write `~/.pstack/models.conf`
 - `/review` — read-only review of the current diff (runs `hawk`)
 - `/deep` — non-trivial engineering with focused investigation and direct verification (runs `wolf`; `/rigor` still works)
 - `/poteto-mode` — full playbooks for high-risk, cross-cutting, or explicitly process-heavy work
