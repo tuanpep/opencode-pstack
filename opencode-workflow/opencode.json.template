@@ -34,14 +34,17 @@
     },
     "code": {
       "mode": "primary",
+      "disable": false,
       "description": "Everyday coding. Implement, debug, and refactor small changes."
     },
     "deep": {
       "mode": "primary",
+      "disable": false,
       "description": "Non-trivial engineering with focused investigation, minimal changes, and direct verification."
     },
     "review": {
       "mode": "primary",
+      "disable": false,
       "description": "Read-only watcher for bugs, security, and maintainability."
     },
     "fox": {

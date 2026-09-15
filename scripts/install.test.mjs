@@ -22,6 +22,28 @@ test('applyConfig mutates the runtime config object', () => {
   assert.deepEqual(config.plugin, ['other'])
 })
 
+test('mergeConfig re-enables primaries that a prior template disabled', () => {
+  const merged = mergeConfig(
+    {
+      agent: {
+        code: { disable: true, mode: 'primary' },
+        deep: { disable: true, mode: 'primary' },
+        review: { disable: true, mode: 'primary' },
+      },
+    },
+    {
+      agent: {
+        code: { disable: false, mode: 'primary' },
+        deep: { disable: false, mode: 'primary' },
+        review: { disable: false, mode: 'primary' },
+      },
+    },
+  )
+  assert.equal(merged.agent.code.disable, false)
+  assert.equal(merged.agent.deep.disable, false)
+  assert.equal(merged.agent.review.disable, false)
+})
+
 test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
   const destination = mkdtempSync(join(tmpdir(), 'opencode-plugins-'))
   try {
