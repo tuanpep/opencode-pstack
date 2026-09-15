@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 # Continual learning
 
-Keep project `AGENTS.md` current from OpenCode transcripts. Orchestration only. Delegate mining and edits to `@agents-memory-updater`.
+Keep project `AGENTS.md` current from OpenCode transcripts. Orchestration only. Delegate mining and edits to `@learn`.
 
 ## Trigger
 
@@ -19,7 +19,7 @@ Keep project `AGENTS.md` current from OpenCode transcripts. Orchestration only. 
 ## Workflow
 
 1. Resolve the target `AGENTS.md`. Default is `AGENTS.md` in the current worktree root. If none exists, the updater creates one with only the two learned sections. Do not overwrite an existing repo guide.
-2. Spawn `@agents-memory-updater` with:
+2. Spawn `@learn` with:
    - worktree root
    - `AGENTS.md` path
    - this conversation's opening user prompt, so it can match the current session

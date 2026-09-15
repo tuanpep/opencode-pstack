@@ -1,5 +1,5 @@
 ---
-description: Alias for /deep. Non-trivial engineering with focused investigation and direct verification.
+description: Execute a non-trivial engineering task with focused investigation and direct verification.
 agent: wolf
 ---
 

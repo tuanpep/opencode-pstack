@@ -14,19 +14,15 @@ fork it. improve it. make it yours. PRs are welcome!
 
 ## install for OpenCode
 
-From the [repository root](../README.md#install-opencode-plugins):
+```bash
+opencode plugin github:tuanpep/opencode-pstack -g
+```
 
-| OS | Command |
-|----|---------|
-| Windows (PowerShell) | `pwsh -File ./scripts/install-opencode.ps1 -Plugin pstack` |
-| Windows (Git Bash) | `bash ./scripts/install-opencode.sh --plugin pstack` |
-| macOS / Linux | `bash ./scripts/install-opencode.sh --plugin pstack` |
+That command is the same on Windows, macOS, and Linux. See the [repository install section](../README.md#install-opencode-plugins) to install only pstack or to install into a project `.opencode/` directory.
 
-Install `cursor-team-kit` alongside pstack for `/deslop`, `control-cli`, and `control-ui`.
+Restart OpenCode after installing.
 
 For a guided walkthrough after install, see [docs/guide/](docs/guide/README.md).
-
-Restart OpenCode after installing. For a project install, add `-Scope Project` in PowerShell or `--scope project` in Bash.
 
 ## get started
 
@@ -37,7 +33,7 @@ two steps:
 
 new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the mode skill uses them for you as needed. in the bundled OpenCode workflow, `poteto-research` handles bounded evidence gathering, `poteto-worker` handles normal implementation, and `poteto-expert` is reserved for trace-backed performance and high-risk reasoning. Run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) after install to map those roles to models you can use.
+that's it. the other skills are situational; the mode skill uses them for you as needed. in the bundled OpenCode workflow, `research` handles bounded evidence gathering, `worker` handles normal implementation, and `expert` is reserved for trace-backed performance and high-risk reasoning. Those three are leaves: they do not spawn further agents. The lead session (`wolf` or `/poteto-mode`) orchestrates at most one hop. Run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) after install to map those roles to models you can use.
 
 ## usage
 
@@ -140,6 +136,13 @@ Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for long-running work when y
 | [`/create-verification-skill`](./skills/create-verification-skill/SKILL.md) | your project has no scripted way to prove app behavior. generates a project-local verify skill with a feature map, for any language or platform. |
 | [`/maintain-verification-skill`](./skills/maintain-verification-skill/SKILL.md) | your verify skill's feature map has drifted from the app. source wave + one live pass, at most one PR of proven corrections. |
 | [`/unslop`](./skills/unslop/SKILL.md) | you're cleaning up writing. removes AI tells. |
+| [`/deslop`](./skills/deslop/SKILL.md) | you're cleaning AI slop out of a code diff before commit. |
+| [`/verify-this`](./skills/verify-this/SKILL.md) | you need a falsifiable claim proved with baseline and treatment evidence. |
+| [`/control-cli`](./skills/control-cli/SKILL.md) | you need a local harness for a CLI or TUI. |
+| [`/control-ui`](./skills/control-ui/SKILL.md) | you need a local browser or CDP harness for a web, IDE, or Electron UI. |
+| [`/fix-ci`](./skills/fix-ci/SKILL.md) | PR checks are failing and you want a focused path to green. |
+| [`/review-and-ship`](./skills/review-and-ship/SKILL.md) | you want to review, verify, and ship the current branch. |
+| [`/loop-on-ci`](./skills/loop-on-ci/SKILL.md) | you want to watch PR checks and iterate until they pass. |
 | [`/bro`](./skills/bro/SKILL.md) | you want the last message restated in plain human language, no jargon. |
 | [`/technical-writing`](./skills/technical-writing/SKILL.md) | layered doc standard (Diátaxis + Google developer style + STE + Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
 
@@ -196,18 +199,19 @@ automate-me:       /automate-me
 
 ### OpenCode (this plugin's agents)
 
-Tab primaries `code` / `review` / `rigor` ship in [`opencode-workflow`](../opencode-workflow/). This plugin installs hidden Task targets plus Comment Sicko:
+Tab primaries `fox` / `hawk` / `wolf` ship in [`opencode-workflow`](../opencode-workflow/). This plugin installs hidden Task targets, Comment Sicko, and CI watcher:
 
 | Agent | Use for |
 |-------|---------|
-| `poteto-research` | Hidden target for bounded evidence gathering. |
-| `poteto-worker` | Hidden target for normal implementation and focused review. |
-| `poteto-expert` | Hidden target for trace-backed performance and high-risk reasoning. |
+| `research` | Hidden leaf for bounded evidence gathering. Does not spawn. |
+| `worker` | Hidden leaf for normal implementation and focused review. Does not spawn. |
+| `expert` | Hidden leaf for trace-backed performance and high-risk reasoning. Does not spawn. |
 | `poteto-mode` | Hidden compatibility target. |
-| `poteto-agent` | Hidden compatibility target. |
-| `comment-sicko` | Comment-only review. |
+| `playbook` | Hidden compatibility target. |
+| `comments` | Comment-only review. |
+| `ci-watcher` | Hidden leaf for PR-attached CI status. Does not spawn. |
 
-Set `default_agent` to `code` via `opencode-workflow`'s `opencode.json.template`.
+Set `default_agent` to `fox` via `opencode-workflow`'s `opencode.json.template`.
 
 ## principles
 
@@ -242,15 +246,6 @@ twenty-one short skills, one principle each. `poteto-mode` indexes them inline a
 
 </details>
 
-## not shipped here
-
-a few things `poteto-mode` references but doesn't bundle:
-
-- `/deslop` and the `deslop` skill ship in the `cursor-team-kit` plugin.
-- `control-cli` (for CLIs and TUIs) and `control-ui` (for browser, Electron, web) ship in `cursor-team-kit` too.
-
-install `cursor-team-kit` alongside pstack if you want the full set.
-
 ## why are there no planning skills?
 
 OpenCode has a plan mode that works well with pstack. but personally, i don't believe in planning. the best spec is code. if you do want to make a plan, [`/poteto-mode`](./skills/poteto-mode/SKILL.md) covers it, but it's not a default.
@@ -271,4 +266,4 @@ They ask for context when session history is unavailable.
 
 ## license and provenance
 
-MIT. Derived from [cursor/plugins](https://github.com/cursor/plugins). Copyright (c) 2026 Lauren Tan.
+MIT. Derived from [cursor/plugins](https://github.com/cursor/plugins). Copyright (c) 2026 Lauren Tan. Shipping, CI, and verification skills also retain Copyright (c) 2026 Cursor.

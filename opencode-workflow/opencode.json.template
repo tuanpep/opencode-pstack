@@ -1,7 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "code",
-  "permission": "allow",
+  "default_agent": "fox",
+  "permission": {
+    "*": "allow"
+  },
   "instructions": ["WORKFLOW.md"],
   "tool_output": {
     "max_lines": 200,
@@ -21,69 +23,105 @@
     "ci-watcher": {
       "mode": "subagent"
     },
-    "comment-sicko": {
+    "comments": {
       "mode": "subagent"
     },
-    "thermo-nuclear-review-subagent": {
+    "thermos-review": {
       "mode": "subagent"
     },
-    "thermo-nuclear-code-quality-review-subagent": {
+    "thermos-quality": {
       "mode": "subagent"
     },
-    "code": {
+    "fox": {
       "mode": "primary",
-      "description": "Light everyday coding. Implement, debug, and refactor small changes."
+      "description": "Everyday coding. Implement, debug, and refactor small changes."
     },
-    "review": {
+    "hawk": {
       "mode": "primary",
-      "description": "Read-only review for bugs, security, and maintainability."
+      "description": "Read-only watcher for bugs, security, and maintainability."
     },
-    "rigor": {
+    "wolf": {
       "mode": "primary",
       "description": "Non-trivial engineering with focused investigation, minimal changes, and direct verification."
+    },
+    "pip": {
+      "disable": true
+    },
+    "owl": {
+      "disable": true
+    },
+    "bear": {
+      "disable": true
+    },
+    "code": {
+      "disable": true
+    },
+    "review": {
+      "disable": true
+    },
+    "rigor": {
+      "disable": true
+    },
+    "dev": {
+      "disable": true
+    },
+    "audit": {
+      "disable": true
+    },
+    "deep": {
+      "disable": true
     },
     "poteto-mode": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack Task target. Same style as rigor."
+      "description": "Hidden pstack Task target. Same style as wolf."
     },
-    "poteto-agent": {
+    "playbook": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack Task target. Same style as rigor."
+      "description": "Hidden pstack Task target. Same style as wolf."
     },
-    "poteto-research": {
+    "research": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack target for bounded read-only investigation, inventory, and evidence gathering."
+      "description": "Hidden pstack target for bounded read-only investigation, inventory, and evidence gathering.",
+      "permission": {
+        "task": "deny"
+      }
     },
-    "poteto-worker": {
+    "worker": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack target for normal implementation, refactoring, tests, and focused review."
+      "description": "Hidden pstack target for normal implementation, refactoring, tests, and focused review.",
+      "permission": {
+        "task": "deny"
+      }
     },
-    "poteto-expert": {
+    "expert": {
       "mode": "subagent",
       "hidden": true,
-      "description": "Hidden pstack target for trace-backed performance work and high-risk or unusually difficult reasoning."
+      "description": "Hidden pstack target for trace-backed performance work and high-risk or unusually difficult reasoning.",
+      "permission": {
+        "task": "deny"
+      }
     },
-    "compatibility-scan-review": {
+    "compat-scan": {
       "mode": "subagent",
       "description": "Run the agent-compatibility CLI and return the raw score."
     },
-    "startup-review": {
+    "compat-startup": {
       "mode": "subagent",
       "description": "Cold-start the repo like an agent and score friction."
     },
-    "validation-review": {
+    "compat-verify": {
       "mode": "subagent",
       "description": "Score whether a small change has a practical verify loop."
     },
-    "docs-reliability-review": {
+    "compat-docs": {
       "mode": "subagent",
       "description": "Score whether AGENTS.md and README match the real path."
     },
-    "agents-memory-updater": {
+    "learn": {
       "mode": "subagent",
       "hidden": true,
       "description": "Hidden /learn target. Mines OpenCode sessions into AGENTS.md."

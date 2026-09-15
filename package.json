@@ -1,0 +1,38 @@
+{
+  "name": "opencode-pstack",
+  "version": "0.1.0",
+  "description": "OpenCode plugin pack for pstack, thermos, and the bundled workflow",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "install.js",
+    "pstack/skills",
+    "pstack/opencode",
+    "thermos/skills",
+    "thermos/opencode",
+    "opencode-workflow/skills",
+    "opencode-workflow/opencode",
+    "opencode-workflow/WORKFLOW.md",
+    "opencode-workflow/opencode.json.template",
+    "opencode-workflow/models.conf.example"
+  ],
+  "keywords": [
+    "opencode",
+    "plugin",
+    "pstack",
+    "thermos"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuanpep/opencode-pstack.git"
+  },
+  "scripts": {
+    "test": "node --test scripts/install.test.mjs",
+    "verify": "node scripts/verify-opencode.mjs"
+  }
+}

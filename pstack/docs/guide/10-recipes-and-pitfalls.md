@@ -80,10 +80,11 @@ That's the whole prompt. [`/bro`](../../skills/bro/SKILL.md) restates the last m
 
 ## The pitfalls
 
-- **Enumerating skills in the prompt.** "use /how then /architect then /arena" reorders steps the playbook already sequences. State the goal and constraints. Name a skill only to override a default.
+- **Enumerating skills in the prompt.** "use /how then /architect then /arena" reorders steps the playbook already sequences, and it forces a design tree the default now skips. State the goal and constraints. Name a skill only to override a default.
 - **A vague finish condition.** "make it better" gives the agent nothing to check. Give a command or artifact that can pass or fail.
 - **Parallel agents in one worktree.** They overwrite each other and the diff becomes archaeology. Say "own worktree per attempt" and the isolation is free.
 - **Using `/arena` for coverage.** `/arena` repeats one design or code brief, then picks a base and grafts the best parts. `/swarm` partitions slices or declared race arms and aggregates one report.
+- **Nested design before the first edit.** `how` explorers plus an explainer plus `architect` plus `arena` plus a worker is several full agentic loops before any code. Sketch in the lead session unless the shape is a one-way-door with two real designs.
 - **Accepting every review comment.** Bots and humans both file real catches and noise in one list. `/interrogate` sorts findings into act-on and dismissed buckets with reasons, and you can override either way.
 - **Treating `auto` as a model slug.** `auto` and `inherit-parent` mean "omit the model field so the subagent inherits the parent chat model." [Setup](./01-setup.md) covers the roles.
 - **Reporting success off a green build.** A build proves it compiles. Ask for the real command, flow, stored value, or profile, and expect the evidence in the reply.

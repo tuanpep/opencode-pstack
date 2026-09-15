@@ -1,6 +1,6 @@
 ---
 name: how
-description: "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Can critique architecture. Use why for motivation."
+description: "Use for /how, \"how does X work\", and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Can critique architecture. Do not use as a default pre-edit walkthrough for a local or already-traced change. Use why for motivation."
 ---
 
 # How
@@ -27,24 +27,24 @@ Identify the scope. If ambiguous, state your best-guess interpretation before ex
 
 **Assess complexity to decide the approach:**
 
-- **Simple** (a single module, a small utility, a narrow question like "how does function X work"): skip explorer agents; the explainer explores and explains in a single pass. Go to Step 2b.
-- **Complex** (a subsystem spanning multiple files/services, a cross-cutting feature, a full architectural overview): spawn parallel explorer agents first, then hand off to the explainer. Go to Step 2a.
+- **Already grounded.** If this session already has a traced model of the subsystem, do not spawn. Write or reuse the explanation from what you have. Go to Step 4.
+- **Simple** (a single module, a small utility, a narrow question like "how does function X work", or grounding for a change whose files you can read directly): explore and explain in this session. Do not spawn. Go to Step 2b.
+- **Complex** (a subsystem spanning multiple files/services, a cross-cutting feature, a full architectural overview, and the parent has not already traced it): spawn at most two parallel explorer agents, then synthesize here. Go to Step 2a.
 
-When in doubt, lean simple. You can always spawn explorers if the explainer hits a wall.
+When in doubt, lean simple. You can always spawn explorers if this session hits a wall. Do not spawn how from inside another design skill when the parent can read the files.
 
 ### Step 2a. Explore (complex questions only)
 
-Decompose the question into 2-4 parallel exploration angles, each a distinct slice of the subsystem so explorers don't duplicate work. Example split for "how does the rate limiter work?":
+Decompose the question into at most two parallel exploration angles, each a distinct slice of the subsystem so explorers don't duplicate work. Example split for "how does the rate limiter work?":
 
-- Explorer 1: data model and state management
-- Explorer 2: request path and enforcement
-- Explorer 3: configuration and metrics infrastructure
+- Explorer 1: data model and request path
+- Explorer 2: configuration, enforcement, and metrics
 
-The right decomposition depends on the question. Use your judgment. Narrow questions: 2 explorers is fine. Broad subsystems: up to 4.
+The right decomposition depends on the question. Two explorers is the cap. If the question is one slice, use one explorer or stay in this session. Do not add a third or fourth explorer for completeness. Do not spawn an explainer after them.
 
 Spawn all explorers in a single message:
 
-- `subagent_type`: `poteto-research` on OpenCode, or the host's configured research agent elsewhere
+- `subagent_type`: `research` on OpenCode, or the host's configured research agent elsewhere
 - `readonly`: `true`
 
 Each explorer gets the same base prompt from `references/explorer-prompt.md` plus a specific exploration angle naming its slice. Each explorer should:
@@ -54,33 +54,23 @@ Each explorer gets the same base prompt from `references/explorer-prompt.md` plu
 - Stop when it can describe the full path from input to output (or trigger to effect) without hand-waving any step
 - Note things that are surprising, non-obvious, or that a newcomer would get wrong
 
-Each explorer returns structured findings: components found, flow traced, files read, anything non-obvious. Overlap between explorers is fine; the explainer reconciles.
+Each explorer returns structured findings: components found, flow traced, files read, anything non-obvious. Overlap between explorers is fine; this session reconciles.
 
 Then proceed to Step 3.
 
 ### Step 2b. Direct Explain (simple questions)
 
-Spawn a single Task subagent that explores and explains in one pass:
-
-- `subagent_type`: `poteto-research` on OpenCode, or the host's configured explanation agent elsewhere
-- `readonly`: `true`
-
-The agent does its own exploration (Glob, Grep, Read) and writes the explanation directly. Read `references/explainer-prompt.md` for the communication style and output format. Same structure, just no explorer findings as input.
+Explore and explain in this session. Do not spawn a subagent to restate files you can read. Use Glob, Grep, and Read here. Follow `references/explainer-prompt.md` for communication style and output format.
 
 Proceed to Step 4.
 
 ### Step 3. Synthesize (complex questions only)
 
-Once all explorers return, spawn a single Task subagent to synthesize their findings into one coherent explanation:
-
-- `subagent_type`: `poteto-research` on OpenCode, or the host's configured explanation agent elsewhere
-- `readonly`: `true`
-
-The explainer gets all explorers' findings and writes the human-facing explanation (output format below). Read `references/explainer-prompt.md` for the full prompt template. The explainer reconciles overlapping findings, resolves contradictions, and weaves the slices into a unified picture.
+Once explorers return, synthesize their findings in this session into one coherent explanation. Do not spawn a second-layer explainer; that loop only paraphrases. Read `references/explainer-prompt.md` for the output format. Reconcile overlapping findings, resolve contradictions, and weave the slices into a unified picture. If an explorer report is too large to keep, keep the traced path and file list, not the raw dumps.
 
 ### Step 4. Present
 
-Present the explainer's output to the user. You may lightly edit for clarity or add context from the conversation, but don't substantially rewrite. The explainer's communication is the product.
+Present the explanation. You may lightly edit for clarity or add context from the conversation, but don't substantially rewrite.
 
 ### Output Format
 
@@ -106,10 +96,10 @@ Run the full explain flow above (Steps 1-4). You must understand the architectur
 
 ### Step 2. Spawn Critics
 
-After the explanation is complete, spawn the configured architectural critics in one message. On OpenCode, use `poteto-worker` for a normal critique and `poteto-expert` only where the risk warrants it.
+After the explanation is complete, spawn the configured architectural critics in one message. On OpenCode, use `worker` for a normal critique and `expert` only where the risk warrants it.
 
 For each critic:
-- `subagent_type`: `poteto-worker` or `poteto-expert` on OpenCode, chosen by risk. Use the configured critic model on hosts that support per-Task model selection.
+- `subagent_type`: `worker` or `expert` on OpenCode, chosen by risk. Use the configured critic model on hosts that support per-Task model selection.
 - `readonly`: `true`
 
 Read `references/critic-prompt.md` for the prompt template. Each critic gets:

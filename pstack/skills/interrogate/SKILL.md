@@ -33,10 +33,10 @@ Write one clear paragraph. Reviewers challenge whether the work achieves the int
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` list from `~/.pstack/models.conf` when present, one reviewer per entry. Without a configured role map, use the parent model rather than inventing provider-specific slugs. On OpenCode, run `poteto-worker` for normal reviews and add `poteto-expert` only when the diff carries high risk.
+Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` list from `~/.pstack/models.conf` when present, one reviewer per entry. Without a configured role map, use the parent model rather than inventing provider-specific slugs. On OpenCode, run `worker` for normal reviews and add `expert` only when the diff carries high risk.
 
 For each reviewer:
-- `subagent_type`: `poteto-worker` or `poteto-expert` on OpenCode, chosen by risk. Use the configured review agent and model on hosts that support per-Task model selection.
+- `subagent_type`: `worker` or `expert` on OpenCode, chosen by risk. Use the configured review agent and model on hosts that support per-Task model selection.
 - `readonly`: `true`
 
 If a configured model slug is rejected as unresolvable, use the parent model for this run and update the user's model map through `/setup-pstack`. Do not invent a replacement slug. If the configured value is `inherit-parent` or `auto`, omit `model` instead.

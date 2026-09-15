@@ -25,7 +25,7 @@ The N candidates will receive the same prompt, so the prompt is the contract. Ge
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. Concrete: `Adds a --dry-run flag that skips writes`. Vague: `code is correct`. The rubric is the picker's tool in Phase D; candidates only see the task.
-3. Pick the runners. Use `arena runners` from `~/.pstack/models.conf` when present. Otherwise use the parent model and do not invent provider-specific slugs. On OpenCode, use separate `poteto-worker` candidates for normal design alternatives and add one `poteto-expert` candidate only when the decision is high-risk. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
+3. Pick the runners. Skip the arena when grounding already forced one viable shape; write that sketch in this session instead. Default N is 2. Use `arena runners` from `~/.pstack/models.conf` when present. Otherwise use the parent model and do not invent provider-specific slugs. On OpenCode, use separate `worker` candidates for normal design alternatives and add one `expert` candidate only when the decision is high-risk. Spawn a third only when the user asked or a third whole-shape alternative is real. Same model N times when the work is generation-bound rather than judgment-sensitive. Candidates are leaves; they do not spawn.
 4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`). N candidates writing to the same path is shared mutable state and fails the the **separate-before-serializing-shared-state** principle skill test.
 
 ## Phase B: Fan out
@@ -38,7 +38,7 @@ If a candidate fails to produce output, proceed with N-1 and note the dropout in
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, choose one model from the `arena cross-judge pool` in `~/.pstack/models.conf` when present. Otherwise use the parent model. Prefer a different model family from the parent's when the configured host supports that choice. On OpenCode, use `poteto-worker` for a normal judge or `poteto-expert` for a high-risk decision. Spawn one readonly judge subagent. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Spawning while candidates are still writing means the judge sees partial or empty outputs and reports them as dropouts.
+After all Phase B candidates complete, the parent reads every candidate and picks. Spawn a readonly judge only when `arena cross-judge pool` names a different model family from the parent. A same-model judge is a pass-through; skip it. Prefer a different model family from the parent's when the configured host supports that choice. On OpenCode, use `worker` for a normal extra-family judge or `expert` for a high-risk decision. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Spawning while candidates are still writing means the judge sees partial or empty outputs and reports them as dropouts.
 
 ## Phase D: Pick a base
 

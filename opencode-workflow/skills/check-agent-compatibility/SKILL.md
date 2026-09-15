@@ -19,10 +19,10 @@ Score whether an agent can work this repo: cold start, small-change verify, docs
 
 1. Resolve the target directory. Default is the current worktree root. If `$ARGUMENTS` names a path, use that.
 2. Spawn these four subagents in parallel. One subagent per task. Do not collapse them into one prompt.
-   - `@compatibility-scan-review` — published CLI score
-   - `@startup-review` — cold start
-   - `@validation-review` — small-change verify loop
-   - `@docs-reliability-review` — docs vs the path you actually used
+   - `@compat-scan` — published CLI score
+   - `@compat-startup` — cold start
+   - `@compat-verify` — small-change verify loop
+   - `@compat-docs` — docs vs the path you actually used
 3. Pass each the target path and, if you already have it, the scan JSON. Tell them not to edit files.
 4. Compute an internal workflow score as the rounded average of Startup, Validation, and Docs scores.
 5. Compute `Agent Compatibility Score = round((deterministic * 0.7) + (workflow * 0.3))`.

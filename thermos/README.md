@@ -4,13 +4,11 @@
 
 ## Install
 
-From the [repository root](../README.md#install-opencode-plugins), run one command:
+```bash
+opencode plugin github:tuanpep/opencode-pstack -g
+```
 
-| OS | Command |
-|----|---------|
-| Windows, PowerShell | `pwsh -File ./scripts/install-opencode.ps1 -Plugin thermos` |
-| Windows, Git Bash | `bash ./scripts/install-opencode.sh --plugin thermos` |
-| macOS or Linux | `bash ./scripts/install-opencode.sh --plugin thermos` |
+That command is the same on Windows, macOS, and Linux. See the [repository install section](../README.md#install-opencode-plugins) to install only thermos or to install into a project `.opencode/` directory.
 
 Restart OpenCode after installation.
 
@@ -28,8 +26,8 @@ Mention either agent after gathering the diff and full contents of changed files
 
 | Agent | Description |
 |:------|:------------|
-| `@thermo-nuclear-review-subagent` | Diff-scoped correctness and security review |
-| `@thermo-nuclear-code-quality-review-subagent` | Diff-scoped maintainability review |
+| `@thermos-review` | Diff-scoped correctness and security review |
+| `@thermos-quality` | Diff-scoped maintainability review |
 
 For a full thermos pass, invoke both agents in parallel. Use the `thermos` skill when you want it to coordinate the two reviews and combine their findings.
 

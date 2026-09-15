@@ -10,7 +10,7 @@ One attempt at a hard design locks in the first shape the model thought of. `/ar
 /architect design the import pipeline before writing any code. i care most about how callers use it.
 ```
 
-[`/architect`](../../skills/architect/SKILL.md) grounds itself first, running `/how` over the code the design touches and `/why` when it moves ownership or layers. Then it runs `/arena` to produce competing design sketches, with the caller's usage written first in each, followed by types, signatures, and a module map.
+[`/architect`](../../skills/architect/SKILL.md) grounds itself first, in the same session when the files are local. It loads `/how` only when the subsystem is unfamiliar and not already traced. Then it writes one sketch when grounding left a single viable shape. It runs `/arena` only for a one-way-door with two structurally distinct designs, with the caller's usage written first in each, followed by types, signatures, and a module map.
 
 By default it proceeds straight from the synthesized design into implementation. If you want to see the design first, say so:
 
@@ -68,14 +68,15 @@ Read the dismissals too. The lead is a pragmatic senior engineer, not an oracle,
 
 ## How much design work does a task deserve?
 
-You might be wondering whether every change needs this. No. Most changes need none of it. A rough ladder:
+Most changes need none of this. Sketch types in the lead session and implement. A rough ladder:
 
+- A local change whose surrounding code already shows the shape needs a short sketch here, then code. Zero subagents.
 - A small, finished change you're unsure about needs `/interrogate` alone.
-- A change that crosses function boundaries or moves ownership earns `/architect`, which brings `/arena` with it.
-- A standalone decision where independent attempts would help, like naming, formats, or an algorithm, is `/arena` directly.
+- A one-way-door whose shape is still unknown, with two or more structurally distinct designs, earns `/architect`. That may bring `/arena` with two leaf candidates. Skip arena when grounding left one viable shape.
+- A standalone decision where independent attempts would help, like naming, formats, or an algorithm, is `/arena` directly. Default is two candidates.
 - A coverage matrix, set of parallel checks, or race with declared arms is `/swarm`.
 - A contested design that's expensive to reverse gets `/architect`, then `/interrogate` before shipping.
 
-`/poteto-mode` already applies this ladder. Boundary-crossing work triggers `/architect` on its own, so you reach for these directly mainly when you want more or less scrutiny than the default.
+`/poteto-mode` already applies this ladder. It does not run `/how` then `/architect` then `/arena` before every edit. Reach for these directly when you want more scrutiny than the default, or say `architect skipped` is wrong and you want the fan-out.
 
 Next: [Build and clean the change](./05-build-and-clean.md).

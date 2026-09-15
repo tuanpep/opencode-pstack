@@ -6,7 +6,9 @@ disable-model-invocation: true
 
 # Architect
 
-Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
+Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
+
+Most changes should not reach Phase B fan-out. Sketch in this session when surrounding code already shows the shape, the change is mechanical, or only one viable approach survives grounding. Parallel candidates exist to exhaust a genuinely open design space, not to decorate a settled one.
 
 ## Start
 
@@ -20,19 +22,19 @@ Open a todolist with one entry per phase before starting. Autonomous mode withou
 
 ## Phase A: Ground the problem
 
-Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems. Critique mode if existing structure is the constraint or the design must push back on it.
+Build a real mental model of every system the new code touches. Do that in this session when the files are local. Load the **how** skill only if the subsystem is unfamiliar, spans multiple modules, and has not already been traced this session. If a playbook just ran `how`, skip. Critique mode if existing structure is the constraint or the design must push back on it.
 
-Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
+Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess. Do not nest `how` explorers under another subagent; the lead session grounds, or it fans out at most two leaf researchers.
 
-Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
+Skip Phase A when the work is greenfield, already grounded this session, or the surrounding pattern is obvious from a direct read.
 
 ## Phase B: Sketch
 
-Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
+If grounding left only one viable shape, write one design package in this session per `references/rationale-template.md` and continue. Name the rejected non-starter in one line. Do not run arena to produce a second flavor of the same shape.
 
-Use the configured architect runners. Without a configured role map, use the parent model rather than inventing model slugs. On OpenCode, use `poteto-worker` for normal candidates and `poteto-expert` only for a high-risk design candidate.
+Run the **arena** skill only when two or more structurally distinct designs remain plausible after grounding. This is the **exhaust-the-design-space** principle skill: it applies to novel or one-way-door choices, not mechanical work with an established pattern. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
 
-Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
+Use the configured architect runners. Without a configured role map, use the parent model rather than inventing model slugs. On OpenCode, use `worker` for normal candidates and `expert` only for a high-risk design candidate. Default to two candidates. Do not add a third unless the user asked or a third whole-shape alternative is real. Whole-shape alternatives, not point fixes inside one shape. Runners are leaves; they do not spawn.
 
 Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
 
@@ -76,7 +78,7 @@ When you scrap:
 1. Re-run the **how** skill over what's been built. The implementation lessons enter the new design as inputs, not vibes.
 2. Redesign as if the new constraints had been day-one assumptions, per redesign-from-first-principles.
 3. Subtract before adding, per the **subtract-before-you-add** principle skill. The new sketch should be smaller than the old one before it grows.
-4. Return to Phase B and re-run arena.
+4. Return to Phase B. Re-run arena only if two structurally distinct designs are still open; otherwise sketch the new shape here.
 
 ## Outputs
 

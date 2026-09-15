@@ -3,25 +3,25 @@
 // Do not install this file as-is. It is JSONC documentation, not valid config.
 {
   "agent": {
-    "poteto-research": {
+    "research": {
       "model": "<low-cost-research-model>"
     },
-    "poteto-worker": {
+    "worker": {
       "model": "<best-price-performance-coding-model>"
     },
-    "poteto-expert": {
+    "expert": {
       "model": "<strongest-reasoning-model>"
     },
     "ci-watcher": {
       "model": "<low-cost-research-model>"
     },
-    "comment-sicko": {
+    "comments": {
       "model": "<low-cost-research-model>"
     },
-    "thermo-nuclear-review-subagent": {
+    "thermos-review": {
       "model": "<best-price-performance-coding-model>"
     },
-    "thermo-nuclear-code-quality-review-subagent": {
+    "thermos-quality": {
       "model": "<best-price-performance-coding-model>"
     }
   }

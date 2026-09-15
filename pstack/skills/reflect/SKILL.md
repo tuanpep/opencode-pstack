@@ -28,7 +28,7 @@ If either command is unavailable, write a tight digest of the session and pass t
 
 ### 2. Spawn three reviewers in parallel
 
-One message, three Task calls. On OpenCode, use `poteto-research` for the tooling pass and `poteto-worker` for judgment and divergent passes. On hosts that support per-Task model selection, use the configured role models. Use agent mode when MCP access is required. The prompt forbids file writes; the parent applies edits.
+One message, three Task calls. On OpenCode, use `research` for the tooling pass and `worker` for judgment and divergent passes. On hosts that support per-Task model selection, use the configured role models. Use agent mode when MCP access is required. The prompt forbids file writes; the parent applies edits.
 
 | Lens | `model` | Prompt template |
 |---|---|---|
@@ -40,7 +40,7 @@ Pass each template verbatim, substituting the transcript path or digest where ma
 
 ### 3. Synthesize
 
-One Task call using `poteto-worker` on OpenCode, or the configured judgment model on a host that supports per-Task model selection. Use agent mode when citation spot checks need MCP access. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One Task call using `worker` on OpenCode, or the configured judgment model on a host that supports per-Task model selection. Use agent mode when citation spot checks need MCP access. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

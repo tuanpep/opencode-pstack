@@ -1,6 +1,6 @@
 ---
 description: Read-only review of the current worktree or supplied scope. Findings only.
-agent: review
+agent: hawk
 ---
 
 Review the current repository changes. If a scope is supplied, focus on it. Do not modify files.

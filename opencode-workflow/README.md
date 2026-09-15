@@ -1,6 +1,6 @@
 # OpenCode workflow
 
-Host-level OpenCode config for this marketplace: three Tab primaries (`code`, `review`, `rigor`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
+Host-level OpenCode config for this marketplace: three Tab primaries (`fox`, `hawk`, `wolf`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
 
 Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode-specific.
 
@@ -9,14 +9,14 @@ Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode
 | Path | Role |
 |------|------|
 | `WORKFLOW.md` | Global session instructions (does not replace project `AGENTS.md`) |
-| `opencode.json.template` | Merged into `opencode.json`. It configures the workflow defaults, tool-output limits, and compaction, but does not select a provider, API key, or model |
+| `opencode.json.template` | Merged into `opencode.json`. It configures the workflow defaults, tool-output limits, compaction, and leaf `task: deny` so research/worker/expert cannot nest. It does not select a provider, API key, or model |
 | `opencode-model-routing.example.jsonc` | Copyable per-agent routing example with placeholders. It is documentation and is not installed |
-| `opencode/agent/*.md` | Primaries `code` / `review` / `rigor` plus `/compat` and `/learn` subagents |
-| `opencode/command/*.md` | Slash commands (`/review`, `/rigor`, `/compat`, `/learn`, …) |
+| `opencode/agent/*.md` | Primaries `fox` / `hawk` / `wolf` plus `/compat` and `/learn` subagents |
+| `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
 | `skills/` | `check-agent-compatibility`, `continual-learning` |
 | `models.conf.example` | A commented role-map placeholder copied to `~/.pstack/models.conf` only if that file is missing |
 
-Pstack ships hidden tiered Task targets in [pstack](../pstack/): `poteto-research` for bounded evidence, `poteto-worker` for normal changes, and `poteto-expert` for high-risk reasoning. The installer does not pin these to a vendor or model. Run `/setup-pstack` after install to map roles to models available to you. `poteto-mode` and `poteto-agent` remain compatibility targets. `comment-sicko`, `ci-watcher`, and thermo subagents ship in their own plugins.
+Pstack ships hidden tiered Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to map roles to models available to you. `poteto-mode` and `playbook` remain compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
 
 ## Configure models
 
@@ -24,4 +24,4 @@ Configure your OpenCode provider and default model using OpenCode's normal provi
 
 ## After install
 
-Restart OpenCode. Tab cycles `code` → `review` → `rigor`.
+Restart OpenCode. Tab cycles `fox` → `hawk` → `wolf`.

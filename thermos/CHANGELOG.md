@@ -4,5 +4,5 @@
 
 - Initial Thermos plugin release.
 - Skills: `thermo-nuclear-review`, `thermo-nuclear-code-quality-review`, `thermos`.
-- Agents: `thermo-nuclear-review-subagent`, `thermo-nuclear-code-quality-review-subagent`.
+- Agents: `thermos-review`, `thermos-quality`.
 - Architecture diagram embedded as a mermaid block in README.

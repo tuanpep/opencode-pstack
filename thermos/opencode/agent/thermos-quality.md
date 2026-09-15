@@ -20,4 +20,4 @@ You are a review subagent. Whoever invoked you (a parent agent, or the user dire
 
 ## Invoking this agent
 
-Typical flow: collect `git diff <base>...HEAD` output and full contents of changed files (default base `main`), then mention this agent (`@thermo-nuclear-code-quality-review-subagent`) with a prompt containing `### Git / diff output` and `### Changed file contents`.
+Typical flow: collect `git diff <base>...HEAD` output and full contents of changed files (default base `main`), then mention this agent (`@thermos-quality`) with a prompt containing `### Git / diff output` and `### Changed file contents`.

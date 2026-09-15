@@ -25,7 +25,8 @@ SOFTWARE.
 Plugin content in this repository is derived from the official Cursor plugins
 at https://github.com/cursor/plugins and retains the original copyrights:
 
-- cursor-team-kit, thermos: Copyright (c) 2026 Cursor
+- thermos: Copyright (c) 2026 Cursor
 - pstack: Copyright (c) 2026 Lauren Tan
+- pstack shipping, CI, and verification skills (`deslop`, `control-cli`, `control-ui`, `verify-this`, `fix-ci`, `review-and-ship`, `loop-on-ci`, `ci-watcher`): Copyright (c) 2026 Cursor
 
 See each plugin's LICENSE file for the full upstream notice.

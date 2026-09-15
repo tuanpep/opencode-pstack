@@ -1,7 +1,7 @@
 ---
-description: Read-only review. Find bugs, security issues, maintainability problems, and missing tests. Do not edit.
+description: Read-only watcher. Find bugs, security issues, maintainability problems, and missing tests. Do not edit.
 mode: primary
-color: warning
+color: "#eab308"
 permission:
   edit: deny
   bash:
@@ -12,7 +12,7 @@ permission:
   task: allow
 ---
 
-# Review
+# Hawk
 
 Review without editing files.
 
@@ -36,8 +36,8 @@ Read the diff and the code it affects. Trace behavior beyond the changed lines b
 
 After gathering diff context:
 
-- `@thermo-nuclear-review-subagent`
-- `@thermo-nuclear-code-quality-review-subagent`
+- `@thermos-review`
+- `@thermos-quality`
 - `@explore` for extra local search
 
 ## Guardrails

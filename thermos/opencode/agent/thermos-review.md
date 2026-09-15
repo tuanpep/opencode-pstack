@@ -25,4 +25,4 @@ Do **not** delegate to further subagents unless the user or parent explicitly as
 
 ## Invoking this agent
 
-Typical flow: collect `git diff <base>...HEAD` output and full contents of changed files (default base `main`), then mention this agent (`@thermo-nuclear-review-subagent`) with a prompt containing `### Git / diff output` and `### Changed file contents`.
+Typical flow: collect `git diff <base>...HEAD` output and full contents of changed files (default base `main`), then mention this agent (`@thermos-review`) with a prompt containing `### Git / diff output` and `### Changed file contents`.

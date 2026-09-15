@@ -1,6 +1,6 @@
 ---
 description: Review-and-ship the current branch. Commit, push, or open a PR only if the user asked.
-agent: code
+agent: fox
 ---
 
 Load the `review-and-ship` skill and follow it for the current branch.
