@@ -32,18 +32,15 @@ Skip design ceremony when surrounding code already shows the shape, the change i
 
 ## Delegation
 
-Work directly by default. This session is the only orchestrator. `@research`, `@worker`, and `@expert` are leaves: they must not spawn further agents.
+This session is the only orchestrator. `@research`, `@worker`, and `@expert` are leaves: they must not spawn further agents.
 
-Delegate at most one hop, and only when the child will compress bulk context, run in parallel with other independent work, or needs a different model for a narrow decision. If the child would return roughly what it consumed, do the work here.
+Skip Task for a one-file lookup or a locally obvious edit. When the work matches a row below, call the Task tool with that `subagent_type`. Do not do that child's job in this session.
 
-Scale effort:
+- Bounded mapping, inventory, docs, or CI-log triage: one `@research`.
+- One isolated implementation unit you are not doing here: one `@worker`.
+- High-risk one-way-door or trace-backed diagnosis after this session already has the evidence: one `@expert`.
 
-- Locally obvious work: zero subagents.
-- One bounded lookup: one `@research`.
-- One isolated implementation: one `@worker`.
-- High-risk one-way-door or trace-backed diagnosis: one `@expert` after this session already has the evidence.
-
-Do not nest. Do not default to a serial `@research` → `@expert` → `@worker` chain. Sequence those as sibling work from this session, or skip the ones you do not need. Give `@expert` a narrow question and concrete evidence, then implement its recommendation here unless a separate worker can own a well-bounded unit faster. Verify the resulting behavior directly.
+At most one hop. Do not nest. Do not default to a serial `@research` → `@expert` → `@worker` chain. Sequence those as sibling work from this session, or skip the ones you do not need. Give `@expert` a narrow question and concrete evidence, then implement its recommendation here unless a separate worker can own a well-bounded unit faster. Verify the resulting behavior directly.
 
 Cap parallel research at two explorers. The parent synthesizes. Do not spawn an explainer, router, or judge that only forwards another agent's output.
 

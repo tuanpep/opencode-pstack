@@ -201,9 +201,9 @@ Tab primaries `code` / `deep` / `review` ship in [`opencode-workflow`](../openco
 
 | Agent | Use for |
 |-------|---------|
-| `research` | Hidden leaf for bounded evidence gathering. Does not spawn. |
-| `worker` | Hidden leaf for normal implementation and focused review. Does not spawn. |
-| `expert` | Hidden leaf for trace-backed performance and high-risk reasoning. Does not spawn. |
+| `research` | Leaf for bounded evidence gathering. Does not spawn. |
+| `worker` | Leaf for normal implementation and focused review. Does not spawn. |
+| `expert` | Leaf for trace-backed performance and high-risk reasoning. Does not spawn. |
 | `poteto-mode` | Hidden compatibility target. |
 | `playbook` | Hidden compatibility target. |
 | `comments` | Comment-only review. |

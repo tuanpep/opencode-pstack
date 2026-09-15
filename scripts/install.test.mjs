@@ -5,6 +5,13 @@ import { join } from 'node:path'
 import { test } from 'node:test'
 import { applyConfig, globalConfigDir, installPlugins, mergeConfig, packageRoot, samePath } from '../install.js'
 
+test('plugin module exports only functions', async () => {
+  const mod = await import('../index.js')
+  for (const [name, value] of Object.entries(mod)) {
+    assert.equal(typeof value, 'function', `${name} must be a function for OpenCode to load the plugin`)
+  }
+})
+
 test('mergeConfig keeps a real API key', () => {
   const merged = mergeConfig(
     { provider: { openai: { options: { apiKey: 'sk-live' } } } },

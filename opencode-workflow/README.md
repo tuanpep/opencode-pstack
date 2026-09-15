@@ -16,7 +16,7 @@ Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode
 | `skills/` | `check-agent-compatibility`, `continual-learning` |
 | `models.conf.example` | A commented role-map placeholder copied to `~/.pstack/models.conf` only if that file is missing |
 
-Pstack ships hidden tiered Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to map roles to models available to you. `poteto-mode` and `playbook` remain compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
+Pstack ships Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. `@mention` them, or let `deep` Task them. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to map roles to models available to you. `poteto-mode` and `playbook` remain hidden compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
 
 ## Configure models
 

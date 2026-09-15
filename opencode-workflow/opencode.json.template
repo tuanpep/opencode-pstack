@@ -86,24 +86,24 @@
     },
     "research": {
       "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden pstack target for bounded read-only investigation, inventory, and evidence gathering.",
+      "hidden": false,
+      "description": "Bounded read-only investigation, inventory, and evidence gathering.",
       "permission": {
         "task": "deny"
       }
     },
     "worker": {
       "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden pstack target for normal implementation, refactoring, tests, and focused review.",
+      "hidden": false,
+      "description": "Normal implementation, refactoring, tests, and focused review.",
       "permission": {
         "task": "deny"
       }
     },
     "expert": {
       "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden pstack target for trace-backed performance work and high-risk or unusually difficult reasoning.",
+      "hidden": false,
+      "description": "Trace-backed performance work and high-risk or unusually difficult reasoning.",
       "permission": {
         "task": "deny"
       }

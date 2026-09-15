@@ -1,7 +1,6 @@
 ---
-description: Hidden pstack target for trace-backed performance work and high-risk or unusually difficult reasoning.
+description: Trace-backed performance work and high-risk or unusually difficult reasoning.
 mode: subagent
-hidden: true
 permission:
   edit: allow
   bash: allow

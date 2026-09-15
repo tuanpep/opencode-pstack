@@ -1,7 +1,6 @@
 ---
-description: Hidden pstack target for bounded read-only investigation, inventory, and evidence gathering.
+description: Bounded read-only investigation, inventory, and evidence gathering.
 mode: subagent
-hidden: true
 permission:
   edit: deny
   bash: allow

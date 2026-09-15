@@ -51,7 +51,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 Primaries (`code`, `deep`, `review`) and the `poteto-mode` / `playbook` compatibility wrappers may spawn. `@research`, `@worker`, and `@expert` are leaves and must not spawn.
 
-Keep the tree wide and shallow: one hop from this session. Sequence analyze, implement, and verify here. Do not bury a pipeline under nested children. A child earns its place only if it returns much less than it consumed (bulk reads, isolated parallel work, or a different model). A pass-through router, an explainer that only restates explorers, or a nested research → expert → worker chain is waste; delete it.
+Keep the tree wide and shallow: one hop from this session. Sequence analyze, implement, and verify here. Do not bury a pipeline under nested children. Skip Task for a one-file lookup. When the work is bulk mapping, an isolated unit, or a different-model decision, Deep must Task `@research`, `@worker`, or `@expert` instead of doing that child's job here.
 
 - `@explore` / `@scout` — cheap lookups (luna)
 - `@ci-watcher` — PR checks
@@ -77,7 +77,7 @@ Sketch in the lead session and implement. Most changes need no `how` / `architec
 - Assign the best price-performance coding model to normal implementation, tests, and focused review.
 - Reserve the highest-reasoning model for trace-backed performance, difficult diagnosis, one-way-door design, and security, concurrency, or data-loss risk.
 
-Deep uses the parent model as its lead and works directly by default. When it delegates, it must pick one leaf: `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. Do not use the compatibility wrappers when a tiered target fits.
+Deep uses the parent model as its lead. Skip Task for a one-file lookup. When it delegates, it must pick one leaf: `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. Do not use the compatibility wrappers when a tiered target fits.
 
 ## Guardrails
 

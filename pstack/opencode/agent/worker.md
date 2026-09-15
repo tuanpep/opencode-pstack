@@ -1,7 +1,6 @@
 ---
-description: Hidden pstack target for normal implementation, refactoring, tests, and focused review.
+description: Normal implementation, refactoring, tests, and focused review.
 mode: subagent
-hidden: true
 permission:
   edit: allow
   bash: allow
