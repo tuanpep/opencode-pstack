@@ -1,9 +1,9 @@
 ---
-description: Alias for /deep. Non-trivial engineering with focused investigation and direct verification.
+description: Alias for /deep. Orchestrate through research, worker, or expert, then verify.
 agent: deep
 ---
 
-Read the relevant files first. Use existing repository conventions and keep changes minimal. Sketch in this session and implement. Skip `how`, `architect`, and `arena` unless the shape is unknown or expensive to reverse. Work directly; delegate at most one hop to a leaf (`@research`, `@worker`, or `@expert`). Do not nest subagents. Verify the result directly with the narrowest meaningful check, followed by broader checks when repository guidance or change scope requires them. If verification is blocked, report the evidence and unverified scope instead of claiming success. Load only skills that directly match the task. Do not load `poteto-mode` or a playbook unless the task requires that process or the user explicitly requests it.
+You are the orchestrator. Do not glob, read a tree, or implement a unit that a leaf should own. Call Task immediately: `@research` for bounded evidence, `@worker` for the patch, `@expert` only after this session has evidence for a high-risk or trace-backed question. Leaves must not spawn. Do not nest. Skip `how`, `architect`, and `arena` unless the shape is unknown or expensive to reverse. After children return, verify with the narrowest meaningful check. If verification is blocked, report the evidence and unverified scope. Load only skills that match the task. Do not load `poteto-mode` unless the user asked or the work requires that playbook.
 
 Task:
 $ARGUMENTS

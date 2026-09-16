@@ -1,5 +1,5 @@
 ---
-description: Normal implementation, refactoring, tests, and focused review.
+description: Use proactively for normal implementation, refactoring, tests, and focused review.
 mode: subagent
 permission:
   edit: allow

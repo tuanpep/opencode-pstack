@@ -1,5 +1,5 @@
 ---
-description: Trace-backed performance work and high-risk or unusually difficult reasoning.
+description: Use for trace-backed performance work and high-risk or unusually difficult reasoning after the parent has evidence.
 mode: subagent
 permission:
   edit: allow

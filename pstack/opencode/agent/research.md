@@ -1,5 +1,5 @@
 ---
-description: Bounded read-only investigation, inventory, and evidence gathering.
+description: Use proactively for bounded read-only investigation, inventory, and evidence gathering.
 mode: subagent
 permission:
   edit: deny

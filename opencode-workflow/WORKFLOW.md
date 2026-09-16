@@ -9,7 +9,7 @@ Three primaries. Cycle them with Tab: `code` → `deep` → `review`.
 | Agent | Work |
 |---|---|
 | `code` | Everyday edits. Small implement/debug. Default. |
-| `deep` | Non-trivial work. Focused investigation, minimal changes, and direct verification. |
+| `deep` | Non-trivial work. Orchestrates `@research` / `@worker` / `@expert`, then verifies. |
 | `review` | Read-only review. No file edits. |
 
 `build` and `plan` are disabled. `poteto-mode` and `playbook` remain compatibility Task targets. Pstack routes new work through tiered targets.
@@ -36,7 +36,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 - `/setup-pstack` — detect available models and write `~/.pstack/models.conf`
 - `/review` — read-only review of the current diff (runs `review`)
-- `/deep` — non-trivial engineering with focused investigation and direct verification (runs `deep`; `/rigor` still works)
+- `/deep` — orchestrate non-trivial work through leaves, then verify (runs `deep`; `/rigor` still works)
 - `/poteto-mode` — full playbooks for high-risk, cross-cutting, or explicitly process-heavy work
 - `/ship` — review-and-ship (commit/PR only if asked)
 - `/thermos` — parallel thermo-nuclear review
@@ -51,7 +51,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 Primaries (`code`, `deep`, `review`) and the `poteto-mode` / `playbook` compatibility wrappers may spawn. `@research`, `@worker`, and `@expert` are leaves and must not spawn.
 
-Keep the tree wide and shallow: one hop from this session. Sequence analyze, implement, and verify here. Do not bury a pipeline under nested children. Skip Task for a one-file lookup. When the work is bulk mapping, an isolated unit, or a different-model decision, Deep must Task `@research`, `@worker`, or `@expert` instead of doing that child's job here.
+Keep the tree wide and shallow: one hop from this session. `code` implements small edits here. `deep` is the orchestrator: Task a leaf instead of walking a tree or writing the patch. Skip Task only for a one-line question already in context.
 
 - `@explore` / `@scout` — cheap lookups (luna)
 - `@ci-watcher` — PR checks
@@ -77,7 +77,7 @@ Sketch in the lead session and implement. Most changes need no `how` / `architec
 - Assign the best price-performance coding model to normal implementation, tests, and focused review.
 - Reserve the highest-reasoning model for trace-backed performance, difficult diagnosis, one-way-door design, and security, concurrency, or data-loss risk.
 
-Deep uses the parent model as its lead. Skip Task for a one-file lookup. When it delegates, it must pick one leaf: `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. Do not use the compatibility wrappers when a tiered target fits.
+Deep is the orchestrator. It Tasks `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. It verifies after children return. Do not use the compatibility wrappers when a tiered target fits.
 
 ## Guardrails
 

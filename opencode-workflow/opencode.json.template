@@ -40,7 +40,7 @@
     "deep": {
       "mode": "primary",
       "disable": false,
-      "description": "Non-trivial engineering with focused investigation, minimal changes, and direct verification."
+      "description": "Orchestrator for non-trivial work. Routes to research, worker, and expert, then verifies."
     },
     "review": {
       "mode": "primary",
@@ -87,7 +87,7 @@
     "research": {
       "mode": "subagent",
       "hidden": false,
-      "description": "Bounded read-only investigation, inventory, and evidence gathering.",
+      "description": "Use proactively for bounded read-only investigation, inventory, and evidence gathering.",
       "permission": {
         "task": "deny"
       }
@@ -95,7 +95,7 @@
     "worker": {
       "mode": "subagent",
       "hidden": false,
-      "description": "Normal implementation, refactoring, tests, and focused review.",
+      "description": "Use proactively for normal implementation, refactoring, tests, and focused review.",
       "permission": {
         "task": "deny"
       }
@@ -103,7 +103,7 @@
     "expert": {
       "mode": "subagent",
       "hidden": false,
-      "description": "Trace-backed performance work and high-risk or unusually difficult reasoning.",
+      "description": "Use for trace-backed performance work and high-risk reasoning after the parent has evidence.",
       "permission": {
         "task": "deny"
       }
