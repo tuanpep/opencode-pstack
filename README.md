@@ -65,7 +65,7 @@ opencode plugin file:. -g
 
 Use Tab to select the `code`, `deep`, or `review` primary agent. `code` is the default. Use `@` mentions for installed subagents, including `@ci-watcher`, `@worker`, and the thermos review agents.
 
-Pstack supplies Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `deep` orchestrates them, then verifies. Run `/setup-pstack` after installation to configure their models.
+Pstack supplies Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `deep` orchestrates them, fans independent `@worker` units in parallel, then verifies. Run `/setup-pstack` after installation to configure their models.
 
 Available workflow commands include `/setup-pstack`, `/review`, `/deep`, `/compat`, `/learn`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
 

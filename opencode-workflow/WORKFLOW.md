@@ -9,7 +9,7 @@ Three primaries. Cycle them with Tab: `code` → `deep` → `review`.
 | Agent | Work |
 |---|---|
 | `code` | Everyday edits. Small implement/debug. Default. |
-| `deep` | Non-trivial work. Orchestrates `@research` / `@worker` / `@expert`, then verifies. |
+| `deep` | Non-trivial work. Orchestrates `@research` / `@worker` / `@expert`. Independent workers run in parallel. Then verifies. |
 | `review` | Read-only review. No file edits. |
 
 `build` and `plan` are disabled. `poteto-mode` and `playbook` remain compatibility Task targets. Pstack routes new work through tiered targets.
@@ -27,7 +27,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 1. **Understand.** Read the relevant files in this session. `/how` for an unfamiliar multi-module subsystem. `/why` for design rationale. `@explore` for local search. `@scout` for upstream docs. `/compat` on a first visit to a repo, or after `AGENTS.md` edits.
 2. **Implement.** Small and routine: stay on `code`. Non-trivial: Tab to `deep` or run `/deep`. Process-heavy: `/poteto-mode`.
-3. **Verify.** Start with the narrowest meaningful check; broaden when repository guidance or change scope requires it. Separate setup or environment failures from product failures, and report blocked or partial verification honestly.
+3. **Verify.** Start with the narrowest meaningful check; broaden when repository guidance or change scope requires it. Every shell command needs a finite timeout; prefer the bash tool default. Do not run watchers, dev servers, or interactive prompts in the foreground. A timeout is diagnostic evidence, not a reason to wait longer on the same command. Separate setup or environment failures from product failures, and report blocked or partial verification honestly.
 4. **Review.** `/review` before merge. `/thermos` for a harsh audit.
 5. **Ship.** `/ship` only when the user asked to commit or open a PR.
 6. **Learn.** `/learn` after a session that taught a durable repo fact or preference. Writes `AGENTS.md` learned sections. Does not commit.
@@ -51,7 +51,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 Primaries (`code`, `deep`, `review`) and the `poteto-mode` / `playbook` compatibility wrappers may spawn. `@research`, `@worker`, and `@expert` are leaves and must not spawn.
 
-Keep the tree wide and shallow: one hop from this session. `code` implements small edits here. `deep` is the orchestrator: Task a leaf instead of walking a tree or writing the patch. Skip Task only for a one-line question already in context.
+Keep the tree wide and shallow: one hop from this session. `code` implements small edits here. `deep` is the orchestrator: Task a leaf instead of walking a tree or writing the patch. Independent `@worker` units with disjoint write paths run in the same turn, up to three. Shared files or a unit that needs another child's output stay serial. Skip Task only for a one-line question already in context.
 
 - `@explore` / `@scout` — cheap lookups (luna)
 - `@ci-watcher` — PR checks
@@ -64,7 +64,7 @@ Keep the tree wide and shallow: one hop from this session. `code` implements sma
 - `@compat-scan` / `@compat-startup` / `@compat-verify` / `@compat-docs` — `/compat` only
 - `@learn` — hidden. `/learn` only
 
-Do not spawn a subagent for a one-file lookup. Cap parallel research at two explorers and synthesize in this session.
+Do not spawn a subagent for a one-file lookup. Cap parallel `@research` at two and parallel `@worker` at three. Synthesize in this session.
 
 ## Design
 
@@ -77,7 +77,7 @@ Sketch in the lead session and implement. Most changes need no `how` / `architec
 - Assign the best price-performance coding model to normal implementation, tests, and focused review.
 - Reserve the highest-reasoning model for trace-backed performance, difficult diagnosis, one-way-door design, and security, concurrency, or data-loss risk.
 
-Deep is the orchestrator. It Tasks `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. It verifies after children return. Do not use the compatibility wrappers when a tiered target fits.
+Deep is the orchestrator. It Tasks `@research` for read-only evidence, `@worker` for normal edits, and `@expert` only when a high-value risk or trace warrants the strongest configured model. Independent workers with disjoint write paths run in parallel, up to three. It verifies after children return. Do not use the compatibility wrappers when a tiered target fits.
 
 ## Guardrails
 
@@ -86,3 +86,4 @@ Deep is the orchestrator. It Tasks `@research` for read-only evidence, `@worker`
 - Do not force-push to a shared branch.
 - Keep the diff scoped. No drive-by refactors.
 - Prefer deleting and simplifying over adding layers.
+- After a timeout or hang, inspect the evidence, continue remaining ready work, and report the unverified command. One identical retry only for a concrete transient hypothesis. Do not raise the same command's timeout and wait.
