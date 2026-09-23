@@ -1,20 +1,10 @@
-// Copy the agent entries into your OpenCode config after choosing models.
+// Copy only the installed subagent entries into your OpenCode V2 config after choosing models.
 // Replace every <...> value with a provider/model slug OpenCode lists for you.
 // Do not install this file as-is. It is JSONC documentation, not valid config.
-//
-// Primaries inherit the session model unless you pin them. Typical split:
-// code = everyday coding, deep = hardest work, review = read-only judgment.
+// For inherit-parent/auto, omit that agent's model property instead.
+// Selecting a primary agent does not change the session model.
 {
-  "agent": {
-    "code": {
-      "model": "<best-price-performance-coding-model>"
-    },
-    "deep": {
-      "model": "<strongest-reasoning-model>"
-    },
-    "review": {
-      "model": "<best-price-performance-coding-model>"
-    },
+  "agents": {
     "research": {
       "model": "<low-cost-research-model>"
     },
@@ -29,6 +19,21 @@
     },
     "comments": {
       "model": "<low-cost-research-model>"
+    },
+    "compat-scan": {
+      "model": "<low-cost-research-model>"
+    },
+    "compat-startup": {
+      "model": "<low-cost-research-model>"
+    },
+    "compat-verify": {
+      "model": "<low-cost-research-model>"
+    },
+    "compat-docs": {
+      "model": "<low-cost-research-model>"
+    },
+    "learn": {
+      "model": "<best-price-performance-coding-model>"
     },
     "thermos-review": {
       "model": "<best-price-performance-coding-model>"

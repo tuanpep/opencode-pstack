@@ -46,8 +46,8 @@ The plugin does not configure a provider, API key, or model.
 
 1. Select the `code` agent (or set `"default_agent": "code"` as above).
 2. Connect a provider if needed (`/connect`).
-3. Run `/setup-pstack`. It detects models in the session and writes `~/.pstack/models.conf` for pstack roles (`research`, `worker`, `expert`, and the skill panels). Re-run it when your model list changes.
-4. Optional: copy applicable entries from `opencode-workflow/opencode-model-routing.example.jsonc` into `opencode.json` if you want Tab agents pinned to specific slugs.
+3. Run `/setup-pstack`. It confirms available model slugs, writes the portable `~/.pstack/models.conf` role map, and configures installed subagents under OpenCode V2 `agents.<id>.model` without replacing unrelated settings. Re-run it when your model list changes.
+4. Optional: see `opencode-workflow/opencode-model-routing.example.jsonc` for the V2 subagent config shape. Leave an agent's `model` absent to inherit its parent session model. Selecting a Tab primary does not switch the session model.
 
 Then use Tab for `code` / `deep` / `review`, or `/poteto-mode` for playbook-driven work.
 
@@ -69,7 +69,7 @@ For a local clone, use its absolute path for `package` instead of the Git specif
 
 Use Tab to select the `code`, `deep`, or `review` primary agent. Set `default_agent` to `code` if you want it selected by default. Use `@` mentions for installed subagents, including `@ci-watcher`, `@worker`, and the thermos review agents.
 
-Pstack supplies Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `deep` orchestrates them, fans independent `@worker` units in parallel, then verifies. Run `/setup-pstack` after installation to configure their models.
+Pstack supplies Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `deep` orchestrates them, fans independent `@worker` units in parallel, then verifies. Run `/setup-pstack` after installation to configure their actual V2 subagent models. Per-Task roles in `models.conf` take effect only on hosts with per-Task model selection; on V2, calls through the same named wrapper share its configured model, so skill-panel model diversity is not guaranteed.
 
 Available workflow commands include `/setup-pstack`, `/review`, `/deep`, `/compat`, `/learn`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
 
