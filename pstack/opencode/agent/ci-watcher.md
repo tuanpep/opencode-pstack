@@ -1,10 +1,28 @@
 ---
 description: Watch PR CI for the current branch and report pass/fail with relevant failure links. Use when waiting for CI results or CI has failed. Use proactively to monitor branch CI.
 mode: subagent
-permission:
-  edit: deny
-  bash: allow
-  task: deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git branch --show-current"
+    effect: allow
+  - action: shell
+    resource: "gh pr view *"
+    effect: allow
+  - action: shell
+    resource: "gh pr checks *"
+    effect: allow
+  - action: shell
+    resource: "gh run view *"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # CI watcher

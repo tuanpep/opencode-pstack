@@ -2,10 +2,16 @@
 description: Orchestrator for non-trivial work. Routes to research, worker, and expert, then synthesizes and verifies.
 mode: primary
 color: "#64748b"
-permission:
-  edit: allow
-  bash: allow
-  task: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: allow
 ---
 
 # Deep

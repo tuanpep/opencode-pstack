@@ -1,6 +1,10 @@
 ---
 description: A deranged comment-hater that savors deletion and condemns workaround code.
 mode: subagent
+permissions:
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Comment Sicko

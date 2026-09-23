@@ -1,9 +1,16 @@
 ---
 description: Check whether the documented setup and run paths reliably lead to the real working path. Use from /compat.
 mode: subagent
-permission:
-  edit: deny
-  bash: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Docs reliability review

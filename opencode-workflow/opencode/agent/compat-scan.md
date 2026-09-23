@@ -1,9 +1,16 @@
 ---
 description: Run the agent-compatibility CLI and return the raw repository score with its main problems. Use from /compat.
 mode: subagent
-permission:
-  edit: deny
-  bash: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Compatibility scan review

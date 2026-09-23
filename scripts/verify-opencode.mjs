@@ -92,12 +92,55 @@ function getFrontmatter(path) {
   }
   const values = {}
   for (const line of lines.slice(1, end)) {
+    if (/^permission\s*:/.test(line)) {
+      errors.push(`${path} uses legacy permission: frontmatter instead of V2 permissions:`)
+    }
     const match = line.match(/^([A-Za-z][A-Za-z0-9_-]*):\s*(.+)$/)
     if (match) {
       values[match[1]] = match[2].trim()
     }
   }
   return values
+}
+
+function getAgentPermissions(path) {
+  const lines = readFileSync(path, 'utf8').split(/\r?\n/)
+  const end = lines.indexOf('---', 1)
+  const start = lines.indexOf('permissions:', 1)
+  if (start < 0 || end < 0 || start >= end) {
+    errors.push(`${path} is missing V2 permissions: frontmatter`)
+    return []
+  }
+  const rules = []
+  for (let index = start + 1; index < end && lines[index].startsWith('  '); index += 3) {
+    const action = lines[index]?.match(/^  - action: ([a-z_*]+)$/)?.[1]
+    const resource = lines[index + 1]?.match(/^    resource: (?:"([^"]+)"|([^\s].*))$/)
+    const effect = lines[index + 2]?.match(/^    effect: (allow|ask|deny)$/)?.[1]
+    if (!action || !resource || !effect) {
+      errors.push(`${path} has an invalid V2 permission rule near line ${index + 1}`)
+      return []
+    }
+    rules.push({ action, resource: resource[1] ?? resource[2], effect })
+  }
+  if (rules.length === 0) {
+    errors.push(`${path} has no V2 permission rules`)
+  }
+  return rules
+}
+
+function permissionEffect(rules, action, resource) {
+  // V2 starts with an allow-all rule; later matching rules override earlier ones.
+  let effect = 'allow'
+  for (const rule of rules) {
+    const matches = (pattern, value) => {
+      const glob = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\\\*/g, '.*').replace(/\\\?/g, '.')
+      return new RegExp(`^${glob}$`).test(value) || (action === 'shell' && pattern.endsWith(' *') && value === pattern.slice(0, -2))
+    }
+    if (matches(rule.action, action) && matches(rule.resource, resource)) {
+      effect = rule.effect
+    }
+  }
+  return effect
 }
 
 for (const [plugin, requiredAgents] of Object.entries(expectedAgents)) {
@@ -142,6 +185,26 @@ for (const [plugin, requiredAgents] of Object.entries(expectedAgents)) {
       }
       if (!['subagent', 'primary', 'all'].includes(frontmatter.mode)) {
         errors.push(`${path} has no OpenCode agent mode`)
+      }
+      if ((plugin === 'opencode-workflow' && agentFile === 'review.md') ||
+          (plugin === 'pstack' && agentFile === 'research.md')) {
+        const rules = getAgentPermissions(path)
+        const expected = [
+          ['read', 'README.md', 'allow'],
+          ['shell', 'git status', 'allow'],
+          ['shell', 'git status --short', 'allow'],
+          ['edit', 'README.md', 'deny'],
+          ['shell', 'git status && touch changed.txt', 'deny'],
+          ['shell', 'rm -rf src', 'deny'],
+        ]
+        if (agentFile === 'research.md') {
+          expected.push(['subagent', 'explore', 'deny'])
+        }
+        for (const [action, resource, effect] of expected) {
+          if (permissionEffect(rules, action, resource) !== effect) {
+            errors.push(`${path} must ${effect} ${action} on ${resource}`)
+          }
+        }
       }
     }
   } else if (requiredAgents.length > 0) {

@@ -1,9 +1,16 @@
 ---
 description: Try to bootstrap and start a repository like a cold agent, then report where the path breaks down. Use from /compat.
 mode: subagent
-permission:
-  edit: deny
-  bash: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Startup review

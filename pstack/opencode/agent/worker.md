@@ -1,10 +1,16 @@
 ---
 description: Use proactively for normal implementation, refactoring, tests, and focused review.
 mode: subagent
-permission:
-  edit: allow
-  bash: allow
-  task: deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Poteto worker

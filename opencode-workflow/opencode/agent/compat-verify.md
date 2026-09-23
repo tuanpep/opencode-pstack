@@ -1,9 +1,16 @@
 ---
 description: Assess whether an agent can verify a small change without guessing or running an unnecessarily heavy loop. Use from /compat.
 mode: subagent
-permission:
-  edit: deny
-  bash: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Validation review

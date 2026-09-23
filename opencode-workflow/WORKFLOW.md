@@ -1,18 +1,18 @@
 # OpenCode development workflow
 
-This file is global session instructions. It does not replace project `AGENTS.md`.
+When the package plugin is active, its V2 context hook adds this text to agent-loop model requests. Copying this file alone does not activate it. It does not replace global or project `AGENTS.md`.
 
 ## Agents (Tab)
 
-Three primaries. Cycle them with Tab: `code` → `deep` → `review`.
+Three primaries are available: `code`, `deep`, and `review`. Select one in OpenCode.
 
 | Agent | Work |
 |---|---|
-| `code` | Everyday edits. Small implement/debug. Default. |
+| `code` | Everyday edits. Small implement/debug. Set as default explicitly if desired. |
 | `deep` | Non-trivial work. Orchestrates `@research` / `@worker` / `@expert`. Independent workers run in parallel. Then verifies. |
 | `review` | Read-only review. No file edits. |
 
-`build` and `plan` are disabled. `poteto-mode` and `playbook` remain compatibility Task targets. Pstack routes new work through tiered targets.
+The plugin does not disable built-in `build` or `plan`, or replace your configured default agent. `poteto-mode` and `playbook` remain compatibility subagents. Pstack routes new work through tiered targets.
 
 ## Choose a primary
 
@@ -25,7 +25,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 ## Daily loop
 
-1. **Understand.** Read the relevant files in this session. `/how` for an unfamiliar multi-module subsystem. `/why` for design rationale. `@explore` for local search. `@scout` for upstream docs. `/compat` on a first visit to a repo, or after `AGENTS.md` edits.
+1. **Understand.** Read the relevant files in this session. `/how` for an unfamiliar multi-module subsystem. `/why` for design rationale. `@explore` for local search. `/compat` on a first visit to a repo, or after `AGENTS.md` edits.
 2. **Implement.** Small and routine: stay on `code`. Non-trivial: Tab to `deep` or run `/deep`. Process-heavy: `/poteto-mode`.
 3. **Verify.** Start with the narrowest meaningful check; broaden when repository guidance or change scope requires it. Every shell command needs a finite timeout; prefer the bash tool default. Do not run watchers, dev servers, or interactive prompts in the foreground. A timeout is diagnostic evidence, not a reason to wait longer on the same command. Separate setup or environment failures from product failures, and report blocked or partial verification honestly.
 4. **Review.** `/review` before merge. `/thermos` for a harsh audit.
@@ -53,7 +53,7 @@ Primaries (`code`, `deep`, `review`) and the `poteto-mode` / `playbook` compatib
 
 Keep the tree wide and shallow: one hop from this session. `code` implements small edits here. `deep` is the orchestrator: Task a leaf instead of walking a tree or writing the patch. Independent `@worker` units with disjoint write paths run in the same turn, up to three. Shared files or a unit that needs another child's output stay serial. Skip Task only for a one-line question already in context.
 
-- `@explore` / `@scout` — cheap lookups (luna)
+- `@explore` — read-only local lookups
 - `@ci-watcher` — PR checks
 - `@comments` — comment deletion review
 - `@playbook` / `@poteto-mode` — hidden pstack Task targets

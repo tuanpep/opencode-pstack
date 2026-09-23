@@ -1,133 +1,18 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "code",
-  "permission": {
-    "*": "allow"
-  },
-  "instructions": ["WORKFLOW.md"],
-  "tool_output": {
-    "max_lines": 200,
-    "max_bytes": 16384
-  },
-  "compaction": {
-    "auto": true,
-    "tail_turns": 10
-  },
-  "agent": {
-    "build": {
-      "disable": true
-    },
-    "plan": {
-      "disable": true
-    },
-    "ci-watcher": {
-      "mode": "subagent"
-    },
-    "comments": {
-      "mode": "subagent"
-    },
-    "thermos-review": {
-      "mode": "subagent"
-    },
-    "thermos-quality": {
-      "mode": "subagent"
-    },
-    "code": {
-      "mode": "primary",
-      "disable": false,
-      "description": "Everyday coding. Implement, debug, and refactor small changes."
-    },
-    "deep": {
-      "mode": "primary",
-      "disable": false,
-      "description": "Orchestrator for non-trivial work. Routes to research, worker, and expert, then verifies."
-    },
-    "review": {
-      "mode": "primary",
-      "disable": false,
-      "description": "Read-only watcher for bugs, security, and maintainability."
-    },
-    "fox": {
-      "disable": true
-    },
-    "hawk": {
-      "disable": true
-    },
-    "wolf": {
-      "disable": true
-    },
-    "pip": {
-      "disable": true
-    },
-    "owl": {
-      "disable": true
-    },
-    "bear": {
-      "disable": true
-    },
-    "rigor": {
-      "disable": true
-    },
-    "dev": {
-      "disable": true
-    },
-    "audit": {
-      "disable": true
-    },
-    "poteto-mode": {
-      "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden pstack Task target. Same style as deep."
-    },
-    "playbook": {
-      "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden pstack Task target. Same style as deep."
-    },
+  "agents": {
     "research": {
       "mode": "subagent",
-      "hidden": false,
-      "description": "Use proactively for bounded read-only investigation, inventory, and evidence gathering.",
-      "permission": {
-        "task": "deny"
-      }
+      "permissions": [{ "action": "subagent", "resource": "*", "effect": "deny" }]
     },
     "worker": {
       "mode": "subagent",
-      "hidden": false,
-      "description": "Use proactively for normal implementation, refactoring, tests, and focused review.",
-      "permission": {
-        "task": "deny"
-      }
+      "permissions": [{ "action": "subagent", "resource": "*", "effect": "deny" }]
     },
     "expert": {
       "mode": "subagent",
-      "hidden": false,
-      "description": "Use for trace-backed performance work and high-risk reasoning after the parent has evidence.",
-      "permission": {
-        "task": "deny"
-      }
-    },
-    "compat-scan": {
-      "mode": "subagent",
-      "description": "Run the agent-compatibility CLI and return the raw score."
-    },
-    "compat-startup": {
-      "mode": "subagent",
-      "description": "Cold-start the repo like an agent and score friction."
-    },
-    "compat-verify": {
-      "mode": "subagent",
-      "description": "Score whether a small change has a practical verify loop."
-    },
-    "compat-docs": {
-      "mode": "subagent",
-      "description": "Score whether AGENTS.md and README match the real path."
-    },
-    "learn": {
-      "mode": "subagent",
-      "hidden": true,
-      "description": "Hidden /learn target. Mines OpenCode sessions into AGENTS.md."
+      "permissions": [{ "action": "subagent", "resource": "*", "effect": "deny" }]
     }
   }
 }

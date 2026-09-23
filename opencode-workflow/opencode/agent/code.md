@@ -2,10 +2,16 @@
 description: Everyday coding. Implement, debug, and refactor small changes without pstack playbooks.
 mode: primary
 color: "#f97316"
-permission:
-  edit: allow
-  bash: allow
-  task: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: allow
 ---
 
 # Code

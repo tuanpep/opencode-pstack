@@ -22,7 +22,7 @@ After these V2 changes are published to GitHub, install the package globally:
 opencode plugin add github:tuanpep/opencode-pstack
 ```
 
-That registers the plugin in OpenCode and copies skills, agents, commands, and `WORKFLOW.md` into OpenCode's user config directory:
+That registers the plugin in OpenCode and copies skills, agents, commands, and `WORKFLOW.md` (only if missing) into OpenCode's user config directory. The plugin adds the bundled workflow to agent-loop model requests through a V2 context hook. It does not edit `AGENTS.md` or `opencode.json(c)`:
 
 - Linux and macOS: `~/.config/opencode` (or `$XDG_CONFIG_HOME/opencode`)
 - Windows: `%USERPROFILE%\.config\opencode` (or `%APPDATA%\opencode` if that directory already exists)
@@ -38,11 +38,11 @@ To use an unpublished local clone, add its absolute directory to the `plugins` a
 }
 ```
 
-Keep any other settings already in that file. OpenCode loads local plugins automatically; restart the service with `opencode service restart` if needed.
+Keep any other settings already in that file. Set `default_agent` only if you want `code` as your default; the plugin leaves your current selection intact. OpenCode loads local plugins automatically; restart the service with `opencode service restart` if needed.
 
 ## After install
 
-The plugin does not configure a provider, API key, or model.
+The plugin does not configure a provider, API key, model, default agent, or permissions. The workflow text is injected by the plugin for agent-loop requests, not by V2's inactive `instructions` setting. Project and global `AGENTS.md` continue to load separately.
 
 1. Select the `code` agent (or set `"default_agent": "code"` as above).
 2. Connect a provider if needed (`/connect`).

@@ -1,10 +1,16 @@
 ---
 description: Use for trace-backed performance work and high-risk or unusually difficult reasoning after the parent has evidence.
 mode: subagent
-permission:
-  edit: allow
-  bash: allow
-  task: deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # Poteto expert

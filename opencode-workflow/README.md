@@ -1,6 +1,6 @@
 # OpenCode workflow
 
-Host-level OpenCode config for this marketplace: three Tab primaries (`code`, `deep`, `review`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
+OpenCode workflow agents (`code`, `deep`, `review`), slash commands, `WORKFLOW.md`, `/compat`, and `/learn`.
 
 Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode-specific.
 
@@ -8,8 +8,8 @@ Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode
 
 | Path | Role |
 |------|------|
-| `WORKFLOW.md` | Global session instructions (does not replace project `AGENTS.md`) |
-| `opencode.json.template` | Merged into `opencode.json`. It configures the workflow defaults, tool-output limits, compaction, and leaf `task: deny` so research/worker/expert cannot nest. It does not select a provider, API key, or model |
+| `WORKFLOW.md` | Copied if missing. The package plugin injects its bundled text into agent-loop model requests using a V2 context hook; the copied file alone is not loaded as instructions. `AGENTS.md` remains untouched |
+| `opencode.json.template` | Used by the manual `installPlugins` API, not merged by the package plugin. It supplies `default_agent` when absent and V2 `agents` leaf `subagent: deny` rules. Existing user settings take precedence except these leaf restrictions. No blanket allow, provider, API key, or model |
 | `opencode-model-routing.example.jsonc` | Copyable V2 subagent routing example with placeholders. It is documentation and is not installed |
 | `opencode/agent/*.md` | Primaries `code` / `deep` / `review` plus `/compat` and `/learn` subagents |
 | `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
@@ -24,4 +24,4 @@ Configure your provider and session model through OpenCode's normal setup. Run `
 
 ## After install
 
-Restart OpenCode. Tab cycles `code` → `deep` → `review`.
+Restart OpenCode and select `code`, `deep`, or `review`. Set `default_agent` yourself if you want a different startup selection. The plugin does not change config or overwrite global `AGENTS.md`. OpenCode V2 accepts `instructions` in config but does not load those files.

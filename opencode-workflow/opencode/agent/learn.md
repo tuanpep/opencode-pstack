@@ -2,9 +2,16 @@
 description: Hidden. Mine OpenCode session deltas and update AGENTS.md learned sections. Spawned by /learn.
 mode: subagent
 hidden: true
-permission:
-  edit: allow
-  bash: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 # AGENTS.md memory updater

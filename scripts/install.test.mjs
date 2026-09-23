@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync, 
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
-import { applyConfig, globalConfigDir, installPlugins, mergeConfig, packageRoot, samePath } from '../install.js'
+import { applyConfig, globalConfigDir, installPlugins, loadWorkflowTemplate, mergeConfig, packageRoot, samePath } from '../install.js'
 
 test('plugin module exports a V2 definition', async () => {
   const mod = await import('../index.js')
@@ -11,15 +11,29 @@ test('plugin module exports a V2 definition', async () => {
   assert.equal(typeof mod.default.setup, 'function')
 })
 
-test('V2 setup installs assets without changing config or removing existing files', async () => {
+test('V2 setup installs assets and activates workflow without changing config or AGENTS.md', async () => {
   const destination = mkdtempSync(join(tmpdir(), 'opencode-plugins-'))
+  const original = process.env.OPENCODE_CONFIG_DIR
   try {
+    process.env.OPENCODE_CONFIG_DIR = destination
     const config = join(destination, 'opencode.json')
     writeFileSync(config, '{"plugins":["other"]}\n')
+    writeFileSync(join(destination, 'AGENTS.md'), 'user instructions\n')
+    writeFileSync(join(destination, 'WORKFLOW.md'), 'my workflow\n')
     mkdirSync(join(destination, 'agents'), { recursive: true })
     writeFileSync(join(destination, 'agents', 'fox.md'), 'existing\n')
-    installPlugins({ destination, configure: false, cleanup: false })
+    const hooks = []
+    const { default: plugin } = await import('../index.js')
+    await plugin.setup({ options: {}, session: { hook: async (name, fn) => hooks.push([name, fn]) } })
+    assert.equal(hooks.length, 1)
+    assert.equal(hooks[0][0], 'context')
+    const event = { system: [{ type: 'text', text: 'existing system' }] }
+    hooks[0][1](event)
+    assert.equal(event.system[0].text, 'existing system')
+    assert.match(event.system[1].text, /# OpenCode development workflow/)
     assert.equal(readFileSync(config, 'utf8'), '{"plugins":["other"]}\n')
+    assert.equal(readFileSync(join(destination, 'AGENTS.md'), 'utf8'), 'user instructions\n')
+    assert.equal(readFileSync(join(destination, 'WORKFLOW.md'), 'utf8'), 'my workflow\n')
     assert.equal(readFileSync(join(destination, 'agents', 'fox.md'), 'utf8'), 'existing\n')
     assert.equal(existsSync(join(destination, 'agents', 'code.md')), true)
     assert.equal(existsSync(join(destination, 'commands', 'setup-pstack.md')), true)
@@ -28,47 +42,51 @@ test('V2 setup installs assets without changing config or removing existing file
     installPlugins({ destination, configure: false, cleanup: false })
     assert.equal(statSync(code).mtimeMs, modified)
   } finally {
+    if (original === undefined) delete process.env.OPENCODE_CONFIG_DIR
+    else process.env.OPENCODE_CONFIG_DIR = original
     rmSync(destination, { recursive: true, force: true })
   }
 })
 
-test('mergeConfig keeps a real API key', () => {
+test('mergeConfig preserves existing configuration and V2 leaf restrictions', () => {
+  const template = loadWorkflowTemplate()
   const merged = mergeConfig(
-    { provider: { openai: { options: { apiKey: 'sk-live' } } } },
-    { provider: { openai: { options: { apiKey: '{env:OPENAI_API_KEY}' } } }, default_agent: 'code' },
+    { providers: { openai: { options: { apiKey: 'sk-live' } } }, default_agent: 'build', permissions: [{ action: 'shell', resource: '*', effect: 'ask' }], agents: { worker: { model: 'openai/model', permissions: [{ action: 'shell', resource: '*', effect: 'ask' }] } } },
+    template,
   )
-  assert.equal(merged.provider.openai.options.apiKey, 'sk-live')
-  assert.equal(merged.default_agent, 'code')
+  assert.equal(merged.providers.openai.options.apiKey, 'sk-live')
+  assert.equal(merged.default_agent, 'build')
+  assert.deepEqual(merged.permissions, [{ action: 'shell', resource: '*', effect: 'ask' }])
+  assert.equal(merged.agents.worker.model, 'openai/model')
+  assert.deepEqual(merged.agents.worker.permissions.at(-1), { action: 'subagent', resource: '*', effect: 'deny' })
+  assert.deepEqual(mergeConfig(merged, template), merged)
+  assert.equal('permission' in template, false)
+  assert.equal('agent' in template, false)
+  assert.equal('instructions' in template, false)
+  assert.equal('tail_turns' in (template.compaction ?? {}), false)
 })
 
 test('applyConfig mutates the runtime config object', () => {
-  const config = { plugin: ['other'] }
-  applyConfig(config, { default_agent: 'code', instructions: ['WORKFLOW.md'] })
-  assert.equal(config.default_agent, 'code')
-  assert.deepEqual(config.instructions, ['WORKFLOW.md'])
-  assert.deepEqual(config.plugin, ['other'])
+  const config = { plugins: ['other'], default_agent: 'build' }
+  applyConfig(config, loadWorkflowTemplate())
+  assert.equal(config.default_agent, 'build')
+  assert.deepEqual(config.plugins, ['other'])
+  assert.equal(config.agents.research.mode, 'subagent')
 })
 
-test('mergeConfig re-enables primaries that a prior template disabled', () => {
-  const merged = mergeConfig(
-    {
-      agent: {
-        code: { disable: true, mode: 'primary' },
-        deep: { disable: true, mode: 'primary' },
-        review: { disable: true, mode: 'primary' },
-      },
-    },
-    {
-      agent: {
-        code: { disable: false, mode: 'primary' },
-        deep: { disable: false, mode: 'primary' },
-        review: { disable: false, mode: 'primary' },
-      },
-    },
-  )
-  assert.equal(merged.agent.code.disable, false)
-  assert.equal(merged.agent.deep.disable, false)
-  assert.equal(merged.agent.review.disable, false)
+test('workflow can be excluded from plugin context injection', async () => {
+  const destination = mkdtempSync(join(tmpdir(), 'opencode-plugins-'))
+  const original = process.env.OPENCODE_CONFIG_DIR
+  try {
+    process.env.OPENCODE_CONFIG_DIR = destination
+    const { default: plugin } = await import('../index.js')
+    await plugin.setup({ options: { plugins: ['pstack'] }, session: { hook: () => { throw new Error('unexpected hook') } } })
+    assert.equal(existsSync(join(destination, 'WORKFLOW.md')), false)
+  } finally {
+    if (original === undefined) delete process.env.OPENCODE_CONFIG_DIR
+    else process.env.OPENCODE_CONFIG_DIR = original
+    rmSync(destination, { recursive: true, force: true })
+  }
 })
 
 test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
@@ -89,7 +107,8 @@ test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
       : join(destination, 'opencode.jsonc')
     const config = JSON.parse(readFileSync(configPath, 'utf8'))
     assert.equal(config.default_agent, 'code')
-    assert.deepEqual(config.instructions, ['WORKFLOW.md'])
+    assert.deepEqual(config.agents.worker.permissions, [{ action: 'subagent', resource: '*', effect: 'deny' }])
+    assert.equal(existsSync(join(destination, 'AGENTS.md')), false)
   } finally {
     rmSync(destination, { recursive: true, force: true })
   }
@@ -111,7 +130,7 @@ test('installPlugins removes stale owned files', () => {
     writeFileSync(join(destination, 'agents', 'owl.md'), 'stale\n')
     writeFileSync(join(destination, 'agents', 'bear.md'), 'stale\n')
     writeFileSync(join(destination, 'skills', 'weekly-review', 'SKILL.md'), 'stale\n')
-    installPlugins({ destination, plugins: ['pstack'] })
+    installPlugins({ destination, plugins: ['pstack'], cleanup: true })
     assert.equal(existsSync(join(destination, 'agents', 'coding-agent.md')), false)
     assert.equal(existsSync(join(destination, 'agents', 'fox.md')), false)
     assert.equal(existsSync(join(destination, 'agents', 'hawk.md')), false)

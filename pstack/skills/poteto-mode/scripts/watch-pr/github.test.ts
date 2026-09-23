@@ -6,6 +6,7 @@ import {
   orderStack,
   parsePullRequest,
   parseReviewThreads,
+  readReviewThreads,
   resolveChecks,
   resolveContext,
 } from "./github.ts";
@@ -198,6 +199,7 @@ it("annotates Bugbot threads with distinct review-pass counts", () => {
       repository: {
         pullRequest: {
           reviewThreads: {
+            pageInfo: { hasNextPage: false, endCursor: "last" },
             nodes: [
               {
                 id: "one",
@@ -250,10 +252,72 @@ it("annotates Bugbot threads with distinct review-pass counts", () => {
       },
     },
   };
-  const threads = parseReviewThreads(response);
+  const threads = parseReviewThreads([response]);
   expect(threads).toHaveLength(2);
   expect(threads.map((thread) => thread.isBugbot)).toEqual([true, true]);
   expect(threads.map((thread) => thread.bugbotReviewPasses)).toEqual([3, 3]);
+});
+
+describe("review thread pagination", () => {
+  const thread = (id: string, resolved: boolean, run: string) => ({
+    id,
+    isResolved: resolved,
+    comments: {
+      nodes: [{
+        body: `RUN_ID: ${run}`,
+        createdAt: "now",
+        path: "a.ts",
+        line: 1,
+        author: { login: "bugbot" },
+      }],
+    },
+  });
+  const response = (nodes: unknown[], hasNextPage: unknown, endCursor: unknown) => ({
+    data: { repository: { pullRequest: { reviewThreads: {
+      nodes,
+      pageInfo: { hasNextPage, endCursor },
+    } } } },
+  });
+
+  it("reads beyond the first 100 threads and counts Bugbot passes across pages", async () => {
+    const first = response(
+      Array.from({ length: 100 }, (_, index) => thread(`resolved-${index}`, true, "first")),
+      true,
+      "cursor-1"
+    );
+    const second = response([thread("blocker", false, "second")], false, "cursor-2");
+    const cursors: (string | null)[] = [];
+    const threads = await readReviewThreads(async (after) => {
+      cursors.push(after);
+      return after === null ? first : second;
+    });
+    expect(cursors).toEqual([null, "cursor-1"]);
+    expect(threads).toMatchObject([{
+      id: "blocker",
+      isBugbot: true,
+      bugbotReviewPasses: 2,
+    }]);
+  });
+
+  it("fails closed on missing, invalid, or stalled pagination", async () => {
+    for (const bad of [
+      { data: { repository: { pullRequest: { reviewThreads: { nodes: [] } } } } },
+      response([], undefined, null),
+      response([], "false", null),
+      response([], true, null),
+      response([], true, ""),
+      response([], true, "  "),
+    ]) {
+      await expect(readReviewThreads(async () => bad)).rejects.toBeInstanceOf(WatcherQueryError);
+    }
+    let calls = 0;
+    await expect(readReviewThreads(async () => {
+      calls++;
+      return response([], true, "same-cursor");
+    })).rejects.toBeInstanceOf(WatcherQueryError);
+    expect(calls).toBe(2);
+    expect(() => parseReviewThreads([response([], true, "more")])).toThrow(WatcherQueryError);
+  });
 });
 
 describe("context and stack discovery", () => {

@@ -115,41 +115,32 @@ export function mergeProvider(dest, template) {
 export function mergeConfig(dest, template) {
   const out = { ...dest }
   for (const [key, value] of Object.entries(template)) {
-    if (key === 'provider') {
-      out.provider = mergeProvider(
-        dest.provider && typeof dest.provider === 'object' ? dest.provider : {},
-        value && typeof value === 'object' ? value : {},
-      )
-      continue
-    }
-    if (key === 'agent') {
-      const agents = { ...(dest.agent && typeof dest.agent === 'object' ? dest.agent : {}) }
+    if (key === 'agents') {
+      const agents = { ...(dest.agents && typeof dest.agents === 'object' ? dest.agents : {}) }
       if (value && typeof value === 'object') {
         for (const [agentId, templateAgent] of Object.entries(value)) {
           const existing = agents[agentId]
           if (existing && typeof existing === 'object' && templateAgent && typeof templateAgent === 'object') {
-            agents[agentId] = { ...existing, ...templateAgent }
+            const merged = { ...templateAgent, ...existing }
+            if (Array.isArray(templateAgent.permissions)) {
+              const current = Array.isArray(existing.permissions) ? existing.permissions : []
+              merged.permissions = [...current]
+              for (const rule of templateAgent.permissions) {
+                if (!merged.permissions.some((item) => JSON.stringify(item) === JSON.stringify(rule))) {
+                  merged.permissions.push(rule)
+                }
+              }
+            }
+            agents[agentId] = merged
           } else {
             agents[agentId] = templateAgent
           }
         }
       }
-      out.agent = agents
+      out.agents = agents
       continue
     }
-    if (key === 'instructions') {
-      const existing = Array.isArray(dest.instructions) ? dest.instructions : []
-      const extra = Array.isArray(value) ? value : []
-      const seen = []
-      for (const item of [...extra, ...existing]) {
-        if (!seen.includes(item)) {
-          seen.push(item)
-        }
-      }
-      out.instructions = seen
-      continue
-    }
-    out[key] = value
+    if (!(key in out)) out[key] = value
   }
   return out
 }
@@ -312,9 +303,7 @@ export function installPlugins(options = {}) {
     if (existsSync(workflow)) {
       mkdirSync(destination, { recursive: true })
       const target = join(destination, 'WORKFLOW.md')
-      if (!existsSync(target) || !readFileSync(target).equals(readFileSync(workflow))) {
-        copyFileSync(workflow, target)
-      }
+      if (!existsSync(target)) copyFileSync(workflow, target)
     }
 
     const template = join(pluginRoot, 'opencode.json.template')
@@ -330,7 +319,7 @@ export function installPlugins(options = {}) {
     }
   }
 
-  if (options.cleanup !== false) removeStale(destination)
+  if (options.cleanup === true) removeStale(destination)
   return { destination, plugins }
 }
 

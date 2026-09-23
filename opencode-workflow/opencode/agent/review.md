@@ -2,14 +2,46 @@
 description: Read-only watcher. Find bugs, security issues, maintainability problems, and missing tests. Do not edit.
 mode: primary
 color: "#eab308"
-permission:
-  edit: deny
-  bash:
-    "*": ask
-    "git *": allow
-    "gh *": allow
-    "glab *": allow
-  task: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git status"
+    effect: allow
+  - action: shell
+    resource: "git status --short"
+    effect: allow
+  - action: shell
+    resource: "git diff"
+    effect: allow
+  - action: shell
+    resource: "git diff --stat"
+    effect: allow
+  - action: shell
+    resource: "git diff --cached"
+    effect: allow
+  - action: shell
+    resource: "gh pr view *"
+    effect: allow
+  - action: shell
+    resource: "gh pr diff *"
+    effect: allow
+  - action: shell
+    resource: "gh pr checks *"
+    effect: allow
+  - action: shell
+    resource: "glab mr view *"
+    effect: allow
+  - action: shell
+    resource: "glab mr diff *"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: allow
 ---
 
 # Review

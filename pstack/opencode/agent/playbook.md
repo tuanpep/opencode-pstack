@@ -2,10 +2,16 @@
 description: Hidden pstack Task target. Same style as deep. Skills spawn this as poteto-mode.
 mode: subagent
 hidden: true
-permission:
-  edit: allow
-  bash: allow
-  task: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: allow
+  - action: subagent
+    resource: "*"
+    effect: allow
 ---
 
 # Poteto mode
