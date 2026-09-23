@@ -177,7 +177,9 @@ function copyDirectory(source, target) {
     if (entry.isDirectory()) {
       copyDirectory(from, to)
     } else if (entry.isFile()) {
-      copyFileSync(from, to)
+      if (!existsSync(to) || !readFileSync(to).equals(readFileSync(from))) {
+        copyFileSync(from, to)
+      }
     }
   }
 }
@@ -309,11 +311,14 @@ export function installPlugins(options = {}) {
     const workflow = join(pluginRoot, 'WORKFLOW.md')
     if (existsSync(workflow)) {
       mkdirSync(destination, { recursive: true })
-      copyFileSync(workflow, join(destination, 'WORKFLOW.md'))
+      const target = join(destination, 'WORKFLOW.md')
+      if (!existsSync(target) || !readFileSync(target).equals(readFileSync(workflow))) {
+        copyFileSync(workflow, target)
+      }
     }
 
     const template = join(pluginRoot, 'opencode.json.template')
-    if (existsSync(template)) {
+    if (options.configure !== false && existsSync(template)) {
       mergeJsonFile(template, configFilePath(destination))
     }
 
@@ -325,7 +330,7 @@ export function installPlugins(options = {}) {
     }
   }
 
-  removeStale(destination)
+  if (options.cleanup !== false) removeStale(destination)
   return { destination, plugins }
 }
 

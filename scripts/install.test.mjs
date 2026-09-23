@@ -1,14 +1,34 @@
 import assert from 'node:assert/strict'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
 import { applyConfig, globalConfigDir, installPlugins, mergeConfig, packageRoot, samePath } from '../install.js'
 
-test('plugin module exports only functions', async () => {
+test('plugin module exports a V2 definition', async () => {
   const mod = await import('../index.js')
-  for (const [name, value] of Object.entries(mod)) {
-    assert.equal(typeof value, 'function', `${name} must be a function for OpenCode to load the plugin`)
+  assert.equal(mod.default.id, 'opencode-pstack')
+  assert.equal(typeof mod.default.setup, 'function')
+})
+
+test('V2 setup installs assets without changing config or removing existing files', async () => {
+  const destination = mkdtempSync(join(tmpdir(), 'opencode-plugins-'))
+  try {
+    const config = join(destination, 'opencode.json')
+    writeFileSync(config, '{"plugins":["other"]}\n')
+    mkdirSync(join(destination, 'agents'), { recursive: true })
+    writeFileSync(join(destination, 'agents', 'fox.md'), 'existing\n')
+    installPlugins({ destination, configure: false, cleanup: false })
+    assert.equal(readFileSync(config, 'utf8'), '{"plugins":["other"]}\n')
+    assert.equal(readFileSync(join(destination, 'agents', 'fox.md'), 'utf8'), 'existing\n')
+    assert.equal(existsSync(join(destination, 'agents', 'code.md')), true)
+    assert.equal(existsSync(join(destination, 'commands', 'setup-pstack.md')), true)
+    const code = join(destination, 'agents', 'code.md')
+    const modified = statSync(code).mtimeMs
+    installPlugins({ destination, configure: false, cleanup: false })
+    assert.equal(statSync(code).mtimeMs, modified)
+  } finally {
+    rmSync(destination, { recursive: true, force: true })
   }
 })
 
@@ -136,4 +156,3 @@ test('globalConfigDir honors OPENCODE_CONFIG_DIR and XDG_CONFIG_HOME', () => {
 test('packageRoot is the repository root', () => {
   assert.equal(existsSync(join(packageRoot(), 'pstack', 'skills', 'poteto-mode', 'SKILL.md')), true)
 })
-
