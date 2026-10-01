@@ -10,6 +10,7 @@ const expectedAgents = {
   thermos: ['thermos-quality', 'thermos-review'],
   'opencode-workflow': [
     'code',
+    'pure',
     'deep',
     'review',
     'compat-scan',

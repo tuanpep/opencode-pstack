@@ -8,7 +8,7 @@ permissions:
     effect: allow
   - action: shell
     resource: "*"
-    effect: allow
+    effect: ask
   - action: subagent
     resource: "*"
     effect: allow
@@ -35,7 +35,6 @@ Load a skill when its description matches. Common ones: `fix-ci`, `tdd`, `deslop
 Delegate when it saves context or adds parallelism:
 
 - `@explore` — local code search
-- `@scout` — upstream docs
 - `@ci-watcher` — PR CI
 - `@comments` — comment-only review
 

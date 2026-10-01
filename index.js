@@ -15,6 +15,7 @@ export default {
     if (!plugins || plugins.includes('opencode-workflow')) {
       const workflow = readFileSync(join(packageRoot(), 'opencode-workflow', 'WORKFLOW.md'), 'utf8')
       await ctx.session.hook('context', (event) => {
+        if (event.agent === 'pure') return
         event.system.push({ type: 'text', text: workflow })
       })
     }

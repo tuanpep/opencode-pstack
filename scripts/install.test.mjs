@@ -27,10 +27,13 @@ test('V2 setup installs assets and activates workflow without changing config or
     await plugin.setup({ options: {}, session: { hook: async (name, fn) => hooks.push([name, fn]) } })
     assert.equal(hooks.length, 1)
     assert.equal(hooks[0][0], 'context')
-    const event = { system: [{ type: 'text', text: 'existing system' }] }
+    const event = { agent: 'code', system: [{ type: 'text', text: 'existing system' }] }
     hooks[0][1](event)
     assert.equal(event.system[0].text, 'existing system')
     assert.match(event.system[1].text, /# OpenCode development workflow/)
+    const pureEvent = { agent: 'pure', system: [{ type: 'text', text: 'existing system' }] }
+    hooks[0][1](pureEvent)
+    assert.deepEqual(pureEvent.system, [{ type: 'text', text: 'existing system' }])
     assert.equal(readFileSync(config, 'utf8'), '{"plugins":["other"]}\n')
     assert.equal(readFileSync(join(destination, 'AGENTS.md'), 'utf8'), 'user instructions\n')
     assert.equal(readFileSync(join(destination, 'WORKFLOW.md'), 'utf8'), 'my workflow\n')
@@ -97,6 +100,7 @@ test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
     assert.equal(existsSync(join(destination, 'skills', 'poteto-mode', 'SKILL.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'deep.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'code.md')), true)
+    assert.equal(existsSync(join(destination, 'agents', 'pure.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'review.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'worker.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'thermos-review.md')), true)
@@ -108,6 +112,12 @@ test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
     const config = JSON.parse(readFileSync(configPath, 'utf8'))
     assert.equal(config.default_agent, 'code')
     assert.deepEqual(config.agents.worker.permissions, [{ action: 'subagent', resource: '*', effect: 'deny' }])
+    const pure = readFileSync(join(destination, 'agents', 'pure.md'), 'utf8')
+    assert.match(pure, /action: skill\s+resource: "\*"\s+effect: deny/)
+    for (const name of ['code', 'pure', 'deep', 'worker', 'expert']) {
+      const prompt = readFileSync(join(destination, 'agents', `${name}.md`), 'utf8')
+      assert.match(prompt, /action: shell\s+resource: "\*"\s+effect: ask/, `${name} must ask for shell approval`)
+    }
     assert.equal(existsSync(join(destination, 'AGENTS.md')), false)
   } finally {
     rmSync(destination, { recursive: true, force: true })

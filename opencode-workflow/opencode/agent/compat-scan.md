@@ -7,7 +7,7 @@ permissions:
     effect: deny
   - action: shell
     resource: "*"
-    effect: allow
+    effect: ask
   - action: subagent
     resource: "*"
     effect: deny

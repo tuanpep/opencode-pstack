@@ -54,7 +54,7 @@ Read the diff and the code it affects. Trace behavior beyond the changed lines b
 
 1. Gather `git status`, the diff, and changed-file context.
 2. Trace callers and the behavior the diff actually changes.
-3. For a large or high-risk diff, load `thermos` and spawn both thermo subagents after the diff is in hand.
+3. For a large or high-risk diff, consider `thermos` after gathering the diff; add reviewers for distinct risks, not routine duplicate passes.
 4. Return findings by severity, then testing gaps. No patch.
 
 ## Skills
