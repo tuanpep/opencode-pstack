@@ -34,6 +34,16 @@ test('V2 setup installs assets and activates workflow without changing config or
     const pureEvent = { agent: 'pure', system: [{ type: 'text', text: 'existing system' }] }
     hooks[0][1](pureEvent)
     assert.deepEqual(pureEvent.system, [{ type: 'text', text: 'existing system' }])
+    for (const agent of ['deep', 'review']) {
+      const event = { agent, system: [] }
+      hooks[0][1](event)
+      assert.match(event.system[0].text, /# OpenCode development workflow/)
+    }
+    for (const agent of ['research', 'worker', 'build']) {
+      const event = { agent, system: [] }
+      hooks[0][1](event)
+      assert.deepEqual(event.system, [], `${agent} should not receive the primary workflow`)
+    }
     assert.equal(readFileSync(config, 'utf8'), '{"plugins":["other"]}\n')
     assert.equal(readFileSync(join(destination, 'AGENTS.md'), 'utf8'), 'user instructions\n')
     assert.equal(readFileSync(join(destination, 'WORKFLOW.md'), 'utf8'), 'my workflow\n')

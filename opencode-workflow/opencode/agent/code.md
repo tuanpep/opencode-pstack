@@ -21,7 +21,7 @@ Default agent for everyday work. Quick, small changes.
 ## Workflow
 
 1. Understand the request. Read the relevant files before editing.
-2. If the work is heavy (unknown root cause, architecture, multi-file behavior change, or "are we sure"), tell the user to Tab to `deep` or run `/deep`. If they asked for a playbook or the work is high-risk and cross-cutting, tell them to run `/poteto-mode`. Otherwise keep going here.
+2. Work here when the change is cohesive and the approach is clear, even across multiple files. For an unknown root cause, expensive-to-reverse design, or substantial investigation, suggest `deep` (Tab) or `/deep` if a fresh context would help; do not stop work solely to switch agents. Reserve `/poteto-mode` for an explicit playbook request or high-risk cross-cutting work.
 3. Make the smallest correct change.
 4. Verify with the repo's usual command, a focused test, or the real feature. Do not claim done from compile-only. Every shell command needs a finite timeout; prefer the bash tool default. Do not run watchers, dev servers, or interactive prompts in the foreground. A timeout is diagnostic evidence: inspect it, do not wait longer on the same command.
 5. Report what changed and how you verified it.

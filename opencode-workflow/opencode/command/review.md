@@ -5,19 +5,7 @@ agent: review
 
 Review the current repository changes. If a scope is supplied, focus on it. Do not modify files.
 
-Branch and status:
-
-!`git status -sb`
-
-Recent commits:
-
-!`git log --oneline -12`
-
-Unstaged and staged diff:
-
-!`git diff HEAD`
-
-Inspect the diff, relevant callers, and targeted verification evidence. Return findings only, ordered by severity, then testing gaps.
+Gather `git status --short`, `git diff`, and `git diff --cached` using the read-only agent's allowed commands. Read any relevant untracked files directly; they do not appear in git diff. Inspect callers and targeted verification evidence. Return findings only, ordered by severity, then testing gaps.
 
 Scope:
 $ARGUMENTS

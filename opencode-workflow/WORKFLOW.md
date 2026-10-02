@@ -1,7 +1,7 @@
 # OpenCode development workflow
 
 When the package plugin is active, its V2 context hook adds this text to agent-loop model requests. Copying this file alone does not activate it. It does not replace global or project `AGENTS.md`.
-This workflow applies to `code`, `deep`, and `review`. The context hook skips `pure`; its agent prompt governs that mode.
+This workflow applies only to `code`, `deep`, and `review`. The context hook skips `pure`, built-in agents, and subagents; their own prompts govern those modes.
 
 ## Agents (Tab)
 

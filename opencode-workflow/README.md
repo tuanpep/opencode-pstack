@@ -4,11 +4,13 @@ OpenCode workflow agents (`code`, `pure`, `deep`, `review`), slash commands, `WO
 
 Skills are portable. Agents, commands, and `opencode.json.template` are OpenCode-specific.
 
+For primary documentation and the evidence behind the routing, context, permission, and evaluation choices, see [research sources](RESEARCH-SOURCES.md). This reference is for maintainers; it is not injected into agent sessions.
+
 ## What it installs
 
 | Path | Role |
 |------|------|
-| `WORKFLOW.md` | Copied if missing. The package plugin injects its bundled text into agent-loop requests except `pure`, using a V2 context hook; the copied file alone is not loaded as instructions. An older installed copy may remain; `AGENTS.md` is untouched |
+| `WORKFLOW.md` | Copied if missing. The package plugin injects its bundled text into `code`, `deep`, and `review` agent-loop requests using a V2 context hook; the copied file alone is not loaded as instructions. An older installed copy may remain; `AGENTS.md` is untouched |
 | `opencode.json.template` | Used by the manual `installPlugins` API, not merged by the package plugin. It supplies `default_agent` when absent and V2 `agents` leaf `subagent: deny` rules. Existing user settings take precedence except these leaf restrictions. No blanket allow, provider, API key, or model |
 | `opencode-model-routing.example.jsonc` | Copyable V2 subagent routing example with placeholders. It is documentation and is not installed |
 | `opencode/agent/*.md` | Primaries `code` / `pure` / `deep` / `review` plus `/compat` and `/learn` subagents. `pure` denies skills |

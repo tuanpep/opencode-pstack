@@ -22,7 +22,7 @@ On an OpenCode V2 host, install the package globally:
 opencode plugin add github:tuanpep/opencode-pstack
 ```
 
-That registers the plugin in OpenCode and copies skills, agents, commands, and `WORKFLOW.md` (only if missing) into OpenCode's user config directory. The plugin adds the bundled workflow to agent-loop model requests through a V2 context hook. It does not edit `AGENTS.md` or `opencode.json(c)`:
+That registers the plugin in OpenCode and copies skills, agents, commands, and `WORKFLOW.md` (only if missing) into OpenCode's user config directory. The plugin adds the bundled workflow to `code`, `deep`, and `review` agent-loop model requests through a V2 context hook. It does not edit `AGENTS.md` or `opencode.json(c)`:
 
 - Linux and macOS: `~/.config/opencode` (or `$XDG_CONFIG_HOME/opencode`)
 - Windows: `%USERPROFILE%\.config\opencode` (or `%APPDATA%\opencode` if that directory already exists)
