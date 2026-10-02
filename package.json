@@ -32,7 +32,7 @@
     "url": "git+https://github.com/tuanpep/opencode-pstack.git"
   },
   "scripts": {
-    "test": "node --test scripts/install.test.mjs",
+    "test": "node --test scripts/install.test.mjs scripts/check-host.test.mjs",
     "verify": "node scripts/verify-opencode.mjs"
   }
 }

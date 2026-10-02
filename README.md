@@ -16,7 +16,7 @@ An OpenCode plugin collection for CI workflows, code review, rigorous engineerin
 
 ## Install OpenCode plugins
 
-After these V2 changes are published to GitHub, install the package globally:
+On an OpenCode V2 host, install the package globally:
 
 ```bash
 opencode plugin add github:tuanpep/opencode-pstack
@@ -81,6 +81,8 @@ Run this from the repository root after editing OpenCode skills, agents, or comm
 node --test scripts/install.test.mjs
 node scripts/verify-opencode.mjs
 ```
+
+Run `node scripts/check-host.mjs` to inspect your local OpenCode version, legacy config keys, and stale copied workflow/agents without modifying user config. A failure is a blocker to claiming V2 runtime behavior; repository unit tests only exercise a mocked V2 hook, not a running V2 service. Keep credentials and existing model settings intact when migrating configuration.
 
 ## Update
 
