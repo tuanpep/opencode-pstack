@@ -70,6 +70,7 @@ test('mergeConfig preserves existing configuration and V2 leaf restrictions', ()
   assert.equal(merged.providers.openai.options.apiKey, 'sk-live')
   assert.equal(merged.default_agent, 'build')
   assert.deepEqual(merged.permissions, [{ action: 'shell', resource: '*', effect: 'ask' }])
+  assert.deepEqual(template.permissions, [{ action: '*', resource: '*', effect: 'allow' }])
   assert.equal(merged.agents.worker.model, 'openai/model')
   assert.deepEqual(merged.agents.worker.permissions.at(-1), { action: 'subagent', resource: '*', effect: 'deny' })
   assert.deepEqual(mergeConfig(merged, template), merged)
@@ -121,12 +122,13 @@ test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
       : join(destination, 'opencode.jsonc')
     const config = JSON.parse(readFileSync(configPath, 'utf8'))
     assert.equal(config.default_agent, 'code')
+    assert.deepEqual(config.permissions, [{ action: '*', resource: '*', effect: 'allow' }])
     assert.deepEqual(config.agents.worker.permissions, [{ action: 'subagent', resource: '*', effect: 'deny' }])
     const pure = readFileSync(join(destination, 'agents', 'pure.md'), 'utf8')
     assert.match(pure, /action: skill\s+resource: "\*"\s+effect: deny/)
     for (const name of ['code', 'pure', 'deep', 'worker', 'expert']) {
       const prompt = readFileSync(join(destination, 'agents', `${name}.md`), 'utf8')
-      assert.match(prompt, /action: shell\s+resource: "\*"\s+effect: ask/, `${name} must ask for shell approval`)
+      assert.match(prompt, /action: shell\s+resource: "\*"\s+effect: allow/, `${name} must allow shell commands`)
     }
     assert.equal(existsSync(join(destination, 'AGENTS.md')), false)
   } finally {

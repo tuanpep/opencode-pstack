@@ -11,7 +11,7 @@ For primary documentation and the evidence behind the routing, context, permissi
 | Path | Role |
 |------|------|
 | `WORKFLOW.md` | Copied if missing. The package plugin injects its bundled text into `code`, `deep`, and `review` agent-loop requests using a V2 context hook; the copied file alone is not loaded as instructions. An older installed copy may remain; `AGENTS.md` is untouched |
-| `opencode.json.template` | Used by the manual `installPlugins` API, not merged by the package plugin. It supplies `default_agent` when absent and V2 `agents` leaf `subagent: deny` rules. Existing user settings take precedence except these leaf restrictions. No blanket allow, provider, API key, or model |
+| `opencode.json.template` | Used by the manual `installPlugins` API, not merged by the package plugin. It supplies `default_agent` and blanket `allow` permissions when absent, plus V2 `agents` leaf `subagent: deny` rules. Existing user settings take precedence except these leaf restrictions. No provider, API key, or model |
 | `opencode-model-routing.example.jsonc` | Copyable V2 subagent routing example with placeholders. It is documentation and is not installed |
 | `opencode/agent/*.md` | Primaries `code` / `pure` / `deep` / `review` plus `/compat` and `/learn` subagents. `pure` denies skills |
 | `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
@@ -20,7 +20,7 @@ For primary documentation and the evidence behind the routing, context, permissi
 
 Pstack ships Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. `@mention` them, or let `deep` Task them. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to configure installed subagents. `poteto-mode` and `playbook` remain hidden compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
 
-The coding agents ask before shell commands; read-only agents keep narrow inspection allowances. Approvals may interrupt unattended runs. For high-volume work, prefer a verified sandbox or a narrowly scoped, tested V2 allowlist rather than auto-approving everything; this plugin does not supply a sandbox. Keep irreversible external writes subject to explicit user authorization. Prefer one agent for cohesive tasks; the worker cap is not a quota.
+Coding agents allow shell commands without prompting; read-only agents keep narrow inspection allowances. Shell access carries the host user's filesystem and network authority; this plugin does not supply a sandbox. Keep irreversible external writes subject to explicit user authorization. Prefer one agent for cohesive tasks; the worker cap is not a quota.
 
 To measure routing changes, replay representative past tasks with `pure` (single agent) and the routed workflow. Track accepted outcomes, wall time, model cost, rework, and verification failures. No performance or cost gain is claimed without a comparison.
 

@@ -8,7 +8,7 @@ permissions:
     effect: deny
   - action: shell
     resource: "*"
-    effect: ask
+    effect: allow
 ---
 
 # Pure
