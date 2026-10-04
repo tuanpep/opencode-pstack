@@ -137,6 +137,7 @@ Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for long-running work when y
 | [`/deslop`](./skills/deslop/SKILL.md) | you're cleaning AI slop out of a code diff before commit. |
 | [`/verify-this`](./skills/verify-this/SKILL.md) | you need a falsifiable claim proved with baseline and treatment evidence. |
 | [`/control-cli`](./skills/control-cli/SKILL.md) | you need a local harness for a CLI or TUI. |
+| [`@cli-for-agents`](./skills/cli-for-agents/SKILL.md) | you're building or reviewing a CLI that agents must run without interactive prompts. |
 | [`/control-ui`](./skills/control-ui/SKILL.md) | you need a local browser or CDP harness for a web, IDE, or Electron UI. |
 | [`/fix-ci`](./skills/fix-ci/SKILL.md) | PR checks are failing and you want a focused path to green. |
 | [`/review-and-ship`](./skills/review-and-ship/SKILL.md) | you want to review, verify, and ship the current branch. |

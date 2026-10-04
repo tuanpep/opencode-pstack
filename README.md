@@ -97,6 +97,6 @@ For a local clone, pull the changes and restart the service.
 
 ## Copyright and provenance
 
-`thermos` is derived from [Cursor plugins](https://github.com/cursor/plugins). `pstack` is derived from work by Lauren Tan, with shipping and verification skills derived from Cursor plugins. See each plugin's `LICENSE` file.
+`thermos` is derived from [Cursor plugins](https://github.com/cursor/plugins). `pstack` is derived from work by Lauren Tan, with shipping and verification skills derived from Cursor plugins. The `cli-for-agents` skill adapts [Cursor's CLI for Agents](https://github.com/cursor/plugins/tree/main/cli-for-agent); its MIT license is in `pstack/skills/cli-for-agents/LICENSE`. See each plugin's `LICENSE` file.
 
 The OpenCode adaptations, plugin loader, and `opencode-workflow` are MIT licensed by tuanpep. See [LICENSE](LICENSE).

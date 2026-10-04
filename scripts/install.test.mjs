@@ -109,6 +109,8 @@ test('installPlugins copies skills, agents, commands, and WORKFLOW.md', () => {
     const result = installPlugins({ destination, plugins: ['pstack', 'thermos', 'opencode-workflow'] })
     assert.equal(result.destination, destination)
     assert.equal(existsSync(join(destination, 'skills', 'poteto-mode', 'SKILL.md')), true)
+    assert.equal(existsSync(join(destination, 'skills', 'cli-for-agents', 'SKILL.md')), true)
+    assert.equal(existsSync(join(destination, 'skills', 'cli-for-agents', 'LICENSE')), true)
     assert.equal(existsSync(join(destination, 'agents', 'deep.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'code.md')), true)
     assert.equal(existsSync(join(destination, 'agents', 'pure.md')), true)
