@@ -28,7 +28,7 @@ Naming a file isn't grounding. Produce the traced model `how` prescribes. If the
 
 Skip the local trace when the work is already grounded this session, or the surrounding pattern is obvious from a direct read.
 
-A new project, a new package, or a new top-level module still runs Phase A. A change inside an existing module does not. Run `find-home.mjs` from **principle-extend-the-existing-home** before choosing a module map. Research established solutions before any sketch:
+A new project, a new package, or a new top-level module still runs Phase A. A change inside an existing module does not. Read **principle-extend-the-existing-home** before choosing a module map. Research established solutions before any sketch:
 
 - Read the stack first. Use the manifest (`package.json`, `go.mod`, `pyproject.toml`, `Cargo.toml`, or the equivalent), `AGENTS.md`, and an existing decision directory (`docs/adr`, `docs/decisions`, or `adr`) when the repo has one.
 - Fetch at most three primary sources for this problem in this stack. Official documentation for the stack counts. Stop after three. This session fetches, or `@research` runs `node <absolute-path-of-scripts/fetch-sources.mjs>` beside this skill. Pass that absolute path in the brief. A remembered pattern with no source does not count.

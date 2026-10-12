@@ -12,10 +12,10 @@ Before the first edit, name the home this change extends: the module path, the l
 
 **Find the home:**
 
-- Run `node scripts/find-home.mjs <repo>` in this skill's directory when the owning module is not already obvious. It prints candidates. Pick the one that matches the task. Then read that module's directory and imports.
+- Search for the task's words and for a sibling feature that already does the analogous job. Read that module's directory and imports.
 - Read project `AGENTS.md`, `docs/agent-progress.md`, or the architecture note when the repo has one.
 - Use the repo's own layer names. Map the change onto those names: presentation (render, events, view state), application (one user action), domain (rules that do not know HTTP, UI, or the database), infrastructure (database, HTTP, queue, filesystem), shared (only when two modules already import the same helper).
-- Follow the sibling's dependency direction. If domain code does not import the database, this change does not either.
+- Follow the sibling's dependency direction. A UI file does not import the database. An API route or `src/routes` file may.
 - A new project, a new package, or a new top-level module has no sibling. Stop and run the **architect** skill. Leave the module uncreated until its Practice section exists.
 
 **Write there:**
@@ -28,7 +28,6 @@ Before the first edit, name the home this change extends: the module path, the l
 
 **The tests:**
 
-- Run `node scripts/check-layers.mjs <repo>` after a UI change. A hit names the file to fix. The infrastructure import moves to the module that already owns persistence.
 - "Which existing file would a teammate open to change this behavior?" Edit that file, or its sibling in the same module.
 - "Does a sibling feature already have a file for this kind of logic?" Match it.
 - "Am I about to create a file because the file I opened feels crowded?" Look up the directory that already owns the concern first.

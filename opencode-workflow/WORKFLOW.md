@@ -29,7 +29,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 ## Daily loop
 
 1. **Understand.** Read relevant files, project `AGENTS.md`, and `docs/agent-progress.md` when it exists. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
-2. **Implement.** When the owning module is not already obvious, run `find-home.mjs` from **principle-extend-the-existing-home**. It lists candidates. Pick the one that matches the task, then follow Place the change. A familiar one-file change skips the script. Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
+2. **Implement.** When the owning module is not already obvious, follow **principle-extend-the-existing-home**. A familiar one-file change skips that search. Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
 3. **Verify.** Run the narrowest check that can falsify the result; broaden for risk. Include a denied path for authorization changes and a baseline for performance claims. Give shell commands finite timeouts; distinguish environment failures from product failures.
 4. **Review.** Check the diff before merge; use `/review` for a second opinion, `/thermos` for large or high-risk diffs. Report actionable findings.
 5. **Ship.** `/ship` only when asked to commit or open a PR.
@@ -37,7 +37,7 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 ## Place the change
 
-When the owning module is not already obvious, run `find-home.mjs` beside **principle-extend-the-existing-home**. The script lists candidates. Pick the one that matches the task. Extend that module. The skill is the rule. After a UI change, run `check-layers.mjs` beside it. A failing line means that UI file imports infrastructure. Move the import to the module that already owns persistence.
+When the owning module is not already obvious, follow **principle-extend-the-existing-home**. Pick the sibling that matches the task. Extend that module. A UI file does not import the database. An API route may.
 
 A new project, a new package, or a new top-level module has no home yet. Stop. Run `/architect` and write no module files until that skill has written its Practice section.
 

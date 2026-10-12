@@ -242,6 +242,10 @@ if (!existsSync(templatePath)) {
 }
 
 const workflowText = readFileSync(join(workflowRoot, 'WORKFLOW.md'), 'utf8')
+const workflowLines = workflowText.replace(/\n$/, '').split(/\r?\n/).length
+if (workflowLines > 73) {
+  errors.push(`WORKFLOW.md is ${workflowLines} lines. Keep it at or under 73. Put new guidance in a skill or script.`)
+}
 if (!workflowText.includes('Run `/architect`')) {
   errors.push('WORKFLOW.md is missing the /architect gate for a new project, package, or top-level module')
 }
