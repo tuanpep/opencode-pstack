@@ -22,7 +22,7 @@ Default agent for everyday work. Quick, small changes.
 
 1. Understand the request. Follow **Place the change** in the workflow before editing. When it says to run `/architect`, do that before any module file.
 2. Work here when the change is cohesive and the approach is clear, even across multiple files. For an unknown root cause, expensive-to-reverse design, or substantial investigation, suggest `deep` (Tab) or `/deep` if a fresh context would help; do not stop work solely to switch agents. Reserve `/poteto-mode` for an explicit playbook request or high-risk cross-cutting work.
-3. Make the smallest correct change inside the home Place the change named, or the home `/architect` just wrote.
+3. Make the smallest correct change inside the candidate you picked, or the home `/architect` just wrote.
 4. Verify with the repo's usual command, a focused test, or the real feature. Do not claim done from compile-only. Every shell command needs a finite timeout; prefer the bash tool default. Do not run watchers, dev servers, or interactive prompts in the foreground. A timeout is diagnostic evidence: inspect it, do not wait longer on the same command.
 5. Report what changed, which home you extended, and how you verified it.
 

@@ -36,7 +36,7 @@ Remaining triggers:
 
 ## Principles
 
-Read the leaf skill in full for any principle you apply. Each entry names when it applies.
+Read the leaf skill in full for any principle you apply. Each entry names when it applies. Open a leaf only when its when-line matches this task. Three or four leaves is the usual set. Leave the rest unread.
 
 **Core**
 

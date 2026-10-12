@@ -28,24 +28,20 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 ## Daily loop
 
-1. **Understand.** Read relevant files and project `AGENTS.md`; retrieve situational docs as needed. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
-2. **Implement.** Find the existing home first (see Place the change). Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
+1. **Understand.** Read relevant files, project `AGENTS.md`, and `docs/agent-progress.md` when it exists. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
+2. **Implement.** When the owning module is not already obvious, run `find-home.mjs` from **principle-extend-the-existing-home**. It lists candidates. Pick the one that matches the task, then follow Place the change. A familiar one-file change skips the script. Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
 3. **Verify.** Run the narrowest check that can falsify the result; broaden for risk. Include a denied path for authorization changes and a baseline for performance claims. Give shell commands finite timeouts; distinguish environment failures from product failures.
 4. **Review.** Check the diff before merge; use `/review` for a second opinion, `/thermos` for large or high-risk diffs. Report actionable findings.
 5. **Ship.** `/ship` only when asked to commit or open a PR.
-6. **Learn.** `/learn` only for durable, verified facts or preferences. Review `AGENTS.md` edits for duplicates and staleness; keep it a map, not a transcript.
+6. **Learn.** `/learn` only for durable, verified facts or preferences. Review `AGENTS.md` edits for duplicates and staleness; keep it a map, not a transcript. When a later session will continue this work, append `docs/agent-progress.md` with what is done, the command that proved it, and what is next.
 
 ## Place the change
 
-Before the first edit, find the existing home and extend it.
+When the owning module is not already obvious, run `find-home.mjs` beside **principle-extend-the-existing-home**. The script lists candidates. Pick the one that matches the task. Extend that module. The skill is the rule. After a UI change, run `check-layers.mjs` beside it. A failing line means that UI file imports infrastructure. Move the import to the module that already owns persistence.
 
-Search for the sibling feature that already does the analogous job, and read that module's directory and imports, not only the file the task named. Match its layer (UI, application, domain, infrastructure, or the names this repo uses), its file split, and its import direction.
+A new project, a new package, or a new top-level module has no home yet. Stop. Run `/architect` and write no module files until that skill has written its Practice section.
 
-A new file is justified only when neighbors are already split the same way. Leave a new folder, util, service, or wrapper uncreated when a home already exists. If two homes look plausible, extend the one whose callers and types already match, and say which you picked.
-
-Pass that home and its paths to any worker. A worker whose brief points at a caller, while the owner lives in another module, stops and reports the mismatch.
-
-A change inside an existing module extends that module. A new project, a new package, or a new top-level module has no home yet. Stop. Run `/architect` and write no module files until that skill has written its Practice section.
+Pass the chosen paths to any worker. A worker whose brief points at a caller stops and reports the mismatch.
 
 ## Delegation
 

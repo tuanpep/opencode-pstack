@@ -200,6 +200,8 @@ for (const [plugin, requiredAgents] of Object.entries(expectedAgents)) {
         ]
         if (agentFile === 'research.md') {
           expected.push(['subagent', 'explore', 'deny'])
+          expected.push(['shell', 'node skills/architect/scripts/fetch-sources.mjs https://example.com', 'allow'])
+          expected.push(['shell', 'curl https://example.com', 'deny'])
         }
         for (const [action, resource, effect] of expected) {
           if (permissionEffect(rules, action, resource) !== effect) {

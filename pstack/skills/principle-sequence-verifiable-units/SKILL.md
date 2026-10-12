@@ -17,6 +17,7 @@ Order work as a sequence of small units, each ending in a state you can check, a
 **Pattern:**
 - Pick the smallest unit that ends in a check: an edit plus its test, or a commit that stands alone.
 - Verify before advancing. Red to green per unit, never deferred to a final batch.
+- After each green unit that a later session will continue, append `docs/agent-progress.md`: done, the proof command, next. Keep it to one screen. The next session reads it before editing. A unit that finishes in this session does not add that file.
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
 The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
