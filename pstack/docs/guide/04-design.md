@@ -73,6 +73,7 @@ Most changes need none of this. Sketch types in the lead session and implement. 
 - A local change whose surrounding code already shows the shape needs a short sketch here, then code. Zero subagents.
 - A small, finished change you're unsure about needs `/interrogate` alone.
 - A one-way-door whose shape is still unknown, with two or more structurally distinct designs, earns `/architect`. That may bring `/arena` with two leaf candidates. Skip arena when grounding left one viable shape.
+- A new project, a new package, or a new top-level module earns `/architect` before any module file. Phase A reads the stack, fetches at most three primary sources, and writes the Practice section into the repo's decision directory. Arena runs only when two of those solutions both fit.
 - A standalone decision where independent attempts would help, like naming, formats, or an algorithm, is `/arena` directly. Default is two candidates.
 - A coverage matrix, set of parallel checks, or race with declared arms is `/swarm`.
 - A contested design that's expensive to reverse gets `/architect`, then `/interrogate` before shipping.

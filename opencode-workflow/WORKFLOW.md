@@ -29,11 +29,23 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 ## Daily loop
 
 1. **Understand.** Read relevant files and project `AGENTS.md`; retrieve situational docs as needed. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
-2. **Implement.** Use the smallest viable agent and diff. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
+2. **Implement.** Find the existing home first (see Place the change). Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
 3. **Verify.** Run the narrowest check that can falsify the result; broaden for risk. Include a denied path for authorization changes and a baseline for performance claims. Give shell commands finite timeouts; distinguish environment failures from product failures.
 4. **Review.** Check the diff before merge; use `/review` for a second opinion, `/thermos` for large or high-risk diffs. Report actionable findings.
 5. **Ship.** `/ship` only when asked to commit or open a PR.
 6. **Learn.** `/learn` only for durable, verified facts or preferences. Review `AGENTS.md` edits for duplicates and staleness; keep it a map, not a transcript.
+
+## Place the change
+
+Before the first edit, find the existing home and extend it.
+
+Search for the sibling feature that already does the analogous job, and read that module's directory and imports, not only the file the task named. Match its layer (UI, application, domain, infrastructure, or the names this repo uses), its file split, and its import direction.
+
+A new file is justified only when neighbors are already split the same way. Leave a new folder, util, service, or wrapper uncreated when a home already exists. If two homes look plausible, extend the one whose callers and types already match, and say which you picked.
+
+Pass that home and its paths to any worker. A worker whose brief points at a caller, while the owner lives in another module, stops and reports the mismatch.
+
+A change inside an existing module extends that module. A new project, a new package, or a new top-level module has no home yet. Stop. Run `/architect` and write no module files until that skill has written its Practice section.
 
 ## Delegation
 
@@ -41,7 +53,7 @@ Keep delegation one hop deep. Inspect enough context to know the goal and verifi
 
 ## Design
 
-Sketch in the lead session and implement. Most changes need no `how` / `architect` / `arena` fan-out. Run that ceremony only for a one-way-door whose shape is still unknown and has two or more structurally distinct designs. If surrounding code already shows the pattern, write a short type or signature sketch and start coding.
+Sketch in the lead session and implement. Most changes need no `how` / `architect` / `arena` fan-out. Run that ceremony only for a one-way-door whose shape is still unknown and has two or more structurally distinct designs. The no-home case in Place the change is the `/architect` gate. If surrounding code already shows the pattern, write a short type or signature sketch and start coding.
 
 ## Model routing
 
@@ -60,5 +72,5 @@ Compare routing and review on representative tasks: accepted outcome, elapsed ti
 - Tool approval is not authorization: require the user's explicit request for irreversible external writes even if a tool permits them.
 - When a task is finished or context becomes noisy, start a fresh session; carry forward a short outcome and verification summary rather than a full transcript.
 - Keep the diff scoped. No drive-by refactors.
-- Prefer deleting and simplifying over adding layers.
+- Prefer deleting pass-throughs and unused code. Keep a layer that already owns the behavior.
 - After a timeout or hang, inspect the evidence, continue remaining ready work, and report the unverified command. One identical retry only for a concrete transient hypothesis. Do not raise the same command's timeout and wait.

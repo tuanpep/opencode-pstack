@@ -239,6 +239,17 @@ if (!existsSync(templatePath)) {
   }
 }
 
+const workflowText = readFileSync(join(workflowRoot, 'WORKFLOW.md'), 'utf8')
+if (!workflowText.includes('Run `/architect`')) {
+  errors.push('WORKFLOW.md is missing the /architect gate for a new project, package, or top-level module')
+}
+const architectCommand = join(workflowRoot, 'opencode', 'command', 'architect.md')
+if (!existsSync(architectCommand)) {
+  errors.push('opencode-workflow is missing opencode/command/architect.md')
+} else if (!readFileSync(architectCommand, 'utf8').includes('Load the `architect` skill')) {
+  errors.push('architect command does not load the architect skill')
+}
+
 for (const relativePath of deletedAssets) {
   if (existsSync(join(repositoryRoot, relativePath))) {
     errors.push(`Deleted Claude support asset is present: ${relativePath}`)

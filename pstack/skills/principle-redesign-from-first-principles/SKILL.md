@@ -10,6 +10,7 @@ When integrating a change, don't bolt it onto the existing design. Redesign as i
 
 - Read all affected files and understand the current design holistically
 - Ask: "if we were writing this from scratch with this new requirement, what would we build?"
+- Keep that redesign inside the module and layer that already own the concern (the **extend-the-existing-home** principle skill). A day-one design still uses this repository's folders, file split, and import direction.
 - Propagate the change through every reference: types, docs, examples, rationale sections
 - Think about the redesign holistically, then deliver it incrementally
 

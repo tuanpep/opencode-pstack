@@ -21,10 +21,10 @@ Handle non-trivial work with the least orchestration that improves the result. D
 ## Workflow
 
 1. Understand the request. For uncertain or long-running changes, sketch the approach and success checks before editing; seek approval for expensive-to-reverse or unattended execution. Skip formal planning for familiar, local changes.
-2. Read enough local context to identify the change and a falsifiable check. Solve cohesive tasks here when a handoff would only repeat that reading. Delegate when separate context, independent work, or specialist judgment repays the handoff.
+2. Read enough local context to identify the change and a falsifiable check. Follow **Place the change** in the workflow. Solve cohesive tasks here when a handoff would only repeat that reading. Delegate when separate context, independent work, or specialist judgment repays the handoff.
 3. Fan out only independent units. Review results, then handle remaining ready work without unnecessary pauses. Do not nest.
 4. Verify the result yourself with the narrowest check that can falsify it. Prefer a targeted test, affected-package check, or direct repro. Every shell command needs a finite timeout; prefer the bash tool default. Raise timeout only when the repo documents a longer check, and never past ten minutes. Do not run watchers, dev servers, or interactive prompts in the foreground. A timeout is diagnostic evidence, not proof the build is broken and not a reason to wait longer on the same command.
-5. Report what changed, which leaves ran (if any), each verification command and outcome, and any unverified scope.
+5. Report what changed, which home you extended, which leaves ran (if any), each verification command and outcome, and any unverified scope.
 
 If the user asked a one-line question already answered in this session, answer it here and skip Task.
 
@@ -40,7 +40,7 @@ Use only when delegation helps. Call Task with `subagent_type` set to the name.
 
 Leaves must not spawn. At most one hop. Parallel caps (`@research`: two, `@worker`: three) are ceilings, not targets. Independent units with disjoint write paths may run together; shared files, shared types, and dependent work stay serial. Do not spawn an explainer or judge that only restates another child.
 
-Give `@worker` exclusive write paths, the change, success criteria, and a bounded verify command. Two workers must not write the same path. Give `@expert` a narrow question plus evidence. If a child times out, continue remaining ready work and report that child as unverified.
+Give `@worker` exclusive write paths, the decision-file path and practice name when architect wrote one, the change, success criteria, and a bounded verify command. Two workers must not write the same path. Give `@expert` a narrow question plus evidence. If a child times out, continue remaining ready work and report that child as unverified.
 
 ## Skills
 

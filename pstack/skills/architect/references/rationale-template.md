@@ -2,6 +2,10 @@
 
 The prose that ships alongside the type sketch. One page. Sentence-case headings, no boilerplate. Replace the italic notes with actual content.
 
+## Practice
+
+*Required for a new project, a new package, or a new top-level module. Name the established solution the sketch adopts, the primary source, and the constraint that made the other researched approaches lose. A layout with no source does not belong here.*
+
 ## Problem
 
 *One paragraph. What we're trying to do, and what about the existing system or constraints makes the shape non-obvious. If [Phase A](../SKILL.md#phase-a-ground-the-problem) surfaced constraints the design must honor (existing types to interop with, callers we can't break, invariants that crossed our boundary), name them here so the reader sees the same constraints you saw.*

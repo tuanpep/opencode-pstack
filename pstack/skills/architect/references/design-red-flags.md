@@ -31,3 +31,13 @@ Group code around domain knowledge and ownership. Methods that run at different 
 A pass-through method forwards the same arguments to another method with the same shape. It adds a layer without hiding complexity.
 
 Remove it or move responsibility to the module that can complete the operation. Keep a forwarding boundary only when it adds policy, adaptation, or a distinct abstraction.
+
+## Unsourced shape
+
+A new project, new package, or new top-level module whose module map cites no established solution and no source. Phase A research is the input. The practice that fits replaces an invented layout.
+
+## Parallel home
+
+A parallel home opens a new package, folder, util, or layer while an existing module already owns that knowledge. The module map extends the sibling feature's home: same layer, same file split, same import direction (the **extend-the-existing-home** principle skill).
+
+A new module earns its place only when no existing owner holds that knowledge. Redesigning types inside the current home is the default.

@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape."
+description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', a new project, a new package, a new top-level module, or non-trivial work where jumping to code would lock in the wrong shape."
 disable-model-invocation: true
 ---
 
@@ -22,11 +22,20 @@ Open a todolist with one entry per phase before starting. Autonomous mode withou
 
 ## Phase A: Ground the problem
 
-Build a real mental model of every system the new code touches. Do that in this session when the files are local. Load the **how** skill only if the subsystem is unfamiliar, spans multiple modules, and has not already been traced this session. If a playbook just ran `how`, skip. Critique mode if existing structure is the constraint or the design must push back on it.
+Build a real mental model of every system the new code touches. Do that in this session when the files are local. Load the **how** skill only if the subsystem is unfamiliar, spans multiple modules, and has not already been traced this session. If a playbook just ran `how`, skip that trace. Critique mode if existing structure is the constraint or the design must push back on it.
 
 Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess. Do not nest `how` explorers under another subagent; the lead session grounds, or it fans out at most two leaf researchers.
 
-Skip Phase A when the work is greenfield, already grounded this session, or the surrounding pattern is obvious from a direct read.
+Skip the local trace when the work is already grounded this session, or the surrounding pattern is obvious from a direct read.
+
+A new project, a new package, or a new top-level module still runs Phase A. A change inside an existing module does not. Research established solutions before any sketch:
+
+- Read the stack first. Use the manifest (`package.json`, `go.mod`, `pyproject.toml`, `Cargo.toml`, or the equivalent), `AGENTS.md`, and an existing decision directory (`docs/adr`, `docs/decisions`, or `adr`) when the repo has one.
+- Fetch at most three primary sources for this problem in this stack. Official documentation for the stack counts. Stop after three. This session fetches. `@research` only summarizes sources already in the brief. It does not fetch, and a remembered pattern with no source does not count.
+- Bring back two or three named approaches, the constraints each assumes, and which one fits. The sketch adopts that fit. Run arena only when two of those approaches are structurally distinct and both fit. The candidate set is the approaches research found.
+- When the repo already has layers, the chosen practice lands in those layers (the **extend-the-existing-home** principle skill). A new project uses the researched practice as its module map.
+
+Write the rationale, including Practice, into the existing decision directory. If the repo has none, write `docs/adr/<module>.md`. Implementation reads that file. Write no module files before it exists.
 
 ## Phase B: Sketch
 
@@ -36,7 +45,7 @@ Run the **arena** skill only when two or more structurally distinct designs rema
 
 Use the configured architect runners. Without a configured role map, use the parent model rather than inventing model slugs. On OpenCode, use `worker` for normal candidates and `expert` only for a high-risk design candidate. Default to two candidates. Do not add a third unless the user asked or a third whole-shape alternative is real. Whole-shape alternatives, not point fixes inside one shape. Runners are leaves; they do not spawn.
 
-Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
+Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, pass-through methods, a parallel home, and an unsourced shape.
 
 Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 
@@ -54,7 +63,7 @@ If the human pushes back on the shape (in a checkpoint or after the fact), treat
 
 ## Phase D: Implement against the sketch
 
-Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract.
+Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract. A delegated brief includes the decision-file path, the home paths, and the practice name. The worker implements that practice.
 
 Deviations from the sketch are signal worth surfacing, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching. Surface it; don't bolt it on.
 
@@ -82,4 +91,4 @@ When you scrap:
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes; module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision.
+The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes; module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch, the Practice section, and the synthesis decision. It lives in the repo's decision directory, or in `docs/adr/<module>.md` when the repo has none.

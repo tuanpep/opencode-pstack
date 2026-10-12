@@ -1,6 +1,6 @@
 # Steer with principle names
 
-pstack ships 21 principles as individual skills. `/poteto-mode` reads their index at the start of every multi-step task, applies the ones the task triggers, and names each applied principle in its reply along with the decision it changed.
+pstack ships 22 principles as individual skills. `/poteto-mode` reads their index at the start of every multi-step task, applies the ones the task triggers, and names each applied principle in its reply along with the decision it changed.
 
 You don't invoke principles. You use their names to steer. Each name points at a complete rule the agent has already read, so one phrase redirects the work more precisely than a paragraph of instructions.
 
@@ -24,9 +24,15 @@ Say two parallel attempts are about to write to the same branch:
 separate before serializing shared state. give each attempt its own worktree, no locks.
 ```
 
+Say the agent is about to put a pricing rule in the controller because that file mentioned the ticket:
+
+```text
+extend the existing home. the rule belongs next to the other pricing rules, in the module that already owns them.
+```
+
 Each phrase lands because the rule behind it is specific. The agent still has to say, in its reply, which decision the rule changed. A principle citation with no decision behind it is the tell that it name-dropped instead of applying.
 
-## The 21, briefly
+## The 22, briefly
 
 The core principles decide how much to build and when to rethink the design:
 
@@ -40,8 +46,9 @@ The core principles decide how much to build and when to rethink the design:
 - [Exhaust the Design Space](../../skills/principle-exhaust-the-design-space/SKILL.md) builds two or three competing prototypes when there's no precedent.
 - [Build the Lever](../../skills/principle-build-the-lever/SKILL.md) builds the script that does or proves the work, so a reviewer can rerun it.
 
-The architecture principles decide where state, validation, and compatibility live:
+The architecture principles decide where code lives, and where state, validation, and compatibility live:
 
+- [Extend the Existing Home](../../skills/principle-extend-the-existing-home/SKILL.md) finds the module and layer that already own the behavior and extends them.
 - [Model the Domain](../../skills/principle-model-the-domain/SKILL.md) encodes repeated rules in one structure, not scattered conditionals.
 - [Boundary Discipline](../../skills/principle-boundary-discipline/SKILL.md) validates at the boundary and trusts internal types.
 - [Type System Discipline](../../skills/principle-type-system-discipline/SKILL.md) makes illegal states unrepresentable.

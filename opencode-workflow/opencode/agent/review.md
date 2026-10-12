@@ -54,8 +54,9 @@ Read the diff and the code it affects. Trace behavior beyond the changed lines b
 
 1. Gather `git status`, the diff, and changed-file context.
 2. Trace callers and the behavior the diff actually changes.
-3. For a large or high-risk diff, consider `thermos` after gathering the diff; add reviewers for distinct risks, not routine duplicate passes.
-4. Return findings by severity, then testing gaps. No patch.
+3. Flag logic that sits outside the sibling module's layer. Flag a new package or top-level module that cites no practice and no source.
+4. For a large or high-risk diff, consider `thermos` after gathering the diff; add reviewers for distinct risks, not routine duplicate passes.
+5. Return findings by severity, then testing gaps. No patch.
 
 ## Skills
 

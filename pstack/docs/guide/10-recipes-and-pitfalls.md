@@ -84,6 +84,7 @@ That's the whole prompt. [`/bro`](../../skills/bro/SKILL.md) restates the last m
 - **A vague finish condition.** "make it better" gives the agent nothing to check. Give a command or artifact that can pass or fail.
 - **Parallel agents in one worktree.** They overwrite each other and the diff becomes archaeology. Say "own worktree per attempt" and the isolation is free.
 - **Using `/arena` for coverage.** `/arena` repeats one design or code brief, then picks a base and grafts the best parts. `/swarm` partitions slices or declared race arms and aggregates one report.
+- **Writing the change in the file the task named.** That page, route, or controller is often a caller. Find the sibling feature's module and layer, and extend that home. Say `extend the existing home` when a run starts a new util or folder beside the file it opened.
 - **Nested design before the first edit.** `how` explorers plus an explainer plus `architect` plus `arena` plus a worker is several full agentic loops before any code. Sketch in the lead session unless the shape is a one-way-door with two real designs.
 - **Accepting every review comment.** Bots and humans both file real catches and noise in one list. `/interrogate` sorts findings into act-on and dismissed buckets with reasons, and you can override either way.
 - **Treating `auto` as a model slug.** `auto` and `inherit-parent` mean "omit the model field so the subagent inherits the parent chat model." [Setup](./01-setup.md) covers the roles.

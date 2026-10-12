@@ -18,8 +18,8 @@ Remaining triggers:
 
 - Nontrivial change, architecture decision, or "are we sure?" → ground the affected files in this session. Load the **how** skill only when the subsystem is unfamiliar and spans multiple modules. Skip it when the shape is already obvious or already traced this session.
 - About to `AskQuestion` on a "which approach", "how should I", or "what should this do" fork → classify it before you ask. If the answer is a fact you could observe by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's to answer. Sketch it via the Prototype playbook (`playbooks/prototype.md`) and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve the question for a genuine product or preference call no experiment can settle. The ask is the slow path. A throwaway probe usually answers faster, and it hands the human a result to react to instead of a decision to make.
-- Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
-- Code crossing a function boundary with an unknown or one-way-door shape → the **architect** skill. If surrounding code already shows the pattern, sketch types in this session and implement. Do not run parallel design exploration "just in case".
+- Any code inside an existing module → find that module and layer and extend them per **principle-extend-the-existing-home**. Then name the data shape and choose its organizing structure per **principle-model-the-domain**.
+- A new project, a new package, a new top-level module, or code crossing a function boundary with an unknown or one-way-door shape → the **architect** skill before any module file. Phase A of that skill researches established solutions before the sketch. If surrounding code already shows the pattern, sketch types in this session and implement. Do not run parallel design exploration "just in case".
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
@@ -52,6 +52,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Architecture**
 
+- **Extend the Existing Home** (**principle-extend-the-existing-home**). Before writing or moving code in a repository that already has modules and layers. Find the owner of this behavior and extend that module and layer.
 - **Model the Domain** (**principle-model-the-domain**). Writing stateful logic, or code that branches a lot or repeats a shape assumption across files. Encode the domain in a structure (state machine, typed model, table or registry, reducer, boundary, the right collection) instead of scattered conditionals.
 - **Boundary Discipline** (**principle-boundary-discipline**). Wiring validation, error handling, or framework adapters. Guards at system boundaries, trust internal types, keep business logic pure.
 - **Type System Discipline** (**principle-type-system-discipline**). Designing types or a signature in any typed language. Make illegal states unrepresentable, brand primitives, parse external data at boundaries.

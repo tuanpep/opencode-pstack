@@ -10,6 +10,8 @@ When a novel interaction or architectural decision has no established precedent,
 
 **The rule.** When the right answer is not obvious, build 2-3 competing prototypes or sketches. Compare them side by side. Only then commit. Design it twice is this rule by another name. A second flavor of the first shape does not count.
 
+**Look up the practice first.** For a new project, a new package, or a new top-level module, established solutions for this stack are precedent. Run architect Phase A and adopt the researched solution that fits. Prototypes compare only what that research leaves open.
+
 **When it applies:**
 - Novel UI interactions (no prior art in the codebase)
 - Architectural choices with multiple viable approaches
