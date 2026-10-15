@@ -71,7 +71,9 @@ Use Tab to select the `code`, `pure`, `deep`, or `review` primary agent. Set `de
 
 Pstack supplies Task targets: `research` for bounded evidence gathering, `worker` for implementation and focused review, and `expert` for trace-backed performance work and high-risk reasoning. Those three are leaves and cannot spawn further agents. `deep` delegates when useful, parallelizes independent work, then verifies. Run `/setup-pstack` after installation to configure their actual V2 subagent models. Per-Task roles in `models.conf` take effect only on hosts with per-Task model selection; on V2, calls through the same named wrapper share its configured model, so skill-panel model diversity is not guaranteed. Coding agents allow shell commands without prompting; see [workflow configuration](opencode-workflow/README.md).
 
-Available workflow commands include `/setup-pstack`, `/review`, `/deep`, `/compat`, `/learn`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
+Available workflow commands include `/setup-pstack`, `/review`, `/deep`, `/compat`, `/learn`, `/beads`, `/ship`, `/verify`, `/how`, and `/why`. See [pstack/docs/guide/](pstack/docs/guide/README.md) for a pstack walkthrough.
+
+For optional dependency-aware tasks and cross-session handoffs, use `/beads`. It checks the installed `bd` CLI and project setup; initialization is explicit, never a plugin startup side effect. See [Beads workflow](opencode-workflow/README.md#optional-persistent-tasks-with-beads). No Beads dependency is required for other plugin features.
 
 ## Verify repository changes
 

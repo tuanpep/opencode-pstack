@@ -50,6 +50,8 @@ test('V2 setup installs assets and activates workflow without changing config or
     assert.equal(readFileSync(join(destination, 'agents', 'fox.md'), 'utf8'), 'existing\n')
     assert.equal(existsSync(join(destination, 'agents', 'code.md')), true)
     assert.equal(existsSync(join(destination, 'commands', 'setup-pstack.md')), true)
+    assert.equal(existsSync(join(destination, 'commands', 'beads.md')), true)
+    assert.equal(existsSync(join(destination, 'skills', 'beads', 'SKILL.md')), true)
     const code = join(destination, 'agents', 'code.md')
     const modified = statSync(code).mtimeMs
     installPlugins({ destination, configure: false, cleanup: false })
@@ -96,6 +98,8 @@ test('workflow can be excluded from plugin context injection', async () => {
     const { default: plugin } = await import('../index.js')
     await plugin.setup({ options: { plugins: ['pstack'] }, session: { hook: () => { throw new Error('unexpected hook') } } })
     assert.equal(existsSync(join(destination, 'WORKFLOW.md')), false)
+    assert.equal(existsSync(join(destination, 'commands', 'beads.md')), false)
+    assert.equal(existsSync(join(destination, 'skills', 'beads')), false)
   } finally {
     if (original === undefined) delete process.env.OPENCODE_CONFIG_DIR
     else process.env.OPENCODE_CONFIG_DIR = original

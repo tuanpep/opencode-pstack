@@ -28,12 +28,12 @@ Do not start with `/how` then `/architect` then `/arena` unless the shape is unk
 
 ## Daily loop
 
-1. **Understand.** Read relevant files, project `AGENTS.md`, and `docs/agent-progress.md` when it exists. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
+1. **Understand.** Read relevant files and project `AGENTS.md`. If the project uses Beads, follow `/beads` for task context and handoff (read-only agents receive context from the lead); otherwise read `docs/agent-progress.md` when it exists. Do not initialize tracking automatically. Use `/how` for unfamiliar systems, `/why` for rationale, `/compat` for onboarding friction.
 2. **Implement.** When the owning module is not already obvious, follow **principle-extend-the-existing-home**. A familiar one-file change skips that search. Use the smallest viable agent and diff inside that home. Plan first when the approach is uncertain or the run is long and unattended; skip ceremony for familiar changes. A multi-file change does not automatically need a subagent or playbook.
 3. **Verify.** Run the narrowest check that can falsify the result; broaden for risk. Include a denied path for authorization changes and a baseline for performance claims. Give shell commands finite timeouts; distinguish environment failures from product failures.
 4. **Review.** Check the diff before merge; use `/review` for a second opinion, `/thermos` for large or high-risk diffs. Report actionable findings.
 5. **Ship.** `/ship` only when asked to commit or open a PR.
-6. **Learn.** `/learn` only for durable, verified facts or preferences. Review `AGENTS.md` edits for duplicates and staleness; keep it a map, not a transcript. When a later session will continue this work, append `docs/agent-progress.md` with what is done, the command that proved it, and what is next.
+6. **Learn.** `/learn` only for durable, verified facts or preferences. Review `AGENTS.md` edits for duplicates and staleness; keep it a map, not a transcript. For cross-session handoff, record what is done, the command that proved it, and what is next in the Beads issue when enabled, otherwise in `docs/agent-progress.md`.
 
 ## Place the change
 

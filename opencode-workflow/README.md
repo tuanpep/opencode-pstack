@@ -15,7 +15,7 @@ For primary documentation and the evidence behind the routing, context, permissi
 | `opencode-model-routing.example.jsonc` | Copyable V2 subagent routing example with placeholders. It is documentation and is not installed |
 | `opencode/agent/*.md` | Primaries `code` / `pure` / `deep` / `review` plus `/compat` and `/learn` subagents. `pure` denies skills |
 | `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
-| `skills/` | `check-agent-compatibility`, `continual-learning` |
+| `skills/` | `check-agent-compatibility`, `continual-learning`, `beads` |
 | `models.conf.example` | A commented role-map placeholder copied to `~/.pstack/models.conf` only if that file is missing |
 
 Pstack ships Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. `@mention` them, or let `deep` Task them. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to configure installed subagents. `poteto-mode` and `playbook` remain hidden compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
@@ -23,6 +23,14 @@ Pstack ships Task targets in [pstack](../pstack/): `research` for bounded eviden
 Coding agents allow shell commands without prompting; read-only agents keep narrow inspection allowances. Shell access carries the host user's filesystem and network authority; this plugin does not supply a sandbox. Keep irreversible external writes subject to explicit user authorization. Prefer one agent for cohesive tasks; the worker cap is not a quota.
 
 To measure routing changes, replay representative past tasks with `pure` (single agent) and the routed workflow. Track accepted outcomes, wall time, model cost, rework, and verification failures. No performance or cost gain is claimed without a comparison.
+
+## Optional persistent tasks with Beads
+
+Run `/beads` to inspect the installed `bd` CLI and project tracking setup, or `/beads <request>` to work on an issue. Use `/beads set up local-only tracking` or `/beads set up team tracking` to explicitly request initialization. Setup preserves existing agent integrations and Git hooks by using `--skip-agents --skip-hooks`; review the resulting repository files before sharing them.
+
+In opted-in repositories, the daily loop becomes **prime → ready/show → claim → implement → verify → append evidence → close or hand off**. The lead owns tracking writes and passes issue context to workers. Beads replaces duplicate task/progress ledgers, not architecture docs, agent routing, or verification. Repositories without Beads keep their existing workflow. Nothing in plugin startup executes `bd`, installs it, initializes `.beads`, starts a database server, or changes permissions. `pure` remains outside automatic skill/workflow routing.
+
+The [Beads reference](skills/beads/SKILL.md) documents dependencies, safe initialization, multi-agent ownership, Dolt persistence, version boundaries, and official sources. It targets CLI v1.3.1, checked against local help and upstream docs; an isolated initialization attempt timed out after 20 seconds on the research host, so the live task lifecycle is not yet verified here. Do not copy old SQLite/JSONL or `bd sync` recipes. Beads sync is separate from Git shipping, and neither is automatically authorized by task completion.
 
 ## Configure models
 
