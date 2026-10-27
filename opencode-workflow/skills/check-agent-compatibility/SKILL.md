@@ -17,34 +17,22 @@ Score whether an agent can work this repo: cold start, small-change verify, docs
 
 ## Workflow
 
-1. Resolve the target directory. Default is the current worktree root. If `$ARGUMENTS` names a path, use that.
-2. Spawn these four subagents in parallel. One subagent per task. Do not collapse them into one prompt.
-   - `@compat-scan` — published CLI score
+1. Resolve the target directory (worktree root, or `$ARGUMENTS` path).
+2. Spawn `@compat-scan` alone first. Capture its score text / JSON.
+3. Spawn these three in parallel, each with the target path and the scan result. Tell them not to edit files and not to re-run the scanner.
    - `@compat-startup` — cold start
    - `@compat-verify` — small-change verify loop
    - `@compat-docs` — docs vs the path you actually used
-3. Pass each the target path and, if you already have it, the scan JSON. Tell them not to edit files.
-4. Compute an internal workflow score as the rounded average of Startup, Validation, and Docs scores.
-5. Compute `Agent Compatibility Score = round((deterministic * 0.7) + (workflow * 0.3))`.
-6. If the deterministic scanner could not run because of the tool environment, say that separately. Do not treat it as a repo defect or penalize the repo.
+4. Workflow score = rounded average of Startup, Validation, and Docs.
+5. `Agent Compatibility Score = round((deterministic * 0.7) + (workflow * 0.3))`.
+6. If the scanner could not run because of the tool environment, say that separately—do not treat it as a repo defect or penalize the score.
 
-When scoring internally, use specific non-round workflow scores. If startup, validation, or docs mostly work, treat them as good-with-friction rather than defaulting to the mid-60s. Do not create a low workflow score just because logs are noisy.
+Prefer specific non-round workflow scores. Good-with-friction stays high; do not default to mid-60s for noisy logs.
 
 ## Output
 
-Respond in markdown, but keep it minimal. Do not use fenced code blocks.
+Markdown, minimal, no fenced code blocks.
 
-Show only one score, as a level-two heading: `## Agent Compatibility Score: N/100`. Do not show how it was computed unless the user asks for a breakdown.
+One score as `## Agent Compatibility Score: N/100`. No computation breakdown unless asked.
 
-Then a flat, prioritized list labeled `Top fixes` with one issue per line, each line starting with `- `.
-
-Focus on the fixes that would most improve real OpenCode sessions in this repo (`AGENTS.md`, start command, focused test/lint, env/VPN gotchas). Do not include a separate summary unless the user asks.
-
-Example shape:
-
-## Agent Compatibility Score: 72/100
-
-Top fixes
-- First issue
-- Second issue
-- Third issue
+Then `Top fixes` with one `- ` issue per line. Highest-leverage OpenCode session fixes only (`AGENTS.md`, start command, focused test/lint, env/VPN). No separate summary unless asked.

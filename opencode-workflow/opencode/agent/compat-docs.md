@@ -19,7 +19,7 @@ Follows the written setup path and reports where the docs drift from reality.
 
 ## Workflow
 
-1. If a compatibility scan result is already available from the parent task, use it as context. Otherwise run the scan once.
+1. Use the scan result the parent passed. Do not re-run the scanner.
 2. Read `README`, `AGENTS.md`, setup docs, env examples, and contribution or agent guidance. Prefer `AGENTS.md` when both exist.
 3. Follow the documented setup and run path as literally as practical.
 4. Note where docs are accurate, stale, incomplete, or misleading (wrong default branch, `gh` on a GitLab repo, `main` vs `master`/`dev`/`stg`, missing VPN, wrong Gradle module).

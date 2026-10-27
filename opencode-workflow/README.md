@@ -28,9 +28,9 @@ To measure routing changes, replay representative past tasks with `pure` (single
 
 Run `/beads` to inspect the installed `bd` CLI and project tracking setup, or `/beads <request>` to work on an issue. Use `/beads set up local-only tracking` or `/beads set up team tracking` to explicitly request initialization. Setup preserves existing agent integrations and Git hooks by using `--skip-agents --skip-hooks`; review the resulting repository files before sharing them.
 
-In opted-in repositories, the daily loop becomes **prime → ready/show → claim → implement → verify → append evidence → close or hand off**. The lead owns tracking writes and passes issue context to workers. Beads replaces duplicate task/progress ledgers, not architecture docs, agent routing, or verification. Repositories without Beads keep their existing workflow. Nothing in plugin startup executes `bd`, installs it, initializes `.beads`, starts a database server, or changes permissions. `pure` remains outside automatic skill/workflow routing.
+In opted-in repositories, the daily loop is **prime → ready/show → claim → implement → verify → append evidence → close or hand off**. The lead owns tracking writes and passes issue context to workers. Beads replaces duplicate task/progress ledgers, not architecture docs, agent routing, or verification. Repositories without Beads keep their existing workflow. Plugin startup never runs `bd`, installs it, initializes `.beads`, starts a DB server, or changes permissions. `pure` stays outside automatic skill/workflow routing.
 
-The [Beads reference](skills/beads/SKILL.md) documents dependencies, safe initialization, multi-agent ownership, Dolt persistence, version boundaries, and official sources. It targets CLI v1.3.1, checked against local help and upstream docs; an isolated initialization attempt timed out after 20 seconds on the research host, so the live task lifecycle is not yet verified here. Do not copy old SQLite/JSONL or `bd sync` recipes. Beads sync is separate from Git shipping, and neither is automatically authorized by task completion.
+The [Beads skill](skills/beads/SKILL.md) covers the fast path, gated setup, ownership, and Dolt persistence for CLI v1.3.1. Do not copy old SQLite/JSONL or `bd sync` recipes. Beads sync is separate from Git shipping; neither is authorized by task completion alone.
 
 ## Configure models
 

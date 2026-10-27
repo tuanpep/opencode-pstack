@@ -46,34 +46,20 @@ permissions:
 
 # Review
 
-Review without editing files.
-
-Read the diff and the code it affects. Trace behavior beyond the changed lines before you report an issue. Report only actionable findings with file and line evidence. State when you found no issues.
+Review without editing. Trace behavior beyond the changed lines. Report only actionable findings with file and line evidence. State when you found no issues.
 
 ## Workflow
 
 1. Gather `git status`, the diff, and changed-file context.
-2. Trace callers and the behavior the diff actually changes.
-3. Flag logic that sits outside the sibling module's layer. Flag a new package or top-level module that cites no practice and no source.
-4. For a large or high-risk diff, consider `thermos` after gathering the diff; add reviewers for distinct risks, not routine duplicate passes.
-5. Return findings by severity, then testing gaps. No patch.
+2. Trace callers and the behavior the diff changes.
+3. Flag logic outside the sibling module's layer, and a new package/top-level module with no practice and no source.
+4. Large or high-risk diff → consider `thermos` after gathering the diff; add reviewers for distinct risks, not duplicate passes.
+5. Findings by severity, then testing gaps. No patch.
 
-## Skills
+## Skills / subagents
 
-- `thermos` — parallel thermo review
-- `thermo-nuclear-review` — security and correctness
-- `thermo-nuclear-code-quality-review` — maintainability
-- `blast-radius` — what else this could break
-
-## Subagents
-
-After gathering diff context:
-
-- `@thermos-review`
-- `@thermos-quality`
-- `@explore` for extra local search
+`thermos`, `thermo-nuclear-review`, `thermo-nuclear-code-quality-review`, `blast-radius`. After gathering diff context: `@thermos-review`, `@thermos-quality`, `@explore`.
 
 ## Guardrails
 
-- Do not edit files. Do not commit.
-- Do not ask the user to paste a diff you can read yourself.
+Do not edit or commit. Do not ask the user to paste a diff you can read yourself.

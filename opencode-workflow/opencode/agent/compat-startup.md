@@ -19,7 +19,7 @@ Tries the cold-start path and reports how much work it takes to get the repo run
 
 ## Workflow
 
-1. If a compatibility scan result is already available from the parent task, use it as context. Otherwise run the scan once.
+1. Use the scan result the parent passed. Do not re-run the scanner.
 2. Read the obvious startup surfaces: `README`, `AGENTS.md`, Makefile, package scripts, Gradle/Nx targets, env examples.
 3. Pick the most likely bootstrap path and startup command from the docs, not from habit.
 4. Try to reach first success inside a fixed time budget. Do not install global tools or change secrets.

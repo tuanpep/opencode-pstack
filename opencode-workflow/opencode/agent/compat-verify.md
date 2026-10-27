@@ -19,7 +19,7 @@ Checks whether an agent can verify a small change without falling back to a full
 
 ## Workflow
 
-1. If a compatibility scan result is already available from the parent task, use it as context. Otherwise run the scan once.
+1. Use the scan result the parent passed. Do not re-run the scanner.
 2. Inspect declared test, lint, check, and typecheck paths in `AGENTS.md`, `package.json`, Gradle, Nx, Makefile, CI.
 3. Decide whether there is a practical scoped loop for a small change (one Nx project, one Gradle `--tests` class, one lint target).
 4. Try the most relevant validation path. Do not run a full multi-module build if a focused target exists.
