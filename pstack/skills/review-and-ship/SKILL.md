@@ -1,13 +1,13 @@
 ---
 name: review-and-ship
-description: Review the current branch for bugs, intent fit, and test coverage; run or write tests; commit focused work; open or update a PR.
+description: "Use for /ship or an explicit request to review and ship changes. Review, fix, and verify the branch; commit, push, or open or update a PR only when the user authorizes that action. Use the review agent for read-only review."
 ---
 
 # Review and ship
 
 ## Trigger
 
-Reviewing changes before shipping. Close key issues, verify behavior, and open or update a PR.
+Use when the user requests shipping preparation or invokes `/ship`. Close key issues and verify behavior. A request to review alone does not authorize edits or shipping. Perform commit, push, and PR actions only when explicitly requested.
 
 ## Workflow
 

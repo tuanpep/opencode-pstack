@@ -4,10 +4,10 @@ When the package plugin is active, its V2 context hook adds this text to agent-l
 
 ## Daily loop
 
-1. **Understand.** Read relevant files and project `AGENTS.md`. If the project uses Beads, use `/beads` for task context (read-only agents get context from the lead); else read `docs/agent-progress.md` when it exists. Do not initialize tracking automatically.
+1. **Understand.** Read relevant files and project `AGENTS.md`. Read `docs/agent-progress.md` when it exists. Do not initialize tracking automatically.
 2. **Implement.** When the owning module is not obvious, follow **principle-extend-the-existing-home**. Familiar one-file changes skip that search. Smallest viable diff in that home. Plan only when the approach is uncertain or the run is long/unattended.
 3. **Verify.** Narrowest check that can falsify the result; broaden for risk. Finite shell timeouts. Distinguish environment failures from product failures.
-4. **Review / ship / learn.** Diff before merge (`/review`, `/thermos` when high-risk). `/ship` only when asked to commit or open a PR. `/learn` only for durable verified facts. Cross-session handoff: Beads issue when enabled, else `docs/agent-progress.md`.
+4. **Review / ship / learn.** Diff before merge (`/review`, `/thermos` when high-risk). `/ship` only when asked to commit or open a PR. `/learn` only for durable verified facts. Cross-session handoff: `docs/agent-progress.md` when useful.
 
 ## Place the change
 

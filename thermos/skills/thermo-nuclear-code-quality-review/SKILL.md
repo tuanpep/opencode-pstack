@@ -31,11 +31,11 @@ Apply the baseline prompt above, plus these explicit review rules:
    - Assume there is often a "code judo" move available: a re-organization that uses the existing architecture more effectively and makes the change dramatically simpler and more elegant.
    - If you see a path to delete complexity rather than rearrange it, push hard for that path.
 
-1. **Do not let a PR push a file from under 1k lines to over 1k lines without a very strong reason.**
-   - Treat this as a strong code-quality smell by default.
-   - Prefer extracting helpers, subcomponents, modules, or local abstractions instead of letting a file sprawl past 1000 lines.
-   - If the diff crosses that threshold, explicitly ask whether the code should be decomposed first.
-   - Only waive this if there is a compelling structural reason and the resulting file is still clearly organized.
+1. **Use file size as an inspection signal, not an automatic splitting rule.**
+   - Crossing 1000 lines warrants inspecting responsibilities, dependencies, and state ownership. A line count alone is not a finding or a reason to block a change.
+   - Identify a concrete maintainability problem and a useful boundary before recommending extraction. A short tangled file may need decomposition; a large cohesive parser or generated table may not.
+   - Prefer fewer concepts and less hidden state over more files. Reject arbitrary helper files, broad mutable context objects, circular imports, and pass-through abstractions that merely redistribute complexity.
+   - For an extraction recommendation, name the existing owner, responsibility to move, proposed interface, and behavior checks. Use `principle-extend-the-existing-home` when available for the detailed procedure; without pstack, retain the ownership and behavior-preservation rules here. This review recommends changes; it does not authorize implementation.
 
 2. **Do not allow random spaghetti growth in existing code.**
    - Be highly suspicious of new ad-hoc conditionals, scattered special cases, or one-off branches inserted into unrelated flows.
@@ -92,7 +92,7 @@ Escalate findings when you see:
 
 - A complicated implementation where a cleaner reframing could delete whole categories of complexity.
 - Refactors that move code around but fail to reduce the number of concepts a reader must hold in their head.
-- A file crossing 1000 lines due to the PR, especially if the new code could be split out.
+- A growing file that mixes unrelated responsibilities or obscures state ownership. Crossing 1000 lines prompts inspection, not an automatic finding.
 - New conditionals bolted onto unrelated code paths.
 - One-off booleans, nullable modes, or flags that complicate existing control flow.
 - Feature-specific logic leaking into general-purpose modules.
@@ -117,7 +117,7 @@ When you identify a code-quality problem, prefer suggestions like:
 - Change the ownership boundary so the feature becomes a natural extension of an existing abstraction.
 - Turn special-case logic into a simpler default flow with fewer exceptions.
 - Extract a helper or pure function.
-- Split a large file into smaller focused modules.
+- Extract a cohesive responsibility within the existing owner when that reduces reader load. Preserve behavior and interfaces, move one responsibility at a time, and verify affected callers. Do not split by arbitrary line ranges.
 - Move feature-specific logic behind a dedicated abstraction.
 - Replace condition chains with a typed model or explicit dispatcher.
 - Separate orchestration from business logic.
@@ -141,7 +141,7 @@ If the implementation missed an opportunity for a dramatic simplification, say t
 
 Good phrases:
 
-- `this pushes the file past 1k lines. can we decompose this first?`
+- `this adds pricing rules to request parsing. can we isolate pricing within the existing domain module and verify the handler's behavior stays unchanged?`
 - `this adds another special-case branch into an already busy flow. can we move this behind its own abstraction?`
 - `this works, but it makes the surrounding code more spaghetti. let's keep the behavior and restructure the implementation.`
 - `this feels like feature logic leaking into a shared path. can we isolate it?`

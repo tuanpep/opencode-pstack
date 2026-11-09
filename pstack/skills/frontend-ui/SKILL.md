@@ -1,16 +1,21 @@
 ---
 name: frontend-ui
-description: "Apply when editing a web UI file (.tsx, .jsx, .vue, .svelte, or .css). Cover loading, empty, and error states, keyboard focus, and the client/server split. Do not use for backend-only changes."
+description: "Use when implementing or changing web UI behavior, components, or layout. Check relevant interaction states, accessibility, responsive behavior, and client/server boundaries. Not for backend-only changes, non-UI TypeScript, or read-only explanations."
 ---
 
 # Frontend UI
 
-Extend the existing screen, component, or style module per **principle-extend-the-existing-home** before adding a component folder.
+Extend the existing screen, component, or style module. Reuse design tokens and established interaction patterns. Follow **principle-extend-the-existing-home** when ownership is unclear; do not introduce a design system for a local change.
 
-**States.** A screen that loads remote data has a loading state, an empty state, and an error state. Each state is reachable in the running app.
+## Implementation checks
 
-**Focus.** A control is reachable from the keyboard. Focus stays visible. The accessible name is the same name `control-ui` will click.
+- Define the changed user action and expected result. Check only states relevant to that change: loading, empty, error, success, disabled, or validation feedback. Do not add artificial states to static content.
+- Use semantic controls with accessible names. Check keyboard operation, visible focus, and focus restoration for overlays when relevant.
+- Check layout at the affected viewport sizes, including long content and overflow. Preserve existing spacing, typography, and responsive conventions.
+- Respect the framework's client/server model. Client code must not import database clients or server secrets. Server components and API routes may call the application layer.
 
-**Client and server.** A server component or route handler may read the request and call the application layer. A client component renders and sends the action. It does not import the database client. An API route may.
+## Verification
 
-**Proof.** Verify in the running app with `control-ui`: do the action, then read the resulting state. A screenshot of the happy path is not the proof.
+Use the repository's existing focused tests first. For interaction or visual changes, exercise the affected journey in the running app using available browser tooling. If using the host's browser tools, load its `browser` skill when available. No separate control skill or new automation framework is required for routine verification.
+
+Observe the resulting state, not just a screenshot of the happy path. Check failure recovery and keyboard behavior when changed. A copy-only edit may need only the existing text test; match verification effort to risk. Report what was tested and what remains unverified. Use `control-ui` explicitly only when advanced Electron/CDP or profiling guidance is needed.

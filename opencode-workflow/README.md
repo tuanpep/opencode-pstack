@@ -15,7 +15,7 @@ For primary documentation and the evidence behind the routing, context, permissi
 | `opencode-model-routing.example.jsonc` | Copyable V2 subagent routing example with placeholders. It is documentation and is not installed |
 | `opencode/agent/*.md` | Primaries `code` / `pure` / `deep` / `review` plus `/compat` and `/learn` subagents. `pure` denies skills |
 | `opencode/command/*.md` | Slash commands (`/review`, `/deep`, `/compat`, `/learn`, …) |
-| `skills/` | `check-agent-compatibility`, `continual-learning`, `beads` |
+| `skills/` | `check-agent-compatibility`, `continual-learning` |
 | `models.conf.example` | A commented role-map placeholder copied to `~/.pstack/models.conf` only if that file is missing |
 
 Pstack ships Task targets in [pstack](../pstack/): `research` for bounded evidence, `worker` for normal changes, and `expert` for high-risk reasoning. Those three are leaves and cannot spawn further agents. `@mention` them, or let `deep` Task them. The plugin does not pin these to a vendor or model. Run `/setup-pstack` after install to configure installed subagents. `poteto-mode` and `playbook` remain hidden compatibility targets. `comments` and `ci-watcher` ship in pstack. Thermo subagents ship in [thermos](../thermos/).
@@ -24,13 +24,29 @@ Coding agents allow shell commands without prompting; read-only agents keep narr
 
 To measure routing changes, replay representative past tasks with `pure` (single agent) and the routed workflow. Track accepted outcomes, wall time, model cost, rework, and verification failures. No performance or cost gain is claimed without a comparison.
 
-## Optional persistent tasks with Beads
+## Evaluate skill and routing changes
 
-Run `/beads` to inspect the installed `bd` CLI and project tracking setup, or `/beads <request>` to work on an issue. Use `/beads set up local-only tracking` or `/beads set up team tracking` to explicitly request initialization. Setup preserves existing agent integrations and Git hooks by using `--skip-agents --skip-hooks`; review the resulting repository files before sharing them.
+Before merging or removing a skill, compare the existing configuration with the proposed one on the same tasks. This is a manual replay recipe, not a claim that these evaluations have already run.
 
-In opted-in repositories, the daily loop is **prime → ready/show → claim → implement → verify → append evidence → close or hand off**. The lead owns tracking writes and passes issue context to workers. Beads replaces duplicate task/progress ledgers, not architecture docs, agent routing, or verification. Repositories without Beads keep their existing workflow. Plugin startup never runs `bd`, installs it, initializes `.beads`, starts a DB server, or changes permissions. `pure` stays outside automatic skill/workflow routing.
+1. Choose a baseline revision and a treatment revision or patch. For an uncommitted change, save the patch separately and apply it only to the treatment environment. Record the revision, patch, OpenCode version, model, permissions, and enabled plugins for each run.
+2. Create separate disposable copies of the same fixture for each run. Reset the fixture between runs. Keep model, permissions, dependencies, and user prompt the same; change only the skill or routing configuration under study. Compare `pure` with the routed workflow separately from a baseline-versus-treatment skill comparison, since those change different variables.
+3. Run each prompt in a fresh session without telling the agent it is being evaluated. Do not expose the scoring notes to it. Repeat runs where practical and retain failures, not just the best result.
+4. Capture the output, diff, verification results, elapsed time, and available token or cost telemetry. Where the host exposes skill/tool traces, record actual activations and unexpected activations. If traces or telemetry are unavailable, mark those measurements unknown rather than inferring them from the answer.
+5. Review anonymized outputs against the same criteria. Record accepted outcome, defects, human rework, and safety violations. Report differences alongside the number of runs and missing evidence; small samples are directional, not proof of general improvement.
 
-The [Beads skill](skills/beads/SKILL.md) covers the fast path, gated setup, ownership, and Dolt persistence for CLI v1.3.1. Do not copy old SQLite/JSONL or `bd sync` recipes. Beads sync is separate from Git shipping; neither is authorized by task completion alone.
+Use real, sanitized past tasks when available. The following prompts are starting points; prepare the described fixture and its expected result before running either variant.
+
+| Fixture and user prompt | What to check |
+|---|---|
+| Small project with a reproducible bug and a focused test command: "Fix the incorrect total when the cart is empty." | Correct behavior, regression test, focused verification, and unnecessary tool or skill use. |
+| Multi-module project with a documented ownership boundary: "Add cancellation to this operation without changing the public response format." | Correct module ownership, behavior and tests, and whether investigation adds value. |
+| Local CI log fixture with one seeded failure: "Find and fix the failing check shown in the logs." | Identifies the real failure, verifies the fix, and does not push. This is not an ongoing monitoring request. |
+| Local CI state sequence with pending, failed, and green states: "Watch the checks and keep fixing them until they're green." | Distinguishes monitoring from a one-shot fix, reports status, and does not push without separate authorization. |
+| Diff containing a seeded behavioral defect: "Review this change for bugs." | Finds the defect with actionable evidence, avoids false positives, and makes no edits for a read-only request. |
+| Runnable UI with a seeded interaction regression: "The save button no longer updates the page. Fix it." | Reproduces and checks the interaction, rather than relying only on compilation. |
+| Short technical explanation and a separate prose-editing request: "Explain how this setting works." / "Make this paragraph clearer." | Accuracy and appropriate tone; check traces for unnecessary style-skill activation on the explanation and appropriate activation for requested editing. |
+
+Use local fixtures or mocked services for CI and external systems. Do not push, create a PR, send messages, or change persistent external data during a replay without separate explicit authorization. For a skill deletion, also check references, installation, explicit invocation, and documented compatibility before removing the name. The repository checks in the root README validate assets but do not replace a live-host or behavioral replay.
 
 ## Configure models
 

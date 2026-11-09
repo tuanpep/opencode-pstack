@@ -287,7 +287,7 @@ for (const relativePath of new Set(supportedFiles)) {
 }
 
 const testFile = join(repositoryRoot, 'scripts', 'install.test.mjs')
-const test = spawnSync(process.execPath, ['--test', testFile, join(repositoryRoot, 'scripts', 'check-host.test.mjs')], {
+const test = spawnSync(process.execPath, ['--test', testFile, join(repositoryRoot, 'scripts', 'check-host.test.mjs'), join(repositoryRoot, 'scripts', 'skill-routing.test.mjs')], {
   cwd: repositoryRoot,
   stdio: 'inherit',
 })

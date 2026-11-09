@@ -27,19 +27,19 @@ Restart OpenCode after installing. Then run `/setup-pstack` to map pstack roles 
 two steps:
 
 1. run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) and choose which models you want.
-2. use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) whenever you're doing anything that requires rigor.
+2. in the bundled OpenCode workflow, use `code` for clear, cohesive work, `deep` for investigation or uncertain design, and `review` for read-only review. Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for an explicit playbook or high-risk, cross-cutting work. `pure` provides a single-agent baseline without skills.
 
 new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the mode skill uses them for you as needed. in the bundled OpenCode workflow, `research` handles bounded evidence gathering, `worker` handles normal implementation, and `expert` is reserved for trace-backed performance and high-risk reasoning. Those three are leaves: they do not spawn further agents. The lead session (`deep` or `/poteto-mode`) orchestrates at most one hop. Run [`/setup-pstack`](./skills/setup-pstack/SKILL.md) after install to map those roles to models you can use.
+the other skills are situational; `/poteto-mode` uses them as needed when invoked. in the bundled OpenCode workflow, `research` handles bounded evidence gathering, `worker` handles normal implementation, and `expert` is reserved for trace-backed performance and high-risk reasoning. Those three are leaves: they do not spawn further agents. The lead session orchestrates at most one hop.
 
 ## usage
 
-use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) at the start of a task. it reads your request, picks from a set of playbooks, and runs the other skills as the steps need them.
+for a task that needs a playbook, invoke [`/poteto-mode`](./skills/poteto-mode/SKILL.md). it reads your request, picks from a set of playbooks, and runs the other skills as the steps need them. For ordinary work, start with `code` instead.
 
-### just use [`/poteto-mode`](./skills/poteto-mode/SKILL.md)
+### use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for playbooks
 
-this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-two playbooks:
+this skill provides twenty-two playbooks for work that needs a more deliberate process:
 
 ```
 /poteto-mode this pr has a subtle bug where the scroll drifts every 750ms even when idle. repro
@@ -88,7 +88,7 @@ when invoked it:
 1. opens a todo list. the first item is reading the inline principles index in the skill.
 2. matches your task to a [playbook](./skills/poteto-mode/playbooks/) and copies the steps in verbatim.
 3. routes to the other skills as the steps fire.
-4. writes unslopped replies framed for the consumer and the maintainer.
+4. writes concise replies framed for the consumer and the maintainer, using `unslop` when polishing substantive prose.
 
 the full rules and playbooks live in [`skills/poteto-mode/SKILL.md`](./skills/poteto-mode/SKILL.md).
 
@@ -113,7 +113,7 @@ Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for long-running work when y
 
 | skill | use it when |
 |---|---|
-| [`/poteto-mode`](./skills/poteto-mode/SKILL.md) | default entry point for any non-trivial task. |
+| [`/poteto-mode`](./skills/poteto-mode/SKILL.md) | explicit playbooks and high-risk, cross-cutting work. |
 | [`/how`](./skills/how/SKILL.md) | you want a walkthrough of how a subsystem works. |
 | [`/why`](./skills/why/SKILL.md) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
 | [`/recall`](./skills/recall/SKILL.md) | you're starting or resuming work and want your recent context on a topic rebuilt from your own chat history and the shared record, handed back as a tight current-state brief. |
@@ -127,7 +127,7 @@ Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for long-running work when y
 | [`/reflect`](./skills/reflect/SKILL.md) | a long task landed and you want the recipe captured as a skill edit. |
 | [`/teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. runs how + why and weaves one plain explanation, built up diagram by diagram. |
 | [`/tdd`](./skills/tdd/SKILL.md) | you're fixing a bug and there's a cheap local test path. write the failing test first, then the fix. |
-| [`/no-comments`](./skills/no-comments/SKILL.md) | strip comments before review; spawns Comment Sicko, fixes accepted findings, offers encodings for claimed constraints. |
+| [`/no-comments`](./skills/no-comments/SKILL.md) | explicitly review comments and remove only proven redundant or obsolete ones. |
 | [`/typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | you're reading or editing typescript. grounds the type-system-discipline principle in syntax. |
 | [`/figure-it-out`](./skills/figure-it-out/SKILL.md) | no bundled playbook fits. designs a rigorous, auditable playbook for the task. |
 | [`/show-me-your-work`](./skills/show-me-your-work/SKILL.md) | you want a reviewable decision trail. logs decisions to a tsv you can commit. |
@@ -138,20 +138,22 @@ Use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) for long-running work when y
 | [`/verify-this`](./skills/verify-this/SKILL.md) | you need a falsifiable claim proved with baseline and treatment evidence. |
 | [`/control-cli`](./skills/control-cli/SKILL.md) | you need a local harness for a CLI or TUI. |
 | [`@cli-for-agents`](./skills/cli-for-agents/SKILL.md) | you're building or reviewing a CLI that agents must run without interactive prompts. |
-| [`/control-ui`](./skills/control-ui/SKILL.md) | you need a local browser or CDP harness for a web, IDE, or Electron UI. |
-| [`/fix-ci`](./skills/fix-ci/SKILL.md) | PR checks are failing and you want a focused path to green. |
+| [`/control-ui`](./skills/control-ui/SKILL.md) | you explicitly need advanced Electron/CDP attachment, window targeting, or performance/memory investigation guidance. Routine web checks use existing tests or host browser tools. |
+| [`/fix-ci`](./skills/fix-ci/SKILL.md) | diagnose and fix a currently failing PR check. |
 | [`/review-and-ship`](./skills/review-and-ship/SKILL.md) | you want to review, verify, and ship the current branch. |
-| [`/loop-on-ci`](./skills/loop-on-ci/SKILL.md) | you want to watch PR checks and iterate until they pass. |
+| [`/loop-on-ci`](./skills/loop-on-ci/SKILL.md) | you explicitly want to watch PR checks and iterate until they pass; pushing still requires authorization. |
 | [`/bro`](./skills/bro/SKILL.md) | you want the last message restated in plain human language, no jargon. |
 | [`/technical-writing`](./skills/technical-writing/SKILL.md) | layered doc standard (Diátaxis + Google developer style + STE + Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
 
 </details>
 
+For verification, use `/verify-this` for a claim, `/control-cli` for terminal interaction, and existing tests or host browser tools for routine web interaction. `/control-ui` is an explicit advanced reference for Electron/CDP and profiling. Use `/create-verification-skill` to build a reusable project verifier and `/maintain-verification-skill` to audit an existing one.
+
 
 
 ### examples
 
-mostly i type [`/poteto-mode`](./skills/poteto-mode/SKILL.md) at the start of a task and let it route to a playbook. the other skills fire as the steps need them. a few i reach for directly.
+for an explicit playbook, type [`/poteto-mode`](./skills/poteto-mode/SKILL.md) and let it route to the matching workflow. for ordinary changes, use `code` and reach for individual skills as needed.
 
 
 <details>

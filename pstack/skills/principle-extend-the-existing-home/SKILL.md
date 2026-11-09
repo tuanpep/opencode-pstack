@@ -1,6 +1,6 @@
 ---
 name: principle-extend-the-existing-home
-description: "Apply before writing or moving code in a repository that already has modules and layers. Find the existing owner of this behavior and extend it; do not open a parallel file, folder, or helper."
+description: "Apply before writing or moving code in an existing repository. Extend the owning module and preserve dependency direction. Permit cohesive extraction within that module; do not create a competing owner or split files merely to meet a line count."
 disable-model-invocation: true
 ---
 
@@ -20,11 +20,22 @@ Before the first edit, name the home this change extends: the module path, the l
 
 **Write there:**
 
-- Extend that module. A new file is justified only when neighbors are already split the same way (one file per use case, one file per entity).
+- Extend that module and follow neighboring file conventions. A new file within the module is also justified when it isolates a cohesive responsibility behind explicit inputs and outputs. Name the responsibility and explain why the extraction reduces reader load; file length alone is not justification.
 - Put each part of the change in the layer the sibling uses for that part. A validation rule that siblings keep in the domain module stays in the domain module. Mapping that siblings keep in the controller stays in the controller.
-- Leave the repo's existing layers in place. A `utils` file, wrapper, or package this kind of change does not already use stays uncreated.
+- Leave the repo's existing layers in place. Do not introduce a generic `utils` file, pass-through wrapper, or new package merely to relocate crowded code.
 - If two homes look plausible, extend the one whose callers and types already match. Name the other home in the reply.
 - If no home exists after that search, match the nearest sibling feature's layout. Leave new top-level conventions uncreated.
+
+## Safe extraction within the owner
+
+1. Establish current behavior with existing focused tests. If coverage is missing, add a characterization test for the behavior being moved before extraction. Do not silently change behavior to make the split easier.
+2. Map the responsibility, callers, dependencies, state, and side effects. Keep tightly coupled code together. If the proposed split needs a large mutable context object or frequent cross-file access to private details, reconsider the boundary.
+3. Choose the smallest useful extraction in the existing module and layer. Prefer explicit inputs and outputs, keep helpers private unless callers need them, and avoid circular imports. A new top-level module still requires `architect` under the placement rule above.
+4. Move one responsibility at a time. Preserve public interfaces, error behavior, side-effect ordering, and state lifetime unless a separate change is authorized. Update imports and callers without unrelated cleanup.
+5. Run focused behavior tests after each extraction and the relevant integration checks for affected callers. Compilation alone does not prove equivalence. Inspect the dependency direction and exported API as well as the result.
+6. Judge the result by what a reader must trace and what state they must hold. If the extraction adds more indirection than it removes, revise or reverse only that extraction, preserving unrelated user work. Large cohesive files and generated code need not be split merely for size.
+
+This is source organization, not frontend bundle splitting. Moving code into another source file does not by itself defer browser loading or reduce the initial bundle.
 
 **The tests:**
 

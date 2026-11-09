@@ -1,6 +1,6 @@
 ---
 name: loop-on-ci
-description: Monitor PR checks and fix failures until green. Uses gh pr checks as the source of truth for PR-attached checks.
+description: Monitor PR checks and iterate on failures until green when the user explicitly requests ongoing monitoring. For a focused fix of an existing failure, use fix-ci instead.
 ---
 
 # Loop on CI
@@ -38,6 +38,7 @@ gh run view <run-id> --log-failed
 ## Guardrails
 
 - Keep each fix scoped to a single failure cause when possible.
+- Pushing requires explicit user authorization; a request to monitor or fix CI alone does not authorize it. Without authorization, verify locally where possible and report what remains.
 - Do not bypass hooks (`--no-verify`) to force progress.
 - If the failure is clearly unrelated to the PR and appears fixed on main, merge latest main instead of bloating the PR with unrelated fixes.
 - If failures are flaky, retry once and report flake evidence.

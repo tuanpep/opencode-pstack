@@ -66,7 +66,7 @@ Comments need their own pass, and not from the agent that wrote them. An author 
 /no-comments the diff
 ```
 
-[`/no-comments`](../../skills/no-comments/SKILL.md) spawns `@comments`, a read-only reviewer with a short keep list: license headers, doc comments on a public API, links that explain what code can't, and behavior forced by an external dependency you can't reshape. Everything else goes. A surprise in your own code gets no such pass. The comment comes back as a refactor flag, and `/no-comments` fixes the flags it accepts at the root cause. When a comment claims a constraint, "do not remove", the skill offers to encode the claim as a type, test, or lint. Either way, the comment comes out.
+[`/no-comments`](../../skills/no-comments/SKILL.md) reviews the requested scope and removes comments only when they are demonstrably redundant, misleading, or obsolete. Keep explanations of non-obvious intent, safety, compatibility, and other constraints when their purpose is still relevant or uncertain. A proposed test, type, or lint can enforce a constraint, but declining that proposal does not justify deleting its comment.
 
 The division of labor is worth keeping straight. `/deslop` cleans slop out of the code, `/unslop` cleans it out of prose, and `/no-comments` hands the comments to a reviewer who didn't write them.
 
